@@ -33,9 +33,9 @@ public class ChatBubbleNametags {
 		if(e.entity instanceof EntityPlayer || e.entity instanceof EntityPlayerSP || e.entity instanceof EntityOtherPlayerMP) {
 			for(int i=0; i<chatSenderNames.size(); i++) {
 				if(e.entity.toString().split("'")[1].equals(chatSenderNames.get(i))) {
-					RenderUtils.renderFloatingText(chatSenderMessages.get(i), e.x, e.y+e.entity.height+1.25, e.z);
+					RenderUtils.renderFloatingText(chatSenderMessages.get(i), e.x, e.y+e.entity.height+1.25, e.z, Integer.parseInt("FFFFFF", 16), 1.5f);
 					if(chatSenderMessages2.get(i) != " ") {
-						RenderUtils.renderFloatingText(chatSenderMessages2.get(i), e.x, e.y+e.entity.height+1.05, e.z);
+						RenderUtils.renderFloatingText(chatSenderMessages2.get(i), e.x, e.y+e.entity.height+1.05, e.z, Integer.parseInt("FFFFFF", 16), 1.5f);
 					}
 				}
 			}

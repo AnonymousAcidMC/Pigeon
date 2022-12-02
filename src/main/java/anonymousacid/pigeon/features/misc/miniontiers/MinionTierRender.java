@@ -21,7 +21,7 @@ public class MinionTierRender {
 		if(minionUUIDs.isEmpty()) return;
 		for(int i=0; i<minionUUIDs.size(); i++) {
 			if(e.entity.getUniqueID().equals(minionUUIDs.get(i))) {
-				RenderUtils.renderFloatingText(minionTiers.get(i), e.x, e.y+1, e.z);
+				RenderUtils.renderFloatingText(minionTiers.get(i), e.x, e.y+1, e.z, Integer.parseInt("FFFFFF", 16), 1.5f);
 			}
 		}
 	}
