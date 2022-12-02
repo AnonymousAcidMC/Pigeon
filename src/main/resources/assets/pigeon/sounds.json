@@ -1,0 +1,8 @@
+{
+    "mob.pigeon.say1":{
+    "sounds":[{"name":"pigeon:mob/pigeon/say1","stream":true}],"category":"master"},
+    "mob.pigeon.say2":{
+    "sounds":[{"name":"pigeon:mob/pigeon/say2","stream":true}],"category":"master"},
+    "mob.pigeon.say3":{
+    "sounds":[{"name":"pigeon:mob/pigeon/say3","stream":true}],"category":"master"}
+}
