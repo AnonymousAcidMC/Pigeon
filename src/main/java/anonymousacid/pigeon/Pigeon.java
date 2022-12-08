@@ -10,6 +10,7 @@ import anonymousacid.pigeon.commands.animations.HealerWish;
 import anonymousacid.pigeon.commands.animations.PigeonEntity;
 import anonymousacid.pigeon.commands.animations.VoidgloomShield;
 import anonymousacid.pigeon.commands.test.KillEntities;
+import anonymousacid.pigeon.commands.test.TestCommand;
 import anonymousacid.pigeon.features.chat.ChatStuff;
 import anonymousacid.pigeon.features.chat.chatbubbles.ChatBubbleNametags;
 import anonymousacid.pigeon.features.chat.chatbubbles.ChatBubbleTimer;
@@ -83,7 +84,7 @@ public class Pigeon {
 //				ClientCommandHandler.instance.registerCommand(new LogNearbyEntity());
 //				ClientCommandHandler.instance.registerCommand(new NBTTest());
 //				ClientCommandHandler.instance.registerCommand(new ChatRecieved());
-//				ClientCommandHandler.instance.registerCommand(TestCommand.instance);
+				ClientCommandHandler.instance.registerCommand(TestCommand.instance);
 //				MinecraftForge.EVENT_BUS.register(TestCommand.instance);
 				ClientCommandHandler.instance.registerCommand(new KillEntities());
 			}
