@@ -1,5 +1,6 @@
 package anonymousacid.pigeon.utils;
 
+import static anonymousacid.pigeon.McIf.mc;
 import static net.minecraft.client.renderer.GlStateManager.color;
 import static net.minecraft.client.renderer.GlStateManager.depthMask;
 import static net.minecraft.client.renderer.GlStateManager.disableBlend;
@@ -21,6 +22,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -63,10 +65,10 @@ public class RenderUtils {
         int j = fontrenderer.getStringWidth(str) / 2;
         disableTexture2D();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        worldrenderer.pos(-j - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-        worldrenderer.pos(-j - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-        worldrenderer.pos(j + 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-        worldrenderer.pos(j + 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        worldrenderer.pos(-j - 1, -1, 0.0D).color(1.0F, 0.0F, 0.0F, 0.5F).endVertex();
+        worldrenderer.pos(-j - 1, 8, 0.0D).color(1.0F, 0.0F, 0.0F, 0.5F).endVertex();
+        worldrenderer.pos(j + 1, 8, 0.0D).color(1.0F, 0.0F, 0.0F, 0.5F).endVertex();
+        worldrenderer.pos(j + 1, -1, 0.0D).color(1.0F, 0.0F, 0.0F, 0.5F).endVertex();
         tessellator.draw();
         enableTexture2D();
         fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, 0, color);
@@ -127,4 +129,55 @@ public class RenderUtils {
 
         return p_70663_1_ + f;
     }
+	
+	/**
+	 * Draws HP bar given position to draw it, and percentage of entity's HP.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param hpPercentage Must be in a decimal. Ex "50%" hp must be inputted as "0.5"
+	 */
+	public static void renderHPBar(double x, double y, double z, double hpPercentage, int barLength) {
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float)x + 0.0F, (float)y, (float)z);
+        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(-mc().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(mc().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+        GlStateManager.scale(-0.026, -0.026, 0.026);
+        GlStateManager.disableLighting();
+        GlStateManager.depthMask(false);
+        GlStateManager.disableDepth();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+        GlStateManager.disableTexture2D();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        int l = barLength;
+        {//1st layer of HP bar. Represents missing HP
+            worldrenderer.pos((double)(-l - 1), (-1), 0.0D).color(1.0F, 0.0F, 0.0F, 1F).endVertex();
+            worldrenderer.pos((double)(-l - 1), (8), 0.0D).color(1.0F, 0.0F, 0.0F, 1F).endVertex();
+            worldrenderer.pos((double)(l + 0), (8), 0.0D).color(1.0F, 0.0F, 0.0F, 1F).endVertex();
+            worldrenderer.pos((double)(l + 0), (-1), 0.0D).color(1.0F, 0.0F, 0.0F, 1F).endVertex();	
+        }
+        hpPercentage = 1-hpPercentage;
+        {//2nd layer of HP bar. Represents HP that the mob currently has.
+            worldrenderer.pos((double)(-l - 1), (-1), 0.0D).color(0.0F, 1.0F, 0.0F, 1F).endVertex();
+            worldrenderer.pos((double)(-l - 1), (8), 0.0D).color(0.0F, 1.0F, 0.0F, 1F).endVertex();
+            {//changes shape of HP bar depending on inputted percentage of HP.
+                worldrenderer.pos((double)(l+1)-((l+1)*2)*hpPercentage, (8), 0.0D).color(0.0F, 1.0F, 0.0F, 1F).endVertex();
+                worldrenderer.pos((double)(l+1)-((l+1)*2)*hpPercentage, (-1), 0.0D).color(0.0F, 1.0F, 0.0F, 1F).endVertex();
+            }
+        }
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableDepth();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableLighting();
+        GlStateManager.disableBlend();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.popMatrix();
+	}
 }
