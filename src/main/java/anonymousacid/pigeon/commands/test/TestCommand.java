@@ -1,5 +1,7 @@
 package anonymousacid.pigeon.commands.test;
 
+import static anonymousacid.pigeon.McIf.player;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,14 +71,14 @@ public class TestCommand extends CommandBase {
 	@SubscribeEvent
 	public void onRender(Pre<EntityLivingBase> e) {
 		if(!(e.entity instanceof EntityArmorStand)) return;
+		if(!Utils.canSeeEntity(player(), e.entity)) return;
 //		RenderUtils.renderHPBar(e.x, e.y+e.entity.height, e.z, e.entity.getHealth() / e.entity.getMaxHealth(), mc().fontRendererObj.getStringWidth("hamburger"));
 		EntityArmorStand ent = (EntityArmorStand) e.entity;
 		if(!ent.hasCustomName()) return;
 		String str = Utils.removeFormat(ent.getCustomNameTag());
 		if(str.contains("❤")) {
-			System.out.println("ae");
 			//§8[§7Lv30§8] §cCrypt Ghoul§r §a2000§f/§a2000§c❤
-			Pattern p = Pattern.compile(" (\\d+/\\d+) ");
+			Pattern p = Pattern.compile("/(\\d+\\/\\d+)/g");
 			Matcher m = p.matcher(str);
 			if(m.find()) {
 				String group = m.group(1);
