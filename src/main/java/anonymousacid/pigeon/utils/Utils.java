@@ -131,6 +131,19 @@ public class Utils {
     }
 	
 	/**
+	 * Gets string in compact-short form and returns a new string in integer form.
+	 * Ex. 100k gets converted into 100000, 1M converts into 1000000
+	 */
+	public static String compactToIntegerForm(String input) {
+		String str = input;
+		str = str.replaceAll("k", "000");
+		str = str.replaceAll("M", "000000");
+		str = str.replaceAll("B", "000000000");
+		str = str.replaceAll("T", "000000000000");
+		return str;
+	}
+	
+	/**
 	 * Gets JSON-formatted response from the provided URL.
 	 */
 	public static JsonElement getJson(String jsonUrl) throws IOException{
