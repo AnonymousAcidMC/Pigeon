@@ -22,6 +22,7 @@ public class ConfigHandler {
 	public static boolean ferocityAnimations;
 	public static boolean autoSalvage;
 	public static boolean latencyCounter;
+	public static boolean hpBars;
 	public static int cdGuiX;
 	public static int cdGuiY;
 	public static int latencyX;
@@ -72,6 +73,7 @@ public class ConfigHandler {
 		latencyY = initInt(category, "latencyY", 40);
 		autoSalvage = initBoolean(category, "autoSalvage", false);
 		latencyCounter = initBoolean(category, "latencyCounter", false);
+		hpBars = initBoolean(category, "hpBars", false);
 		
 		category = "dungeons";
 		professorFireFreeze = initBoolean(category, "professorFireFreeze", false);
@@ -88,10 +90,11 @@ public class ConfigHandler {
 			spawnPigeon = initBoolean(category, "spawnPigeon", false);
 			pigeonSound = initBoolean(category, "pigeonSound", true);
 			ferocityAnimations = initBoolean(category, "ferocityAnimations", false);
-			
 		}
 		
 		config.save();
+		
+		updateVars();
 	}
 	
 	public static void updateVars() {
@@ -114,6 +117,7 @@ public class ConfigHandler {
 		latencyY = getInt(category, "latencyY");
 		autoSalvage = getBoolean(category, "autoSalvage");
 		latencyCounter = getBoolean(category, "latencyCounter");
+		hpBars = getBoolean(category, "hpBars");
 		
 		category = "dungeons";
 		professorFireFreeze = getBoolean(category, "professorFireFreeze");

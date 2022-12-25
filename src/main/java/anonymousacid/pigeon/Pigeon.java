@@ -21,6 +21,7 @@ import anonymousacid.pigeon.features.chat.kaomojis.TabKeyTimer;
 import anonymousacid.pigeon.features.dungeons.ProfessorFireFreeze;
 import anonymousacid.pigeon.features.misc.CooldownThingy;
 import anonymousacid.pigeon.features.misc.CooldownTimer;
+import anonymousacid.pigeon.features.misc.HealthBars;
 import anonymousacid.pigeon.features.misc.LatencyCounter;
 import anonymousacid.pigeon.features.misc.SBPetName;
 import anonymousacid.pigeon.features.misc.miniontiers.MinionTierRender;
@@ -74,7 +75,18 @@ public class Pigeon {
 		}
 		
 		ConfigHandler.reloadConfig();
-		ConfigHandler.updateVars();
+		
+		{//adding experimental features to a TreeMap(for Experimental feature config GUI's buttons)
+			ExperimentalFeaturesGui.featureConfig.put("miscellaneous animations", "ferocityAnimations");
+			ExperimentalFeaturesGui.featureConfig.put("dungeon animations", "healerWish");
+			ExperimentalFeaturesGui.featureConfig.put("slayer animations", "voidgloomShield");
+			ExperimentalFeaturesGui.featureConfig.put("dungeons", "professorFireFreeze");
+			ExperimentalFeaturesGui.featureConfig.put("miscellaneous", "hpBars");
+		}
+		
+		{//Adding regular features to a TreeMap for regular Config GUI
+			
+		}
 		
 		{//Command registry
 			ClientCommandHandler.instance.registerCommand(new ConfigCommand());
@@ -95,18 +107,18 @@ public class Pigeon {
 		}
 		
 		{//Features
-				MinecraftForge.EVENT_BUS.register(ChatBubbles.instance);
-				MinecraftForge.EVENT_BUS.register(ChatBubbleNametags.instance);
-				MinecraftForge.EVENT_BUS.register(ChatBubbleTimer.instance);
-			
-				MinecraftForge.EVENT_BUS.register(ChatKaomojis.instance);
-				MinecraftForge.EVENT_BUS.register(KaomojiGuiInit.instance);
-				MinecraftForge.EVENT_BUS.register(TabKeyTimer.instance);
+			MinecraftForge.EVENT_BUS.register(ChatBubbles.instance);
+			MinecraftForge.EVENT_BUS.register(ChatBubbleNametags.instance);
+			MinecraftForge.EVENT_BUS.register(ChatBubbleTimer.instance);
+		
+			MinecraftForge.EVENT_BUS.register(ChatKaomojis.instance);
+			MinecraftForge.EVENT_BUS.register(KaomojiGuiInit.instance);
+			MinecraftForge.EVENT_BUS.register(TabKeyTimer.instance);
 			
 			MinecraftForge.EVENT_BUS.register(SBPetName.instance);
 			
-				MinecraftForge.EVENT_BUS.register(CooldownTimer.instance);
-				MinecraftForge.EVENT_BUS.register(CooldownThingy.instance);
+			MinecraftForge.EVENT_BUS.register(CooldownTimer.instance);
+			MinecraftForge.EVENT_BUS.register(CooldownThingy.instance);
 			
 			MinecraftForge.EVENT_BUS.register(ProfessorFireFreeze.instance);
 			for(int i=0; i<CooldownThingy.abilities.length; i++) {
@@ -114,7 +126,10 @@ public class Pigeon {
 				CooldownThingy.itemsOnCooldown.add(null);
 			}
 			MinecraftForge.EVENT_BUS.register(LatencyCounter.instance);
+			
 			MinecraftForge.EVENT_BUS.register(MinionTierRender.instance);
+			
+			MinecraftForge.EVENT_BUS.register(HealthBars.instance);
 		}
 		
 		{//cosmetic features
@@ -126,17 +141,6 @@ public class Pigeon {
 			MinecraftForge.EVENT_BUS.register(VoidgloomShield.instance);
 			MinecraftForge.EVENT_BUS.register(HealerWish.instance);
 			MinecraftForge.EVENT_BUS.register(FerocityAnimation.instance); 
-		}
-		
-		{//adding experimental features to a TreeMap(for Experimental feature config GUI's buttons)
-			ExperimentalFeaturesGui.featureConfig.put("miscellaneous animations", "ferocityAnimations");
-			ExperimentalFeaturesGui.featureConfig.put("dungeon animations", "healerWish");
-			ExperimentalFeaturesGui.featureConfig.put("slayer animations", "voidgloomShield");
-			ExperimentalFeaturesGui.featureConfig.put("dungeons", "professorFireFreeze");
-		}
-		
-		{//Adding regular features to a TreeMap for regular Config GUI
-			
 		}
 		MinecraftForge.EVENT_BUS.register(Utils.instance);
 		
