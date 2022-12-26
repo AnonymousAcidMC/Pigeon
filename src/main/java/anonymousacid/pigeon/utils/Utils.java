@@ -131,16 +131,16 @@ public class Utils {
     }
 	
 	/**
-	 * Gets string in compact-short form and returns a new string in integer form.
-	 * Ex. 100k gets converted into 100000, 1M converts into 1000000
+	 * Gets string in compact-short form and returns a double
+	 * Ex. "100k" gets converted into 100000.0, "1M" converts into 1000000.0
 	 */
-	public static String compactToIntegerForm(String input) {
-		String str = input;
-		str = str.replaceAll("k", "000");
-		str = str.replaceAll("M", "000000");
-		str = str.replaceAll("B", "000000000");
-		str = str.replaceAll("T", "000000000000");
-		return str;
+	public static double compactToDouble(String input) {
+		double d = Double.parseDouble(input.replaceAll("[a-zA-Z]", ""));
+		if(input.contains("k")) d *= 1000.0;
+		else if(input.contains("M")) d *= 1000000.0;
+		else if(input.contains("B")) d *= 1000000000.0;
+		else if(input.contains("T")) d *= 1000000000000.0;
+		return d;
 	}
 	
 	/**

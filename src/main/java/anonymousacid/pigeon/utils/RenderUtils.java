@@ -1,7 +1,6 @@
 package anonymousacid.pigeon.utils;
 
 import static anonymousacid.pigeon.McIf.mc;
-import static net.minecraft.client.renderer.GlStateManager.color;
 import static net.minecraft.client.renderer.GlStateManager.depthMask;
 import static net.minecraft.client.renderer.GlStateManager.disableBlend;
 import static net.minecraft.client.renderer.GlStateManager.disableDepth;
@@ -65,10 +64,10 @@ public class RenderUtils {
         int j = fontrenderer.getStringWidth(str) / 2;
         disableTexture2D();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        worldrenderer.pos(-j - 1, -1, 0.0D).color(1.0F, 0.0F, 0.0F, 0.5F).endVertex();
-        worldrenderer.pos(-j - 1, 8, 0.0D).color(1.0F, 0.0F, 0.0F, 0.5F).endVertex();
-        worldrenderer.pos(j + 1, 8, 0.0D).color(1.0F, 0.0F, 0.0F, 0.5F).endVertex();
-        worldrenderer.pos(j + 1, -1, 0.0D).color(1.0F, 0.0F, 0.0F, 0.5F).endVertex();
+        worldrenderer.pos(-j - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.3F).endVertex();
+        worldrenderer.pos(-j - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.3F).endVertex();
+        worldrenderer.pos(j + 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.3F).endVertex();
+        worldrenderer.pos(j + 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.3F).endVertex();
         tessellator.draw();
         enableTexture2D();
         fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, 0, color);
@@ -78,7 +77,6 @@ public class RenderUtils {
         enableLighting();
         disableBlend();
         scale(1, 1, 1);
-        color(1.0F, 1.0F, 1.0F, 1.0F);
         popMatrix();
     }
 	/**
