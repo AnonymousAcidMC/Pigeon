@@ -15,7 +15,7 @@ import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * Shows health bar of mobs in Hypixel Skyblock
- * TODO: If possible, find a way to detect of a mob is a boss.
+ * TODO: If possible, find a way to detect if a mob is a boss.
  */
 public class HealthBars {
 	
@@ -30,7 +30,7 @@ public class HealthBars {
 		if(!ent.hasCustomName()) return;
 		String str = Utils.removeFormat(ent.getCustomNameTag());
 		if(!str.contains("/")) return;
-		Pattern p = Pattern.compile("([a-zA-Z0-9.]+/[a-zA-Z0-9.]+)");
+		Pattern p = Pattern.compile("([0-9.]+[kMBT]*/[0-9.]+[kMBT]*)");
         Matcher m = p.matcher(str);
         if(m.find()) {
             String group = m.group(1);

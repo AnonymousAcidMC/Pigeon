@@ -18,6 +18,7 @@ import static net.minecraft.client.renderer.GlStateManager.translate;
 import static net.minecraft.client.renderer.GlStateManager.tryBlendFuncSeparate;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -42,7 +43,14 @@ public class RenderUtils {
 	 * @param scale change size of text.
 	 */
 	public static void renderFloatingText(String str, double x, double y, double z, int color, float scale) {
-        Minecraft mc = Minecraft.getMinecraft();
+        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
+        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_COMBINE_RGB, GL11.GL_MODULATE);
+        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_SOURCE0_RGB, GL11.GL_TEXTURE);
+        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_OPERAND0_RGB, GL11.GL_SRC_COLOR);
+        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_COMBINE_ALPHA, GL11.GL_MODULATE);
+        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_SOURCE0_ALPHA, GL11.GL_TEXTURE);
+        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_OPERAND0_ALPHA, GL11.GL_SRC_ALPHA);
+		Minecraft mc = Minecraft.getMinecraft();
         FontRenderer fontrenderer = mc.fontRendererObj;
         RenderManager renderManager = mc.getRenderManager();
         float f = 1.6F;
