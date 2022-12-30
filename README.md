@@ -2,7 +2,7 @@
 A Minecraft mod with useful client-side features!
 These features are mainly targeting the Minecraft server "Hypixel," gamemode "Skyblock."
 
-![image](https://user-images.githubusercontent.com/80136208/202793660-fb5f68b2-ca7b-4820-a756-a3010da8eb1d.png) <br />
+<img src="images/pigeon.png" height=150> <br />
 *Look at this cute bird.* <br />
 *You want it? Get this mod!* <br />
 
@@ -36,6 +36,14 @@ These features are mainly targeting the Minecraft server "Hypixel," gamemode "Sk
 - /killallmoddedentities to destroy fake entities entities nearby.
   - Mainly used if there is a problem with too many entities.
 </details>
-## Notable features in action! <br />
+
+## Notable features
 Health Bars <br />
-![image](https://user-images.githubusercontent.com/80136208/210110582-62b23e5f-c0fa-4c1f-84de-981055feb93f.png)
+<img src="images/hp_bar.png" width=700> <br />
+Chat Bubbles <br />
+<img src="images/chatbubble1.gif" width=700> <br />
+<img src="images/chatbubble2.gif" width=700> <br />
+
+## Some of Pigeon's features are not possible without the help of 
+Sponge's [Mixin](https://github.com/SpongePowered/Mixin) under [MIT License](https://github.com/SpongePowered/Mixin/blob/master/LICENSE.txt). <br />
+More useful open-source software may be listed here in the future.
