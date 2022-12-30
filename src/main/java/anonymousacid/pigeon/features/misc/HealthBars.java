@@ -12,7 +12,7 @@ import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.client.event.RenderLivingEvent.Post;
+import net.minecraftforge.client.event.RenderLivingEvent.Pre;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * Shows health bar of mobs in Hypixel Skyblock
@@ -23,12 +23,12 @@ public class HealthBars {
 	public static HealthBars instance = new HealthBars();
 	
 	@SubscribeEvent
-	public void onRender(Post<EntityLivingBase> e) {
+	public void onRender(Pre<EntityLivingBase> e) {
 		if(!Utils.inSkyblock()) return;
 		if(!ConfigHandler.hpBars) return;
 		if(e.entity instanceof EntityArmorStand) return;
-		if(!Utils.canSeeEntity(player(), e.entity)) return;
 		if(e.entity.isInvisible()) return;
+		if(!Utils.canSeeEntity(player(), e.entity)) return;
 		
 		//Using Entity.getEntityData() doesn't work, but writing the entity to a new NBTTagCompound object does the job.
 		NBTTagCompound nbt = new NBTTagCompound();
