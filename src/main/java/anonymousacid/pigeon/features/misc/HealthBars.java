@@ -3,14 +3,15 @@ package anonymousacid.pigeon.features.misc;
 import static anonymousacid.pigeon.McIf.mc;
 import static anonymousacid.pigeon.McIf.player;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
@@ -23,22 +24,50 @@ public class HealthBars {
 	
 	@SubscribeEvent
 	public void onRender(Post<EntityLivingBase> e) {
+		if(!Utils.inSkyblock()) return;
 		if(!ConfigHandler.hpBars) return;
-		if(!(e.entity instanceof EntityArmorStand)) return;
+		if(e.entity instanceof EntityArmorStand) return;
 		if(!Utils.canSeeEntity(player(), e.entity)) return;
-		EntityArmorStand ent = (EntityArmorStand) e.entity;
-		if(!ent.hasCustomName()) return;
-		String str = Utils.removeFormat(ent.getCustomNameTag());
-		if(!str.contains("/")) return;
-		Pattern p = Pattern.compile("([0-9.]+[kMBT]*/[0-9.]+[kMBT]*)");
-        Matcher m = p.matcher(str);
-        if(m.find()) {
-            String group = m.group(1);
-            double num = Utils.compactToDouble(group.split("/")[0]);
-            double denom = Utils.compactToDouble(group.split("/")[1]);
-            RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.3, e.z,
-            		num/denom,
-            		mc().fontRendererObj.getStringWidth("hamburger"));//idk what to set the size to, so i chose the nametag size of "hamburger" lol
-        }
+		if(e.entity.isInvisible()) return;
+		
+		//Using Entity.getEntityData() doesn't work, but writing the entity to a new NBTTagCompound object does the job.
+		NBTTagCompound nbt = new NBTTagCompound();
+		e.entity.writeToNBT(nbt);
+		
+		//Finding max HP
+		if(!nbt.hasKey("Attributes")) return;
+		NBTTagList list = (NBTTagList)nbt.getTag("Attributes");
+		
+		double maxHp = 0;
+		if(list.tagCount() <= 0 || list.get(0).hasNoTags()) return;
+		for(int i = 0; i < list.tagCount(); i++) {
+			if(!list.getCompoundTagAt(i).hasKey("Name")) continue;
+			if(!list.getCompoundTagAt(i).getTag("Name").toString().contains("maxHealth")) continue;
+			if(!list.getCompoundTagAt(i).hasKey("Base")) continue;
+			String maxHpStr = list.getCompoundTagAt(i).getTag("Base").toString().replaceAll("[a-zA-Z]", "");
+			maxHp = Double.parseDouble(maxHpStr);
+			break;
+		}
+		if(maxHp <= 0) return;
+		
+		//Finding current HP
+		if(!nbt.hasKey("Health")) return;
+		String hpStr = nbt.getTag("Health").toString().replaceAll("[a-zA-Z]", "");
+		double hp = Double.parseDouble(hpStr);
+		
+		//Render HP bar
+		boolean isBoss = e.entity instanceof EntityWither || e.entity instanceof EntityDragon;
+		int hpBarSize = isBoss ? mc().fontRendererObj.getStringWidth("rkjbnaerlkjbnarrlkjbnblakebjerklbenrbkejrbnjn") : mc().fontRendererObj.getStringWidth("hamburger");
+		if(hp/maxHp > 1.0) {
+			RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.3, e.z,
+	        		1.0,
+	        		hpBarSize);
+			return;
+		}
+		
+		RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.3, e.z,
+        		hp/maxHp,
+        		hpBarSize);
+		
 	}
 }
