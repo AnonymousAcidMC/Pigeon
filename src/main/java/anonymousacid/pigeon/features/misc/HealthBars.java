@@ -33,7 +33,8 @@ public class HealthBars {
 		//Using Entity.getEntityData() doesn't work, but writing the entity to a new NBTTagCompound object does the job.
 		NBTTagCompound nbt = new NBTTagCompound();
 		e.entity.writeToNBT(nbt);
-		
+
+		if(nbt.hasKey("Invul") && nbt.getInteger("Invul") == 800) return;
 		//Finding max HP
 		if(!nbt.hasKey("Attributes")) return;
 		NBTTagList list = (NBTTagList)nbt.getTag("Attributes");
@@ -46,6 +47,7 @@ public class HealthBars {
 			if(!list.getCompoundTagAt(i).hasKey("Base")) continue;
 			String maxHpStr = list.getCompoundTagAt(i).getTag("Base").toString().replaceAll("[a-zA-Z]", "");
 			maxHp = Double.parseDouble(maxHpStr);
+			if(maxHp == 20) return;
 			break;
 		}
 		if(maxHp <= 0) return;
