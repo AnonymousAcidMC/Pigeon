@@ -37,12 +37,6 @@ These features are mainly targeting the Minecraft server "Hypixel," gamemode "Sk
   - Mainly used if there is a problem with too many entities.
 </details>
 
-## Notable features
-Health Bars <br />
-<img src="images/hp_bar.png" width=700> <br />
-Chat Bubbles <br />
-<img src="images/chatbubble1.gif" width=700> <br />
-<img src="images/chatbubble2.gif" width=700> <br />
 
 ## Some of Pigeon's features are not possible without the help of 
 Sponge's [Mixin](https://github.com/SpongePowered/Mixin) under [MIT License](https://github.com/SpongePowered/Mixin/blob/master/LICENSE.txt). <br />
