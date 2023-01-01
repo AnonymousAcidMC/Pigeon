@@ -20,7 +20,6 @@ import static net.minecraft.client.renderer.GlStateManager.tryBlendFuncSeparate;
 import java.text.DecimalFormat;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
