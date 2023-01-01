@@ -1,8 +1,12 @@
 package anonymousacid.pigeon.commands.test;
 
+import static anonymousacid.pigeon.McIf.mc;
+import static anonymousacid.pigeon.McIf.player;
+
 import java.util.List;
 
-import net.minecraft.client.gui.GuiScreen;
+import anonymousacid.pigeon.utils.RenderUtils;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -65,7 +69,6 @@ public class TestCommand extends CommandBase {
 	
 	@SubscribeEvent
 	public void onRender(Pre<EntityLivingBase> e) {
-		try{GuiScreen.setClipboardString(e.entity.getEntityData().toString());}
-			catch(NullPointerException err) {}
+		
 	}
 }

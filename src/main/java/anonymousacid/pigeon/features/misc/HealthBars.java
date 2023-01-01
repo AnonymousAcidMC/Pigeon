@@ -6,13 +6,16 @@ import static anonymousacid.pigeon.McIf.player;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.passive.EntityBat;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.client.event.RenderLivingEvent.Pre;
+import net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * Shows health bar of mobs in Hypixel Skyblock
@@ -47,7 +50,8 @@ public class HealthBars {
 			if(!list.getCompoundTagAt(i).hasKey("Base")) continue;
 			String maxHpStr = list.getCompoundTagAt(i).getTag("Base").toString().replaceAll("[a-zA-Z]", "");
 			maxHp = Double.parseDouble(maxHpStr);
-			if(maxHp == 20) return;
+			if(e.entity instanceof EntityPlayer && maxHp == 20) return;
+			else if(e.entity instanceof EntityBat && maxHp == 6) return;
 			break;
 		}
 		if(maxHp <= 0) return;
@@ -59,15 +63,17 @@ public class HealthBars {
 		
 		//Render HP bar
 		boolean isBoss = e.entity instanceof EntityWither || e.entity instanceof EntityDragon;
-		int hpBarSize = isBoss ? mc().fontRendererObj.getStringWidth("rkjbnaerlkjbnarrlkjbnblakebjerklbenrbkejrbnjn") : mc().fontRendererObj.getStringWidth("hamburger");
+		int hpBarSize;
+		hpBarSize = isBoss ? mc().fontRendererObj.getStringWidth("rkjbnaerlkjbnarrlkjbnblakebjerkl") : mc().fontRendererObj.getStringWidth("hamburger");
+		if(!(e.entity instanceof EntityPlayer) && !isBoss && Utils.inDungeon()) hpBarSize = mc().fontRendererObj.getStringWidth("hambur");
 		if(hp/maxHp > 1.0) {
-			RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.3, e.z,
+			RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.5, e.z,
 	        		1.0,
 	        		hpBarSize);
 			return;
 		}
 		
-		RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.3, e.z,
+		RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.5, e.z,
         		hp/maxHp,
         		hpBarSize);
 		

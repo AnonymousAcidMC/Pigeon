@@ -17,6 +17,8 @@ import static net.minecraft.client.renderer.GlStateManager.scale;
 import static net.minecraft.client.renderer.GlStateManager.translate;
 import static net.minecraft.client.renderer.GlStateManager.tryBlendFuncSeparate;
 
+import java.text.DecimalFormat;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
@@ -43,13 +45,6 @@ public class RenderUtils {
 	 * @param scale change size of text.
 	 */
 	public static void renderFloatingText(String str, double x, double y, double z, int color, float scale) {
-        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
-        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_COMBINE_RGB, GL11.GL_MODULATE);
-        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_SOURCE0_RGB, GL11.GL_TEXTURE);
-        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_OPERAND0_RGB, GL11.GL_SRC_COLOR);
-        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_COMBINE_ALPHA, GL11.GL_MODULATE);
-        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_SOURCE0_ALPHA, GL11.GL_TEXTURE);
-        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL13.GL_OPERAND0_ALPHA, GL11.GL_SRC_ALPHA);
 		Minecraft mc = Minecraft.getMinecraft();
         FontRenderer fontrenderer = mc.fontRendererObj;
         RenderManager renderManager = mc.getRenderManager();
@@ -144,9 +139,9 @@ public class RenderUtils {
 	 * @param hpPercentage Must be in a decimal. Ex "50%" hp must be inputted as "0.5"
 	 */
 	public static void renderHPBar(double x, double y, double z, double hpPercentage, int barLength) {
-
+		double percent = hpPercentage;
         GlStateManager.pushMatrix();
-        GlStateManager.translate((float)x + 0.0F, (float)y, (float)z);
+        GlStateManager.translate((float)x, (float)y, (float)z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(-mc().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(mc().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
@@ -158,10 +153,18 @@ public class RenderUtils {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-
+        
         GlStateManager.disableTexture2D();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
         int l = barLength;
+        {//Black border around HP bar
+        	double temp = (percent < 1 ? 0.6:1.6);
+            worldrenderer.pos((double)(-l - 1.6), (-1.6), 0.0D).color(0.0F, 0.0F, 0.0F, 0.7F).endVertex();
+            worldrenderer.pos((double)(-l - 1.6), (8.6), 0.0D).color(0.0F, 0.0F, 0.0F, 0.7F).endVertex();
+            worldrenderer.pos((double)(l + temp), (8.6), 0.0D).color(0.0F, 0.0F, 0.0F, 0.7F).endVertex();
+            worldrenderer.pos((double)(l + temp), (-1.6), 0.0D).color(0.0F, 0.0F, 0.0F, 0.7F).endVertex();	
+        }
+        
         {//1st layer of HP bar. Represents missing HP
             worldrenderer.pos((double)(-l - 1), (-1), 0.0D).color(1.0F, 0.0F, 0.0F, 1F).endVertex();
             worldrenderer.pos((double)(-l - 1), (8), 0.0D).color(1.0F, 0.0F, 0.0F, 1F).endVertex();
@@ -179,6 +182,24 @@ public class RenderUtils {
         }
         tessellator.draw();
         GlStateManager.enableTexture2D();
+        
+        //Percentage being drawn on bar
+        DecimalFormat df = new DecimalFormat("0.0");
+        String str = df.format(percent*100);
+        int xx;
+        //Shifting percent number to the end of the health bar depending on number of digits.
+        if(percent == 1) {
+        	str = "100";
+        	xx = (int)(-mc().fontRendererObj.getStringWidth(str)*barLength/18);
+        } else if (percent*100 > 10){
+        	xx = (int)(-mc().fontRendererObj.getStringWidth(str)*barLength/20);
+        } else {
+        	xx = (int)(-mc().fontRendererObj.getStringWidth(str)*barLength/14);
+        }
+        
+        mc().fontRendererObj.drawString(str, xx, 0, Integer.parseInt("FFFFFF", 16));
+        mc().fontRendererObj.drawString("%", mc().fontRendererObj.getStringWidth("%")*barLength/7, 0, Integer.parseInt("FFFFFF", 16));
+        
         GlStateManager.enableDepth();
         GlStateManager.depthMask(true);
         GlStateManager.enableLighting();
