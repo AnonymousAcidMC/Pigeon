@@ -1,22 +1,27 @@
 package anonymousacid.pigeon.commands.test;
 
-import static anonymousacid.pigeon.McIf.mc;
 import static anonymousacid.pigeon.McIf.player;
+import static anonymousacid.pigeon.McIf.world;
 
 import java.util.List;
 
-import anonymousacid.pigeon.utils.RenderUtils;
+import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
+import anonymousacid.pigeon.utils.Utils;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraftforge.client.event.RenderLivingEvent.Pre;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 //This command is just to test some code that might be added to future features
 public class TestCommand extends CommandBase {
@@ -62,13 +67,25 @@ public class TestCommand extends CommandBase {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) throws CommandException {
 		if (icommandsender instanceof EntityPlayer) {
-			commandOn = !commandOn;
-			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
+//			commandOn = !commandOn;
+//			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
+			MinecraftForge.EVENT_BUS.register(this);
 		}
 	}
 	
 	@SubscribeEvent
-	public void onRender(Pre<EntityLivingBase> e) {
-		
+	public void onRender(TickEvent.ClientTickEvent e) {
+		MinecraftForge.EVENT_BUS.unregister(this);
+		List<Entity> l = world().getEntitiesWithinAABB(Entity.class, player().getEntityBoundingBox().expand(3, 3, 3));
+		if(l.size() <= 0) return;
+		for(int i=0 ; i<l.size(); i++) {
+			if(l.get(i) instanceof EntityArmorStand || l.get(i) instanceof EntityPlayerSP || l.get(i) instanceof EntityPigeon)
+				l.remove(l.get(i));
+		}
+		Entity nearestPlayer = l.get(0);
+		Utils.sendMessage(nearestPlayer.toString());
+		NBTTagCompound nbt = new NBTTagCompound();
+		nearestPlayer.writeToNBT(nbt);
+		GuiScreen.setClipboardString(nbt.toString());
 	}
 }

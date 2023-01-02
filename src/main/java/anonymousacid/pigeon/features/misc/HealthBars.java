@@ -3,9 +3,11 @@ package anonymousacid.pigeon.features.misc;
 import static anonymousacid.pigeon.McIf.mc;
 import static anonymousacid.pigeon.McIf.player;
 
+import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
@@ -28,11 +30,12 @@ public class HealthBars {
 	public void onRender(Pre<EntityLivingBase> e) {
 		if(!Utils.inSkyblock()) return;
 		if(!ConfigHandler.hpBars) return;
+		if(e.entity instanceof EntityPigeon) return;
 		if(e.entity instanceof EntityArmorStand) return;
 		if(e.entity.isInvisible()) return;
 		if(!Utils.canSeeEntity(player(), e.entity)) return;
 		
-		//Using Entity.getEntityData() doesn't work, but writing the entity to a new NBTTagCompound object does the job.
+		//Using Entity.getEntityData() doesn't work, but writing the entity nbt to a new NBTTagCompound object does.
 		NBTTagCompound nbt = new NBTTagCompound();
 		e.entity.writeToNBT(nbt);
 
@@ -60,20 +63,22 @@ public class HealthBars {
 		String hpStr = nbt.getTag("HealF").toString().replaceAll("[a-zA-Z]", "");
 		double hp = Double.parseDouble(hpStr);
 		
+		double percentage = hp/maxHp;
+		
+		//The player's health should not be the same as the vanilla amount because the actual health of the player is in an NBT tag.
+		//This is weirdly a problem with other players for some reason. It might be the client guessing the health of the player if it is not updated by the server.
+		if(e.entity instanceof EntityOtherPlayerMP && hp == e.entity.getHealth())
+			percentage = 1;
+		
 		//Render HP bar
 		boolean isBoss = e.entity instanceof EntityWither || e.entity instanceof EntityDragon;
 		int hpBarSize;
 		hpBarSize = isBoss ? mc().fontRendererObj.getStringWidth("rkjbnaerlkjbnarrlkjbnblakebjerkl") : mc().fontRendererObj.getStringWidth("hamburger");
 		if(!(e.entity instanceof EntityPlayer) && !isBoss && Utils.inDungeon()) hpBarSize = mc().fontRendererObj.getStringWidth("hambur");
-		if(hp/maxHp > 1.0) {
-			RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.5, e.z,
-	        		1.0,
-	        		hpBarSize);
-			return;
-		}
+		if(hp/maxHp > 1.0) percentage = 1.0;
 		
 		RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.5, e.z,
-        		hp/maxHp,
+        		percentage,
         		hpBarSize);
 		
 	}
