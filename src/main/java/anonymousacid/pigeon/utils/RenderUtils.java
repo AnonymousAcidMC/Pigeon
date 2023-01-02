@@ -81,6 +81,7 @@ public class RenderUtils {
         scale(1, 1, 1);
         popMatrix();
     }
+	
 	/**
 	 * Copied from net.minecraft.entity.EntityLiving;
 	 * Modified to work with any entity and entity head rotation 

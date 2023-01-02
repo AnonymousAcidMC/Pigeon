@@ -12,7 +12,7 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.client.event.RenderLivingEvent.Post;
+import net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ChatBubbleNametags {
@@ -30,7 +30,7 @@ public class ChatBubbleNametags {
 	 * Renders chat bubbles by using code similar to Minecraft's nametag code.
 	 */
 	@SubscribeEvent
-	public void renderChatMessages(Post<EntityLivingBase> e) {
+	public void renderChatMessages(Pre<EntityLivingBase> e) {
 		if(!ConfigHandler.chatBubbles) return;
 		if(ChatBubbleNametags.messageTimer.isEmpty()) return;
 		if(e.entity instanceof EntityPlayer || e.entity instanceof EntityPlayerSP || e.entity instanceof EntityOtherPlayerMP) {
