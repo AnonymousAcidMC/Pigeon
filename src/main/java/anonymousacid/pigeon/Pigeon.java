@@ -97,7 +97,7 @@ public class Pigeon {
 				ClientCommandHandler.instance.registerCommand(new LogNearbyEntity());
 //				ClientCommandHandler.instance.registerCommand(new NBTTest());
 //				ClientCommandHandler.instance.registerCommand(new ChatRecieved());
-				ClientCommandHandler.instance.registerCommand(TestCommand.instance);
+//				ClientCommandHandler.instance.registerCommand(TestCommand.instance);
 //				MinecraftForge.EVENT_BUS.register(TestCommand.instance);
 				ClientCommandHandler.instance.registerCommand(new KillEntities());
 			}
