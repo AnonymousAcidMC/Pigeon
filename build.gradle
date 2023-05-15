@@ -5,8 +5,8 @@ buildscript {
         jcenter()
         maven {
             name = "forge"
-            //url = "https://maven.minecraftforge.net/"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net/"
+            // url = "http://files.minecraftforge.net/maven"
             //^ old forgegradle^
         }
         maven {
