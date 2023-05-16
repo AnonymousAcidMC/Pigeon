@@ -45,4 +45,18 @@ public class ChatBubbleNametags {
 			}
 		}
 	}
+	
+	
+	public static void removeDuplicateName(String chatSenderName) {
+		if(chatSenderMessages.size() != 0 && chatSenderNames.size() != 0 && chatSenderMessages2.size() != 0) {
+			for(int i=0; i<chatSenderNames.size(); i++) {
+				if(chatSenderNames.get(i).equals(chatSenderName)) {
+					chatSenderNames.remove(i);
+					chatSenderMessages.remove(i);
+					chatSenderMessages2.remove(i);
+					messageTimer.remove(i);
+				}
+			}
+		}
+	}
 }

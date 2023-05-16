@@ -46,21 +46,17 @@ public class ChatBubbles {
 				"[OWNER]"};
 		if(!formattedMessage.contains("â—�")) {
 			if(Utils.stringContainsItemFromList(unformattedMessage, hypixelRanks)) {
-				//finding the player that sent the message
+				
 				String[] splitMessage = unformattedMessage.split(":");
+				if(splitMessage.length < 2)
+						return;
 				String chatSenderName = splitMessage[0];
+				
 				//get chat sender's name
-//				for(int i=0; i<hypixelRanks.length; i++) {
-//					if(splitMessage[0].contains(hypixelRanks[i])) {
-//						chatSenderName = splitMessage[0].replace(hypixelRanks[i], "");
-//						chatSenderName = chatSenderName.replace(" ", "");
-//						break;
-//					}
-//				}
 				chatSenderName = chatSenderName.replaceAll("\\[.*?\\]", "");
 				chatSenderName = chatSenderName.replace(" ", "");
 				
-				//If there was a message past the player's name in chat
+				//If there was a message in front the player's name in chat
 				//Ex "[MVP] Player213: hello!"
 				if(splitMessage.length > 1) {
 					String playerMessage = splitMessage[1]; /*1st segment of player message*/
@@ -108,16 +104,8 @@ public class ChatBubbles {
 					}
 					
 					//Removes duplicate chat senders and their messages
-					if(ChatBubbleNametags.chatSenderMessages.size() != 0 && ChatBubbleNametags.chatSenderNames.size() != 0 && ChatBubbleNametags.chatSenderMessages2.size() != 0) {
-						for(int i=0; i<ChatBubbleNametags.chatSenderNames.size(); i++) {
-							if(ChatBubbleNametags.chatSenderNames.get(i).equals(chatSenderName)) {
-								ChatBubbleNametags.chatSenderNames.remove(i);
-								ChatBubbleNametags.chatSenderMessages.remove(i);
-								ChatBubbleNametags.chatSenderMessages2.remove(i);
-								ChatBubbleNametags.messageTimer.remove(i);
-							}
-						}
-					}
+					ChatBubbleNametags.removeDuplicateName(chatSenderName);
+					
 					ChatBubbleNametags.chatSenderNames.add(chatSenderName.replace(" ", ""));
 					ChatBubbleNametags.chatSenderMessages.add(playerMessage.trim());
 					ChatBubbleNametags.chatSenderMessages2.add(playerMessage2);
@@ -172,16 +160,8 @@ public class ChatBubbles {
 					}
 					
 					//Removes duplicate chat senders and their messages
-					if(ChatBubbleNametags.chatSenderMessages.size() != 0 && ChatBubbleNametags.chatSenderNames.size() != 0) {
-						for(int i=0; i<ChatBubbleNametags.chatSenderNames.size(); i++) {
-							if(ChatBubbleNametags.chatSenderNames.get(i).equals(chatSenderName)) {
-								ChatBubbleNametags.chatSenderNames.remove(i);
-								ChatBubbleNametags.chatSenderMessages.remove(i);
-								ChatBubbleNametags.chatSenderMessages2.remove(i);
-								ChatBubbleNametags.messageTimer.remove(i);
-							}
-						}
-					}
+					ChatBubbleNametags.removeDuplicateName(chatSenderName);
+					
 					ChatBubbleNametags.chatSenderNames.add(chatSenderName);
 					ChatBubbleNametags.chatSenderMessages.add(playerMessage.trim());
 					ChatBubbleNametags.chatSenderMessages2.add(playerMessage2);
