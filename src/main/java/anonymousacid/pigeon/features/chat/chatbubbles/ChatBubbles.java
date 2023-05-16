@@ -48,42 +48,52 @@ public class ChatBubbles {
 			if(Utils.stringContainsItemFromList(unformattedMessage, hypixelRanks)) {
 				//finding the player that sent the message
 				String[] splitMessage = unformattedMessage.split(":");
-				String chatSenderName = "";
+				String chatSenderName = splitMessage[0];
 				//get chat sender's name
-				for(int i=0; i<hypixelRanks.length; i++) {
-					if(splitMessage[0].contains(hypixelRanks[i])) {
-						chatSenderName = splitMessage[0].replace(hypixelRanks[i], "");
-						chatSenderName = chatSenderName.replace(" ", "");
-						break;
-					}
-				}
+//				for(int i=0; i<hypixelRanks.length; i++) {
+//					if(splitMessage[0].contains(hypixelRanks[i])) {
+//						chatSenderName = splitMessage[0].replace(hypixelRanks[i], "");
+//						chatSenderName = chatSenderName.replace(" ", "");
+//						break;
+//					}
+//				}
 				chatSenderName = chatSenderName.replaceAll("\\[.*?\\]", "");
-				chatSenderName = chatSenderName.trim();
+				chatSenderName = chatSenderName.replace(" ", "");
 				
+				//If there was a message past the player's name in chat
+				//Ex "[MVP] Player213: hello!"
 				if(splitMessage.length > 1) {
-					String playerMessage = splitMessage[1];
-					String playerMessage2 = " ";
+					String playerMessage = splitMessage[1]; /*1st segment of player message*/
+					String playerMessage2 = " "; /*2nd segment of player message if applicable*/
+					
+					//If the message contains more colons, then get the message as a whole including the colons.
+					//Ex "[MVP] Player: this is a : message"
+					//   would be split into ["[MVP] Player", " this is a ", " message"]
+					//   This loop gets the full message as one string: "this is a : message"
 					for(int i=1; i<splitMessage.length-1; i++) {
 						if(splitMessage[i+1] != null) {
 							playerMessage = playerMessage+":"+splitMessage[i+1];
 						}
 					}
-					//splits message if larger than 50 characters
-					String splitPlayerMessage = "";
-					if(playerMessage.length()>50) {
-						splitPlayerMessage = playerMessage.substring(0, 50);
+					
+					//splits message into two chat bubbles if larger than 50 characters
+					if(playerMessage.length() > 50) {
+						String splitPlayerMessage = playerMessage.substring(0, 50);
 						int lastSpace = splitPlayerMessage.lastIndexOf(" ", splitPlayerMessage.length()-1);
-						if(lastSpace != 0-1) {
-							playerMessage2 = playerMessage.substring(lastSpace);
-							playerMessage = playerMessage.substring(0, lastSpace);	
+						
+						//If there is a space at the end of the 1st message segment
+						if(lastSpace != -1) {
+							//Move it from the 1st to the 2nd
+							playerMessage = playerMessage.substring(0, lastSpace);
+							playerMessage2 = playerMessage.substring(lastSpace);	
 						} else {
-							playerMessage2 = playerMessage.substring((int)(playerMessage.length()/2));
-							playerMessage = playerMessage.substring(0, (int)(playerMessage.length()/2));
+							playerMessage = playerMessage.substring(0, playerMessage.length()/2);
+							playerMessage2 = playerMessage.substring(playerMessage.length()/2);
 						}
 					}
 					///If the second part of the message is STILL too long, cut off that part
-					// of the message and add elipsis at the end.
-					if(playerMessage2.length()>50) {
+					// of the message and add ellipsis at the end.
+					if(playerMessage2.length() > 50) {
 						playerMessage2 = playerMessage2.substring(0,50) + "...";
 					}
 					
