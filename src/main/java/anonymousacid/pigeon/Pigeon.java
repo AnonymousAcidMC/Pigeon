@@ -2,7 +2,7 @@ package anonymousacid.pigeon;
 
 import static anonymousacid.pigeon.McIf.player;
 import static anonymousacid.pigeon.McIf.world;
-import static anonymousacid.pigeon.McIf.minecraft;
+import static anonymousacid.pigeon.McIf.mc;
 
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import anonymousacid.pigeon.commands.ConfigCommand;
@@ -100,7 +100,7 @@ public class Pigeon {
 				ClientCommandHandler.instance.registerCommand(new LogNearbyEntity());
 //				ClientCommandHandler.instance.registerCommand(new NBTTest());
 //				ClientCommandHandler.instance.registerCommand(new ChatRecieved());
-//				ClientCommandHandler.instance.registerCommand(TestCommand.instance);
+				ClientCommandHandler.instance.registerCommand(TestCommand.instance);
 //				MinecraftForge.EVENT_BUS.register(TestCommand.instance);
 				ClientCommandHandler.instance.registerCommand(new KillEntities());
 			}

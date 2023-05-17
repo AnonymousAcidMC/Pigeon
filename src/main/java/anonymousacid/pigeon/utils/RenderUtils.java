@@ -1,6 +1,6 @@
 package anonymousacid.pigeon.utils;
 
-import static anonymousacid.pigeon.McIf.minecraft;
+import static anonymousacid.pigeon.McIf.mc;
 import static net.minecraft.client.renderer.GlStateManager.depthMask;
 import static net.minecraft.client.renderer.GlStateManager.disableBlend;
 import static net.minecraft.client.renderer.GlStateManager.disableDepth;
@@ -143,8 +143,8 @@ public class RenderUtils {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)x, (float)y, (float)z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-minecraft().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(minecraft().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+        GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(mc.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
         GlStateManager.scale(-0.026, -0.026, 0.026);
         GlStateManager.disableLighting();
         GlStateManager.depthMask(false);
@@ -190,15 +190,15 @@ public class RenderUtils {
         //Shifting percent number to the end of the health bar depending on number of digits.
         if(percent == 1) {
         	str = "100";
-        	xx = (int)(-minecraft().fontRendererObj.getStringWidth(str)*barLength/18);
+        	xx = (int)(-mc.fontRendererObj.getStringWidth(str)*barLength/18);
         } else if (percent*100 > 10){
-        	xx = (int)(-minecraft().fontRendererObj.getStringWidth(str)*barLength/20);
+        	xx = (int)(-mc.fontRendererObj.getStringWidth(str)*barLength/20);
         } else {
-        	xx = (int)(-minecraft().fontRendererObj.getStringWidth(str)*barLength/14);
+        	xx = (int)(-mc.fontRendererObj.getStringWidth(str)*barLength/14);
         }
         
-        minecraft().fontRendererObj.drawString(str, xx, 0, Integer.parseInt("FFFFFF", 16));
-        minecraft().fontRendererObj.drawString("%", minecraft().fontRendererObj.getStringWidth("%")*barLength/7, 0, Integer.parseInt("FFFFFF", 16));
+        mc.fontRendererObj.drawString(str, xx, 0, Integer.parseInt("FFFFFF", 16));
+        mc.fontRendererObj.drawString("%", mc.fontRendererObj.getStringWidth("%")*barLength/7, 0, Integer.parseInt("FFFFFF", 16));
         
         GlStateManager.enableDepth();
         GlStateManager.depthMask(true);

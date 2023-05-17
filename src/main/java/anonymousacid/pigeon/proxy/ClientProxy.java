@@ -1,6 +1,6 @@
 package anonymousacid.pigeon.proxy;
 
-import static anonymousacid.pigeon.McIf.minecraft;
+import static anonymousacid.pigeon.McIf.mc;
 
 import anonymousacid.pigeon.client.fakeentities.EntityFerocityMelee;
 import anonymousacid.pigeon.client.fakeentities.EntityHealerWish;
@@ -37,7 +37,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerEntityRenders() {
-		RenderManager renderm = minecraft().getRenderManager();
+		RenderManager renderm = mc.getRenderManager();
 		RenderingRegistry.registerEntityRenderingHandler(EntityVoidgloomShield.class, new RenderVoidgloomShield(renderm, new ModelVoidgloomShield(), 0.0f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityHealerWish.class, new RenderHealerWish(renderm, new ModelHealerWish(), 0.0f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityPigeon.class, new RenderPigeon(renderm, new ModelPigeon(), 0.0f));

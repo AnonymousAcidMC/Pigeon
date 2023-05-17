@@ -22,7 +22,7 @@ public class ChatStuff {
 	public void onTick(TickEvent.ClientTickEvent e) {
 		if(e.phase != TickEvent.Phase.START) return;
 		try {
-			GuiNewChat chat = minecraft().ingameGUI.getChatGUI();
+			GuiNewChat chat = mc.ingameGUI.getChatGUI();
 			Field allChatLines;
 			allChatLines = GuiNewChat.class.getDeclaredField("field_146253_i");
 			allChatLines.setAccessible(true);

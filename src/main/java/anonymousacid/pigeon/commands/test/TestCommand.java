@@ -2,6 +2,7 @@ package anonymousacid.pigeon.commands.test;
 
 import static anonymousacid.pigeon.McIf.player;
 import static anonymousacid.pigeon.McIf.world;
+import static anonymousacid.pigeon.McIf.mc;
 
 import java.util.List;
 

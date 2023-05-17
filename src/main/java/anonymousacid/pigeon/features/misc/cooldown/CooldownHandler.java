@@ -2,7 +2,7 @@ package anonymousacid.pigeon.features.misc.cooldown;
 
 import java.util.ArrayList;
 
-import static anonymousacid.pigeon.McIf.minecraft;
+import static anonymousacid.pigeon.McIf.mc;
 
 import anonymousacid.pigeon.McIf;
 import anonymousacid.pigeon.features.misc.AbilityUsageListener;
@@ -36,7 +36,7 @@ public class CooldownHandler {
 		
 		EntityPlayerSP player = McIf.player();
 		
-		if(minecraft().theWorld == null) return;
+		if(mc.theWorld == null) return;
 		if(player.getCurrentEquippedItem() == null) return;
 		
 		ItemStack item = player.getCurrentEquippedItem();
@@ -88,7 +88,7 @@ public class CooldownHandler {
 						cooldown = cooldown.split(" ")[0];
 					}
 				}
-				equippedItem = minecraft().thePlayer.getCurrentEquippedItem();
+				equippedItem = mc.thePlayer.getCurrentEquippedItem();
 				MinecraftForge.EVENT_BUS.register(AbilityUsageListener.instance);
 				break;
 			}
@@ -101,7 +101,7 @@ public class CooldownHandler {
 	public void renderGui(RenderGameOverlayEvent.Post event) {
 		if(!renderGui) return;
 		if(event.type == RenderGameOverlayEvent.ElementType.ALL) {
-			new CooldownGui(minecraft());
+			new CooldownGui(mc);
 		}
 	}
 }

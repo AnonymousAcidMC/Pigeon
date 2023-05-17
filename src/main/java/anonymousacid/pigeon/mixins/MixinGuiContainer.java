@@ -1,6 +1,6 @@
 package anonymousacid.pigeon.mixins;
 
-import static anonymousacid.pigeon.McIf.minecraft;
+import static anonymousacid.pigeon.McIf.mc;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,13 +24,13 @@ public class MixinGuiContainer {
 	@Inject(at = @At("HEAD"), method = "handleMouseClick", cancellable = true)
     public void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType, CallbackInfo ci) {
         if (slotIn == null || slotIn.getStack() == null) return; 
-        if (!(minecraft().currentScreen instanceof GuiChest)) return;
+        if (!(mc.currentScreen instanceof GuiChest)) return;
         
-        Container containerChest = ((GuiChest)minecraft().currentScreen).inventorySlots;
+        Container containerChest = ((GuiChest)mc.currentScreen).inventorySlots;
         
         if (!(containerChest instanceof ContainerChest)) return;
         
-        GuiChest chest = (GuiChest)minecraft().currentScreen;
+        GuiChest chest = (GuiChest)mc.currentScreen;
         IInventory inventory = ((ContainerChest)containerChest).getLowerChestInventory();
         String inventoryName = inventory.getDisplayName().getUnformattedText();
         

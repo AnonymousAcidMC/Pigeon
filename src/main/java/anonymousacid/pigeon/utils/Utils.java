@@ -308,7 +308,7 @@ public class Utils {
 	 */
 	public static ChatLine getChatLineMouse(int mouseX, int mouseY)
     {
-		GuiNewChat chat = McIf.minecraft().ingameGUI.getChatGUI();
+		GuiNewChat chat = McIf.mc.ingameGUI.getChatGUI();
         if (!chat.getChatOpen())
         {
             return null;
