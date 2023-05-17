@@ -8,6 +8,8 @@ import java.util.List;
 
 import anonymousacid.pigeon.McIf;
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
+import anonymousacid.pigeon.events.ChestSlotClickedEvent;
+import anonymousacid.pigeon.gui.TestGui;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -21,6 +23,7 @@ import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -30,6 +33,8 @@ public class TestCommand extends CommandBase {
 	
 	public static TestCommand instance = new TestCommand();
 	public static boolean commandOn = false;
+	
+	private boolean showGui = false;
 	
 	@Override
 	public String getCommandName() {
@@ -69,14 +74,13 @@ public class TestCommand extends CommandBase {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) throws CommandException {
 		if (icommandsender instanceof EntityPlayer) {
-//			commandOn = !commandOn;
-//			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
-			
+			commandOn = !commandOn;
+			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
 		}
 	}
 	
 	@SubscribeEvent
-	public void onTick(TickEvent.ClientTickEvent e) {
-		
+	public void onTick(ChestSlotClickedEvent e) {
+		Utils.sendMessage("test");
 	}
 }

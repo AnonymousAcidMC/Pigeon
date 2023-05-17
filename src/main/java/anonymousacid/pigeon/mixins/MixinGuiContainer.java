@@ -21,8 +21,9 @@ import net.minecraftforge.common.MinecraftForge;
  * Posts event used for handling clicks on container GUIs.
  */
 public class MixinGuiContainer {
-	@Inject(at = @At("HEAD"), method = "handleMouseClick", cancellable = true)
-    public void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType, CallbackInfo ci) {
+	
+	@Inject(method = "handleMouseClick", at = @At(value = "HEAD"), cancellable = true)
+	public void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType, CallbackInfo ci) {
         if (slotIn == null || slotIn.getStack() == null) return; 
         if (!(mc.currentScreen instanceof GuiChest)) return;
         
@@ -42,4 +43,5 @@ public class MixinGuiContainer {
         	return;
         }
     }
+	
 }

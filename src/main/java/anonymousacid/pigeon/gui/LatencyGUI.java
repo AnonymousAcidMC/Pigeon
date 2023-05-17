@@ -1,5 +1,6 @@
 package anonymousacid.pigeon.gui;
 
+import static anonymousacid.pigeon.McIf.mc;
 import anonymousacid.pigeon.features.misc.LatencyCounter;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import net.minecraft.client.Minecraft;
