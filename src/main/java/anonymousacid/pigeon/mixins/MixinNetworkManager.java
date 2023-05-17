@@ -22,12 +22,14 @@ public class MixinNetworkManager {
 	
 	@Inject(method = "sendPacket(Lnet/minecraft/network/Packet;)V", at = @At("HEAD"))
 	public void onPacketSent(Packet<?> packet, CallbackInfo callbackInfo) {
-		if(packet instanceof C00PacketKeepAlive)LatencyCounter.instance.onSendPacket();
+		if(packet instanceof C00PacketKeepAlive)
+			LatencyCounter.instance.onSendPacket();
 	}
 	
 	@Inject(method = "channelRead0", at = @At("HEAD"))
 	protected void onPacketRecieved(ChannelHandlerContext context, Packet<?> packet, CallbackInfo callbackInfo) {
-		if(packet instanceof S00PacketKeepAlive)LatencyCounter.instance.onPacketRecieved();
+		if(packet instanceof S00PacketKeepAlive)
+			LatencyCounter.instance.onPacketRecieved();
 	}
 	
 }
