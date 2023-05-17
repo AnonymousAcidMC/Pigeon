@@ -1,6 +1,6 @@
 package anonymousacid.pigeon.features.misc;
 
-import static anonymousacid.pigeon.McIf.mc;
+import static anonymousacid.pigeon.McIf.minecraft;
 import static anonymousacid.pigeon.McIf.player;
 
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
@@ -73,8 +73,8 @@ public class HealthBars {
 		//Render HP bar
 		boolean isBoss = e.entity instanceof EntityWither || e.entity instanceof EntityDragon;
 		int hpBarSize;
-		hpBarSize = isBoss ? mc().fontRendererObj.getStringWidth("rkjbnaerlkjbnarrlkjbnblakebjerkl") : mc().fontRendererObj.getStringWidth("hamburger");
-		if(!(e.entity instanceof EntityPlayer) && !isBoss && Utils.inDungeon()) hpBarSize = mc().fontRendererObj.getStringWidth("hambur");
+		hpBarSize = isBoss ? minecraft().fontRendererObj.getStringWidth("rkjbnaerlkjbnarrlkjbnblakebjerkl") : minecraft().fontRendererObj.getStringWidth("hamburger");
+		if(!(e.entity instanceof EntityPlayer) && !isBoss && Utils.inDungeon()) hpBarSize = minecraft().fontRendererObj.getStringWidth("hambur");
 		if(hp/maxHp > 1.0) percentage = 1.0;
 		
 		RenderUtils.renderHPBar(e.x, e.y+e.entity.height+0.5, e.z,

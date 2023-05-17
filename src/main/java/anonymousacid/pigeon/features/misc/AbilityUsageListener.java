@@ -3,6 +3,7 @@ package anonymousacid.pigeon.features.misc;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import anonymousacid.pigeon.features.misc.cooldown.CooldownHandler;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.Minecraft;
@@ -27,7 +28,7 @@ public class AbilityUsageListener {
 				if(!msg.contains("§3+")) {
 				Matcher m = Pattern.compile("\\((.*?)\\)").matcher(msg);
 					while (m.find()) {
-					    if(!CooldownThingy.ability2.contains(Utils.removeFormat(m.group(1)))) {
+					    if(!CooldownHandler.ability2.contains(Utils.removeFormat(m.group(1)))) {
 					    	return;
 					    } else {
 					    	break;
@@ -35,29 +36,29 @@ public class AbilityUsageListener {
 					}
 				}
 				if(msg.split("     ")[1].equals(previousAbility)) {
-					if(!previousItemUsed.equals(CooldownThingy.equippedItem.getDisplayName())) return;
+					if(!previousItemUsed.equals(CooldownHandler.equippedItem.getDisplayName())) return;
 				}
-				if(CooldownThingy.ability != "") {
+				if(CooldownHandler.ability != "") {
 					boolean foundMatch = false;
-					for(int j=0; j<CooldownThingy.abilities.length; j++) {
-						if(CooldownThingy.abilities[j].equals(CooldownThingy.ability)) {
+					for(int j=0; j<CooldownHandler.abilities.length; j++) {
+						if(CooldownHandler.abilities[j].equals(CooldownHandler.ability)) {
 							foundMatch = true;
 							break;
 						}
 					}
 					if(!foundMatch) {
-						for(int j=0; j<CooldownThingy.cooldowns.length; j++) {
-							if(CooldownThingy.cooldowns[j] == 0) {
-								CooldownThingy.abilities[j] = CooldownThingy.ability;
-								CooldownThingy.cooldowns[j] = (Integer.parseInt(CooldownThingy.cooldown)*20)-4;
-								CooldownThingy.itemsOnCooldown.set(j, CooldownThingy.equippedItem);
+						for(int j=0; j<CooldownHandler.cooldowns.length; j++) {
+							if(CooldownHandler.cooldowns[j] == 0) {
+								CooldownHandler.abilities[j] = CooldownHandler.ability;
+								CooldownHandler.cooldowns[j] = (Integer.parseInt(CooldownHandler.cooldown)*20)-4;
+								CooldownHandler.itemsOnCooldown.set(j, CooldownHandler.equippedItem);
 								break;
 							}
 						}
 					}
 				}
 				previousAbility = msg.split("     ")[1];
-				previousItemUsed = CooldownThingy.equippedItem.getDisplayName();
+				previousItemUsed = CooldownHandler.equippedItem.getDisplayName();
 				MinecraftForge.EVENT_BUS.unregister(this);
 			} else {
 				return;

@@ -1,6 +1,6 @@
 package anonymousacid.pigeon.gui;
 
-import anonymousacid.pigeon.features.misc.CooldownThingy;
+import anonymousacid.pigeon.features.misc.cooldown.CooldownHandler;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -16,18 +16,18 @@ public class CooldownGui extends Gui {
 		int height = scaled.getScaledHeight();
 		int x = ConfigHandler.cdGuiX;
 		int y = ConfigHandler.cdGuiY;
-		for(int i=0; i<CooldownThingy.itemsOnCooldown.size(); i++) {
-			if(CooldownThingy.itemsOnCooldown.get(i) != null) {
+		for(int i=0; i<CooldownHandler.itemsOnCooldown.size(); i++) {
+			if(CooldownHandler.itemsOnCooldown.get(i) != null) {
 				if(i==0) {
-					mc.getRenderItem().renderItemAndEffectIntoGUI(CooldownThingy.itemsOnCooldown.get(i), x+(10*i), y);
+					mc.getRenderItem().renderItemAndEffectIntoGUI(CooldownHandler.itemsOnCooldown.get(i), x+(10*i), y);
 				} else {
-					mc.getRenderItem().renderItemAndEffectIntoGUI(CooldownThingy.itemsOnCooldown.get(i), x+(10*i)+5, y);
+					mc.getRenderItem().renderItemAndEffectIntoGUI(CooldownHandler.itemsOnCooldown.get(i), x+(10*i)+5, y);
 				}
 			}
 		}
 		boolean foundDisplayeditem = false;
-		for(int i=0; i<CooldownThingy.displayedItems.length; i++) {
-			if(CooldownThingy.displayedItems[i]) {
+		for(int i=0; i<CooldownHandler.displayedItems.length; i++) {
+			if(CooldownHandler.displayedItems[i]) {
 				foundDisplayeditem = true;
 				break;
 			}

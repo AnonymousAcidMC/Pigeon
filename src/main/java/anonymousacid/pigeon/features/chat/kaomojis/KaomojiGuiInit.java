@@ -17,7 +17,7 @@ public class KaomojiGuiInit {
 		if(!ChatKaomojis.showSuggestions) return;
 		if(ChatKaomojis.foundMatches == 0) return;
 		if(event.type == ElementType.CHAT) {
-			new KaomojiGui(McIf.mc());
+			new KaomojiGui(McIf.minecraft());
 		}
     }
 }

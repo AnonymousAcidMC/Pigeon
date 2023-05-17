@@ -1,6 +1,6 @@
 package anonymousacid.pigeon.client.fakeentities;
 
-import static anonymousacid.pigeon.McIf.mc;
+import static anonymousacid.pigeon.McIf.minecraft;
 import static anonymousacid.pigeon.McIf.player;
 import static anonymousacid.pigeon.McIf.world;
 
@@ -53,7 +53,7 @@ public class EntityPigeon extends EntityMob implements IFakeEntity {
 	@Override
 	public void onLivingUpdate() {
 		if(isInventoryAsset) {flapWings = false; return;}
-		if(mc().currentScreen instanceof ConfigGui) return;
+		if(minecraft().currentScreen instanceof ConfigGui) return;
 		BlockPos posBelow = getPosition().down();
 		IBlockState blockStateBelow = world().getBlockState(posBelow);
 		//Spawn particles when on lava/water
@@ -72,7 +72,7 @@ public class EntityPigeon extends EntityMob implements IFakeEntity {
 			Random rand = new Random();
 			if(rand.nextInt(6) == 1) {
 				if(soundTimer == 0) {
-					if(!(mc().currentScreen instanceof GuiIngameMenu)) {
+					if(!(minecraft().currentScreen instanceof GuiIngameMenu)) {
 						Utils.playClientSound(new ResourceLocation("pigeon:mob.pigeon.say"+Integer.toString(rand.nextInt(3)+1)), rand.nextInt(2)+0.5f, 1f, (float)posX, (float)posY, (float)posZ);
 						soundTimer = 60;
 					}

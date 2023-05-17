@@ -1,6 +1,6 @@
 package anonymousacid.pigeon.features.misc.miniontiers;
 
-import static anonymousacid.pigeon.McIf.mc;
+import static anonymousacid.pigeon.McIf.minecraft;
 import static anonymousacid.pigeon.McIf.player;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class MinionTiers {
 			
 			FileReader reader = new FileReader(minionFile);
 			JsonArray minionList = gson.fromJson(reader, JsonArray.class);
-			for(EntityArmorStand minion : mc().theWorld.getEntitiesWithinAABB(EntityArmorStand.class, player().getEntityBoundingBox().expand(30, 30, 30))) {
+			for(EntityArmorStand minion : minecraft().theWorld.getEntitiesWithinAABB(EntityArmorStand.class, player().getEntityBoundingBox().expand(30, 30, 30))) {
 				if(!minion.isSmall()) continue;
 				System.out.println("smol");
 				if(minion.getEquipmentInSlot(4) == null) continue;

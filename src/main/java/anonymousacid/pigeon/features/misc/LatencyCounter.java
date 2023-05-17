@@ -1,6 +1,6 @@
 package anonymousacid.pigeon.features.misc;
 
-import static anonymousacid.pigeon.McIf.mc;
+import static anonymousacid.pigeon.McIf.minecraft;
 import static anonymousacid.pigeon.McIf.player;
 
 import anonymousacid.pigeon.gui.misc.LatencyGUI;
@@ -54,7 +54,7 @@ public class LatencyCounter {
 	public void renderGui(RenderGameOverlayEvent.Post event) {
 		if(!ConfigHandler.latencyCounter) return;
 		if(event.type == RenderGameOverlayEvent.ElementType.ALL) {
-			new LatencyGUI(mc());
+			new LatencyGUI(minecraft());
 		}
 	}
 	
@@ -75,7 +75,7 @@ public class LatencyCounter {
 				updateTimer = 20;
 			}
 		} else {
-			try{latency = (long)mc().getNetHandler().getPlayerInfo(player().getUUID(player().getGameProfile())).getResponseTime();} catch(NullPointerException err) {}
+			try{latency = (long)minecraft().getNetHandler().getPlayerInfo(player().getUUID(player().getGameProfile())).getResponseTime();} catch(NullPointerException err) {}
 			return;
 		}
 	}

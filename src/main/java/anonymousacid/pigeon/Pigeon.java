@@ -2,6 +2,7 @@ package anonymousacid.pigeon;
 
 import static anonymousacid.pigeon.McIf.player;
 import static anonymousacid.pigeon.McIf.world;
+import static anonymousacid.pigeon.McIf.minecraft;
 
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import anonymousacid.pigeon.commands.ConfigCommand;
@@ -20,11 +21,11 @@ import anonymousacid.pigeon.features.chat.kaomojis.ChatKaomojis;
 import anonymousacid.pigeon.features.chat.kaomojis.KaomojiGuiInit;
 import anonymousacid.pigeon.features.chat.kaomojis.TabKeyTimer;
 import anonymousacid.pigeon.features.dungeons.ProfessorFireFreeze;
-import anonymousacid.pigeon.features.misc.CooldownThingy;
-import anonymousacid.pigeon.features.misc.CooldownTimer;
 import anonymousacid.pigeon.features.misc.HealthBars;
 import anonymousacid.pigeon.features.misc.LatencyCounter;
 import anonymousacid.pigeon.features.misc.SBPetName;
+import anonymousacid.pigeon.features.misc.cooldown.CooldownHandler;
+import anonymousacid.pigeon.features.misc.cooldown.CooldownTimer;
 import anonymousacid.pigeon.features.misc.miniontiers.MinionTierRender;
 import anonymousacid.pigeon.gui.config.ExperimentalFeaturesGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
@@ -66,6 +67,8 @@ public class Pigeon {
 	
 	@EventHandler
 	public void init(FMLInitializationEvent e) {
+		
+		McIf.setMinecraftSingleton();
 		
 //		MinecraftForge.EVENT_BUS.register(KeybindsInit.class);
 		
@@ -119,12 +122,12 @@ public class Pigeon {
 			MinecraftForge.EVENT_BUS.register(SBPetName.instance);
 			
 			MinecraftForge.EVENT_BUS.register(CooldownTimer.instance);
-			MinecraftForge.EVENT_BUS.register(CooldownThingy.instance);
+			MinecraftForge.EVENT_BUS.register(CooldownHandler.instance);
 			
 			MinecraftForge.EVENT_BUS.register(ProfessorFireFreeze.instance);
-			for(int i=0; i<CooldownThingy.abilities.length; i++) {
-				CooldownThingy.abilities[i] = "";
-				CooldownThingy.itemsOnCooldown.add(null);
+			for(int i=0; i<CooldownHandler.abilities.length; i++) {
+				CooldownHandler.abilities[i] = "";
+				CooldownHandler.itemsOnCooldown.add(null);
 			}
 			MinecraftForge.EVENT_BUS.register(LatencyCounter.instance);
 			

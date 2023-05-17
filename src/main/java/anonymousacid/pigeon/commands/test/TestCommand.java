@@ -5,6 +5,7 @@ import static anonymousacid.pigeon.McIf.world;
 
 import java.util.List;
 
+import anonymousacid.pigeon.McIf;
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
@@ -69,23 +70,12 @@ public class TestCommand extends CommandBase {
 		if (icommandsender instanceof EntityPlayer) {
 //			commandOn = !commandOn;
 //			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
-			MinecraftForge.EVENT_BUS.register(this);
+			
 		}
 	}
 	
 	@SubscribeEvent
-	public void onRender(TickEvent.ClientTickEvent e) {
-		MinecraftForge.EVENT_BUS.unregister(this);
-		List<Entity> l = world().getEntitiesWithinAABB(Entity.class, player().getEntityBoundingBox().expand(3, 3, 3));
-		if(l.size() <= 0) return;
-		for(int i=0 ; i<l.size(); i++) {
-			if(l.get(i) instanceof EntityArmorStand || l.get(i) instanceof EntityPlayerSP || l.get(i) instanceof EntityPigeon)
-				l.remove(l.get(i));
-		}
-		Entity nearestPlayer = l.get(0);
-		Utils.sendMessage(nearestPlayer.toString());
-		NBTTagCompound nbt = new NBTTagCompound();
-		nearestPlayer.writeToNBT(nbt);
-		GuiScreen.setClipboardString(nbt.toString());
+	public void onTick(TickEvent.ClientTickEvent e) {
+		
 	}
 }

@@ -1,6 +1,6 @@
 package anonymousacid.pigeon.mixins;
 
-import static anonymousacid.pigeon.McIf.mc;
+import static anonymousacid.pigeon.McIf.minecraft;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,15 +23,20 @@ import net.minecraftforge.common.MinecraftForge;
 public class MixinGuiContainer {
 	@Inject(at = @At("HEAD"), method = "handleMouseClick", cancellable = true)
     public void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType, CallbackInfo ci) {
-        if (!(slotIn != null && slotIn.getStack() != null)) return; 
-        if (!(mc().currentScreen instanceof GuiChest)) return;
-        Container containerChest = ((GuiChest)mc().currentScreen).inventorySlots;
+        if (slotIn == null || slotIn.getStack() == null) return; 
+        if (!(minecraft().currentScreen instanceof GuiChest)) return;
+        
+        Container containerChest = ((GuiChest)minecraft().currentScreen).inventorySlots;
+        
         if (!(containerChest instanceof ContainerChest)) return;
-        GuiChest chest = (GuiChest)mc().currentScreen;
+        
+        GuiChest chest = (GuiChest)minecraft().currentScreen;
         IInventory inventory = ((ContainerChest)containerChest).getLowerChestInventory();
         String inventoryName = inventory.getDisplayName().getUnformattedText();
+        
         ChestSlotClickedEvent event = new ChestSlotClickedEvent(chest, inventory, inventoryName, slotIn, slotId, slotIn.getStack(), clickedButton, clickType);
         MinecraftForge.EVENT_BUS.post(event);
+        
         if(event.isCanceled() && ci.isCancellable()) {
         	ci.cancel();
         	return;
