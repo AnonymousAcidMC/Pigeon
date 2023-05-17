@@ -27,7 +27,7 @@ public class MixinGuiContainer {
 	
 	@Inject(method = "handleMouseClick", at = @At("HEAD"), cancellable = true)
 	public void onClick(Slot slotIn, int slotId, int clickedButton, int clickType, CallbackInfo ci) {
-		mc.thePlayer.addChatMessage(new ChatComponentText("hAMBURGER"));
+		
         if (slotIn == null || slotIn.getStack() == null) return; 
         if (!(mc.currentScreen instanceof GuiChest)) return;
         
@@ -46,6 +46,7 @@ public class MixinGuiContainer {
         	ci.cancel();
         	return;
         }
+        
     }
 	
 }

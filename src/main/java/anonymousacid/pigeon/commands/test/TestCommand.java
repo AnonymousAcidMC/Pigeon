@@ -21,7 +21,9 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -74,13 +76,13 @@ public class TestCommand extends CommandBase {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) throws CommandException {
 		if (icommandsender instanceof EntityPlayer) {
-			commandOn = !commandOn;
-			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
+//			commandOn = !commandOn;
+//			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
 		}
 	}
 	
 	@SubscribeEvent
 	public void onTick(ChestSlotClickedEvent e) {
-		Utils.sendMessage("test");
+		
 	}
 }

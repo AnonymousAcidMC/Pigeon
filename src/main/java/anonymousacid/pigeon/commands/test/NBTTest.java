@@ -65,14 +65,18 @@ public class NBTTest extends CommandBase{
 	public void onWorldRender(PlayerInteractEvent event) {
 		if(event.action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK) return;
 		ItemStack item = mc.thePlayer.getCurrentEquippedItem();
+		
 		if(item == null) return;
 		if(!item.hasTagCompound()) return;
 		if(!item.getTagCompound().hasKey("display")) return;
 		if(!item.getTagCompound().getCompoundTag("display").hasKey("Lore")) return;
+		
 		NBTTagList loreList = (NBTTagList) item.getTagCompound().getCompoundTag("display").getTag("Lore");
+		
 		for(int i=0; i<loreList.tagCount(); i++) {
 			System.out.println(loreList.getStringTagAt(i));
 		}
+		
 		MinecraftForge.EVENT_BUS.unregister(this);
 	}
 
