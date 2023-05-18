@@ -27,7 +27,6 @@ import anonymousacid.pigeon.features.misc.SBPetName;
 import anonymousacid.pigeon.features.misc.cooldown.CooldownHandler;
 import anonymousacid.pigeon.features.misc.cooldown.CooldownTimer;
 import anonymousacid.pigeon.features.misc.miniontiers.MinionTierRender;
-import anonymousacid.pigeon.gui.PigeonInventoryGui;
 import anonymousacid.pigeon.gui.config.ExperimentalFeaturesGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.init.ModEntities;
@@ -73,7 +72,7 @@ public class Pigeon {
 		McIf.setMinecraftSingleton();
 		
 		{//Gui stuff
-			PigeonInventoryGui.pigeonButton = new GuiButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
+//			pigeonButton = new GuiButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
 		}
 		
 //		MinecraftForge.EVENT_BUS.register(KeybindsInit.class);
