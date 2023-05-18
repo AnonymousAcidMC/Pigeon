@@ -2,7 +2,6 @@ package anonymousacid.pigeon;
 
 import static anonymousacid.pigeon.McIf.player;
 import static anonymousacid.pigeon.McIf.world;
-import static anonymousacid.pigeon.McIf.mc;
 
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import anonymousacid.pigeon.commands.ConfigCommand;
@@ -66,13 +65,15 @@ public class Pigeon {
 		System.out.println("Pigeon pre-initialized!");
 	}
 	
+	public static GuiButton pigeonButton;
+	
 	@EventHandler
 	public void init(FMLInitializationEvent e) {
 		
 		McIf.setMinecraftSingleton();
 		
 		{//Gui stuff
-//			pigeonButton = new GuiButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
+			pigeonButton = new GuiButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
 		}
 		
 //		MinecraftForge.EVENT_BUS.register(KeybindsInit.class);

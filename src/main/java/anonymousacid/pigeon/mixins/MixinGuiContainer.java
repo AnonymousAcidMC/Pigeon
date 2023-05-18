@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import anonymousacid.pigeon.Pigeon;
 import anonymousacid.pigeon.events.ChestSlotClickedEvent;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.gui.GuiButton;
@@ -59,7 +60,6 @@ public class MixinGuiContainer {
 		
 		//Access the private field
 		List<GuiButton> buttonList = screenAccessor.getButtonList();
-		Utils.sendMessage(""+buttonList.size());
-		
+		buttonList.add(Pigeon.pigeonButton);		
 	}
 }
