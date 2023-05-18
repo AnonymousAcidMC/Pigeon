@@ -75,12 +75,4 @@ public class PigeonButton extends GuiButton {
 			pressed = false;
 		}
 	}
-	
-	
-	//THIS METHOD DOESNT GET CALLED AT ALL. The comments in MC source code lied >:(
-	@Override
-	public void mouseReleased(int mouseX, int mouseY) {
-		super.mouseReleased(mouseX, mouseY);
-		
-	}
 }
