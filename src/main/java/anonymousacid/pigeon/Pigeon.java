@@ -71,6 +71,7 @@ public class Pigeon {
 	public void init(FMLInitializationEvent e) {
 		
 		McIf.setMinecraftSingleton();
+		ConfigHandler.reloadConfig();
 		
 		{//Gui stuff
 			pigeonButton = new GuiButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
@@ -83,8 +84,6 @@ public class Pigeon {
 			proxy.registerRenders();
 			proxy.init();
 		}
-		
-		ConfigHandler.reloadConfig();
 		
 		{//adding experimental features to a TreeMap(for Experimental feature config GUI's buttons)
 			ExperimentalFeaturesGui.featureConfig.put("miscellaneous animations", "ferocityAnimations");

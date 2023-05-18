@@ -60,6 +60,7 @@ public class MixinGuiContainer {
 		
 		//Access the private field
 		List<GuiButton> buttonList = screenAccessor.getButtonList();
-		buttonList.add(Pigeon.pigeonButton);		
+		buttonList.add(Pigeon.pigeonButton);
+		Utils.sendMessage("added pigeon button");
 	}
 }
