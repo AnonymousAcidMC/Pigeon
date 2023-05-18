@@ -2,6 +2,7 @@ package anonymousacid.pigeon;
 
 import static anonymousacid.pigeon.McIf.player;
 import static anonymousacid.pigeon.McIf.world;
+import static anonymousacid.pigeon.McIf.mc;
 
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import anonymousacid.pigeon.commands.ConfigCommand;
@@ -26,6 +27,7 @@ import anonymousacid.pigeon.features.misc.SBPetName;
 import anonymousacid.pigeon.features.misc.cooldown.CooldownHandler;
 import anonymousacid.pigeon.features.misc.cooldown.CooldownTimer;
 import anonymousacid.pigeon.features.misc.miniontiers.MinionTierRender;
+import anonymousacid.pigeon.gui.PigeonInventoryGui;
 import anonymousacid.pigeon.gui.config.ExperimentalFeaturesGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.init.ModEntities;
@@ -65,10 +67,14 @@ public class Pigeon {
 		System.out.println("Pigeon pre-initialized!");
 	}
 	
-	public static GuiButton pigeonButton; /*the button that appears in inventories*/
-	
 	@EventHandler
 	public void init(FMLInitializationEvent e) {
+		
+		McIf.setMinecraftSingleton();
+		
+		{//Gui stuff
+			PigeonInventoryGui.pigeonButton = new GuiButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
+		}
 		
 //		MinecraftForge.EVENT_BUS.register(KeybindsInit.class);
 		
@@ -79,12 +85,6 @@ public class Pigeon {
 		}
 		
 		ConfigHandler.reloadConfig();
-		
-		McIf.setMinecraftSingleton();
-		
-		{//Gui stuff
-			pigeonButton = new GuiButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
-		}
 		
 		{//adding experimental features to a TreeMap(for Experimental feature config GUI's buttons)
 			ExperimentalFeaturesGui.featureConfig.put("miscellaneous animations", "ferocityAnimations");
