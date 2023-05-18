@@ -16,10 +16,6 @@ public class MixinGuiScreen {
 	
 	@Inject(method = "actionPerformed", at = @At("HEAD")) 
 	public void onButtonClick(GuiButton button, CallbackInfo ci) {
-		if((Object)this instanceof GuiContainer) {
-			if(button == Pigeon.pigeonButton) {
-				Utils.sendMessage("test");
-			}
-		}		
+		
 	}
 }

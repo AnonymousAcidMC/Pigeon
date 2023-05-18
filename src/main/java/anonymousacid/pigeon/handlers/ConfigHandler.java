@@ -124,6 +124,8 @@ public class ConfigHandler {
 		cdGuiY = getInt(category, "cdGuiY");
 		latencyX = getInt(category, "latencyX");
 		latencyY = getInt(category, "latencyY");
+		pigeonButtonX = getInt(category, "pigeonButtonX");
+		pigeonButtonY = getInt(category, "pigeonButtonY");
 		autoSalvage = getBoolean(category, "autoSalvage");
 		latencyCounter = getBoolean(category, "latencyCounter");
 		hpBars = getBoolean(category, "hpBars");

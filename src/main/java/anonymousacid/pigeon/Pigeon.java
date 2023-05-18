@@ -75,7 +75,7 @@ public class Pigeon {
 		ConfigHandler.reloadConfig();
 		
 		{//Gui stuff
-			pigeonButton = new PigeonButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
+			pigeonButton = new PigeonButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 40, "pij.");
 		}
 		
 //		MinecraftForge.EVENT_BUS.register(KeybindsInit.class);
