@@ -23,10 +23,12 @@ public class ConfigHandler {
 	public static boolean autoSalvage;
 	public static boolean latencyCounter;
 	public static boolean hpBars;
-	public static int cdGuiX;
+	public static int cdGuiX;/*cooldown gui*/
 	public static int cdGuiY;
-	public static int latencyX;
+	public static int latencyX;/*ping counter for hypixel*/
 	public static int latencyY;
+	public static int pigeonButtonX;/*pigeon button shown in inventories*/
+	public static int pigeonButtonY;
 	public static int chatBubbleDuration;
 	public static String targetedMinion;
 	public static String petName;
@@ -36,9 +38,7 @@ public class ConfigHandler {
 	public static void init() {
 		File configFile = new File(Loader.instance().getConfigDir(), "pigeonconfig.cfg");
 		try {
-			if(configFile.createNewFile()) {
-			} else {
-			}
+			configFile.createNewFile();
 		} catch (IOException err) {
 			
 		}
@@ -71,6 +71,8 @@ public class ConfigHandler {
 		cdGuiY = initInt(category, "cdGuiY", 0);
 		latencyX = initInt(category, "latencyX", 20);
 		latencyY = initInt(category, "latencyY", 40);
+		pigeonButtonX = initInt(category, "pigeonButtonX", 500);
+		pigeonButtonY = initInt(category, "pigeonButtonY", 500);
 		autoSalvage = initBoolean(category, "autoSalvage", false);
 		latencyCounter = initBoolean(category, "latencyCounter", false);
 		hpBars = initBoolean(category, "hpBars", false);
