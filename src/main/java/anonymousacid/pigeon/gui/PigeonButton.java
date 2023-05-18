@@ -48,8 +48,6 @@ public class PigeonButton extends GuiButton {
 				visible && mouseX >= xPosition && mouseY >= yPosition &&
 				mouseX < xPosition + width && mouseY < yPosition + height;
 		
-		Utils.sendMessage("pressed");
-		
 		pressedX = xPosition + width/2;
 		pressedY = yPosition + height/2;
 		
@@ -63,7 +61,6 @@ public class PigeonButton extends GuiButton {
 		
 		//if mouse released
 		if(pressed && !Mouse.isButtonDown(0)) {
-			Utils.sendMessage("mouse released");
 			
 			if(!dragged) {//if was pressed, but not dragged
 				Minecraft.getMinecraft().displayGuiScreen(new ConfigGui()); //Show pigeon config Gui
