@@ -34,6 +34,13 @@ public class ConfigHandler {
 	public static String petName;
 	public static String petNames;
 	
+	public static final String CHAT_CATEGORY = "chat";
+	public static final String MISCELLANEOUS_CATEGORY = "miscellaneous";
+	public static final String DUNGEONS_CATEGORY = "dungeons";
+	public static final String DUNGEON_ANIMATIONS_CATEGORY = "dungeon animations";
+	public static final String SLAYER_ANIMATIONS_CATEGORY = "slayer animations";
+	public static final String MISCELLANEOUS_ANIMATIONS_CATEGORY = "miscellaneous animations";
+	
 	
 	public static void init() {
 		File configFile = new File(Loader.instance().getConfigDir(), "pigeonconfig.cfg");
