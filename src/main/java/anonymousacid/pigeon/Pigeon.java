@@ -26,6 +26,7 @@ import anonymousacid.pigeon.features.misc.SBPetName;
 import anonymousacid.pigeon.features.misc.cooldown.CooldownHandler;
 import anonymousacid.pigeon.features.misc.cooldown.CooldownTimer;
 import anonymousacid.pigeon.features.misc.miniontiers.MinionTierRender;
+import anonymousacid.pigeon.gui.PigeonButton;
 import anonymousacid.pigeon.gui.config.ExperimentalFeaturesGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.init.ModEntities;
@@ -54,6 +55,8 @@ public class Pigeon {
 	@SidedProxy(serverSide = Reference.SERVER_PROXY_CLASS, clientSide = Reference.CLIENT_PROXY_CLASS)
 	public static CommonProxy proxy;
 	
+	public static PigeonButton pigeonButton;
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
 		proxy.preInit();
@@ -65,8 +68,6 @@ public class Pigeon {
 		System.out.println("Pigeon pre-initialized!");
 	}
 	
-	public static GuiButton pigeonButton;
-	
 	@EventHandler
 	public void init(FMLInitializationEvent e) {
 		
@@ -74,7 +75,7 @@ public class Pigeon {
 		ConfigHandler.reloadConfig();
 		
 		{//Gui stuff
-			pigeonButton = new GuiButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
+			pigeonButton = new PigeonButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 10, 10, "pij.");
 		}
 		
 //		MinecraftForge.EVENT_BUS.register(KeybindsInit.class);
