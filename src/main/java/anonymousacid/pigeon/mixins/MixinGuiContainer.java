@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import anonymousacid.pigeon.events.ChestSlotClickedEvent;
+import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -31,7 +32,7 @@ public class MixinGuiContainer {
 	
 	@Inject(method = "handleMouseClick", at = @At("HEAD"), cancellable = true)
 	public void onClick(Slot slotIn, int slotId, int clickedButton, int clickType, CallbackInfo ci) {
-		
+		Utils.sendMessage(""+buttonList.size());
         if (slotIn == null || slotIn.getStack() == null) return; 
         if (!(mc.currentScreen instanceof GuiChest)) return;
         
@@ -55,6 +56,6 @@ public class MixinGuiContainer {
 	
 	@Inject(method = "initGui", at = @At("RETURN"))
 	public void onInitGui(CallbackInfo ci) {	
-		System.out.println(buttonList.size());
+		Utils.sendMessage(""+buttonList.size());
 	}
 }
