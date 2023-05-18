@@ -1,8 +1,11 @@
 package anonymousacid.pigeon.handlers;
 
+import static anonymousacid.pigeon.McIf.mc;
+
 import java.io.File;
 import java.io.IOException;
 
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
 
@@ -56,26 +59,29 @@ public class ConfigHandler {
 	public static void reloadConfig() {
 		String category;
 		
-		category = "chat";
+		category = "chat"; 
 		chatBubbles = initBoolean(category, "chatBubbles", true);
 		chatBubbleDuration = initInt(category, "chatBubbleDuration", 200);
 		chatKaomojis = initBoolean(category, "chatKaomojis", true);
 		
-		category = "miscellaneous";
-		targetedMinion = initString(category, "targetedMinion", "");
-		renamePet = initBoolean(category, "renamePet", false);
-		petName = initString(category, "petName", "");
-		petNames = initString(category, "petNames", "{\"ae\":\"ea\"}");
-		cdGui = initBoolean(category, "cdGui", false);
-		cdGuiX = initInt(category, "cdGuiX", 0);
-		cdGuiY = initInt(category, "cdGuiY", 0);
-		latencyX = initInt(category, "latencyX", 20);
-		latencyY = initInt(category, "latencyY", 40);
-		pigeonButtonX = initInt(category, "pigeonButtonX", 500);
-		pigeonButtonY = initInt(category, "pigeonButtonY", 500);
-		autoSalvage = initBoolean(category, "autoSalvage", false);
-		latencyCounter = initBoolean(category, "latencyCounter", false);
-		hpBars = initBoolean(category, "hpBars", false);
+		category = "miscellaneous"; {
+			targetedMinion = initString(category, "targetedMinion", "");
+			renamePet = initBoolean(category, "renamePet", false);
+			petName = initString(category, "petName", "");
+			petNames = initString(category, "petNames", "{\"ae\":\"ea\"}");
+			
+			cdGui = initBoolean(category, "cdGui", false);
+			cdGuiX = initInt(category, "cdGuiX", 0);
+			cdGuiY = initInt(category, "cdGuiY", 0);
+			latencyX = initInt(category, "latencyX", 20);
+			latencyY = initInt(category, "latencyY", 40);
+			pigeonButtonX = initInt(category, "pigeonButtonX", 30);
+			pigeonButtonY = initInt(category, "pigeonButtonY", 30);
+			
+			autoSalvage = initBoolean(category, "autoSalvage", false);
+			latencyCounter = initBoolean(category, "latencyCounter", false);
+			hpBars = initBoolean(category, "hpBars", false);
+		}
 		
 		category = "dungeons";
 		professorFireFreeze = initBoolean(category, "professorFireFreeze", false);
