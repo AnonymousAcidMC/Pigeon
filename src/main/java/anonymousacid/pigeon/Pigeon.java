@@ -73,8 +73,8 @@ public class Pigeon {
 //		MinecraftForge.EVENT_BUS.register(KeybindsInit.class);
 		
 		{//Proxy stuff
-			proxy.registerEntityRenders();
-			proxy.registerRenders();
+//			proxy.registerEntityRenders();
+//			proxy.registerRenders();
 			proxy.init();
 		}
 		
