@@ -5,8 +5,6 @@ import static anonymousacid.pigeon.McIf.mc;
 import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import anonymousacid.pigeon.events.ChestSlotClickedEvent;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
@@ -27,12 +26,9 @@ import net.minecraftforge.common.MinecraftForge;
  * Posts event used for handling clicks on container GUIs.
  */
 public class MixinGuiContainer {
-	@Shadow
-	protected List<GuiButton> buttonList;
 	
 	@Inject(method = "handleMouseClick", at = @At("HEAD"), cancellable = true)
 	public void onClick(Slot slotIn, int slotId, int clickedButton, int clickType, CallbackInfo ci) {
-		Utils.sendMessage(""+buttonList.size());
         if (slotIn == null || slotIn.getStack() == null) return; 
         if (!(mc.currentScreen instanceof GuiChest)) return;
         
@@ -55,7 +51,15 @@ public class MixinGuiContainer {
     }
 	
 	@Inject(method = "initGui", at = @At("RETURN"))
-	public void onInitGui(CallbackInfo ci) {	
+	public void onInitGui(CallbackInfo ci) {
+		
+		//need to cast this current GuiContainer to an Mixin Accessor interface
+		//first, cast it to a GuiScreen to access buttonList since it is a parent field
+		AccessorGuiScreen screenAccessor = (AccessorGuiScreen)(GuiScreen) ((Object)this);
+		
+		//Access the private field
+		List<GuiButton> buttonList = screenAccessor.getButtonList();
 		Utils.sendMessage(""+buttonList.size());
+		
 	}
 }
