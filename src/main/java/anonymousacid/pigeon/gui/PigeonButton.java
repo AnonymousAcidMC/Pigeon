@@ -1,16 +1,13 @@
 package anonymousacid.pigeon.gui;
 
-import java.awt.event.MouseListener;
-
 import org.lwjgl.input.Mouse;
 
 import anonymousacid.pigeon.Reference;
 import anonymousacid.pigeon.gui.config.ConfigGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
-import anonymousacid.pigeon.utils.Utils;
+import anonymousacid.pigeon.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -96,6 +93,8 @@ public class PigeonButton extends GuiButton {
             else if (hovered) {
                 j = 16777120;
             }
+            
+            RenderUtils.drawEntityOnScreen(xPosition+width/2, yPosition+width/2, 15, (float)(100) - mouseX, (float)(75 + 140) - mouseY, ConfigGui.pigeon);
 		}
 		
 		//if mouse released
