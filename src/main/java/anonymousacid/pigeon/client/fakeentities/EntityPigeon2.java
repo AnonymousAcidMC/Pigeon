@@ -4,7 +4,6 @@ import static anonymousacid.pigeon.McIf.player;
 
 import javax.vecmath.Vector3d;
 
-import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
@@ -67,17 +66,18 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		pos.z = posZ;
 		
 		Entity entityToFollow = entityAttractedTo != null ? entityAttractedTo : player();
-		setPosition(
-				entityToFollow.posX,
-				entityToFollow.posY,
-				entityToFollow.posZ
-				);
+//		setPosition(
+//				entityToFollow.posX,
+//				entityToFollow.posY,
+//				entityToFollow.posZ
+//				);
 		
 		Vector3d vec = seekForce(
 				entityToFollow.posX,
 				entityToFollow.posY,
 				entityToFollow.posZ
 				);
+		
 		steeringForce.add(vec);
 		
 		Move();
