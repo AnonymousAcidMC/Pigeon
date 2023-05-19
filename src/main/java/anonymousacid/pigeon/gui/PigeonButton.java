@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
 public class PigeonButton extends GuiButton {
+	
 	public boolean pressed = false;
 	public boolean dragged = false;
 	
@@ -75,4 +76,5 @@ public class PigeonButton extends GuiButton {
 			pressed = false;
 		}
 	}
+	
 }
