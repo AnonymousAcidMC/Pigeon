@@ -7,6 +7,7 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 
 import anonymousacid.pigeon.gui.PigeonButton;
+import anonymousacid.pigeon.gui.TestGui;
 import anonymousacid.pigeon.gui.config.ConfigGui;
 import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
@@ -84,11 +85,27 @@ public class TestCommand extends CommandBase {
 		GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.blendFunc(770, 771);
+        
+        int posX = 200;
+        int posY = 150;
+        
+        int mouseX = Mouse.getX()/2;
+        int mouseY = Math.abs((Mouse.getY()/2)-res.getScaledHeight());
+        mouseX -= posX;
+        mouseX *= -1;
+        mouseY -= posY;
+        mouseY *= -1;
+
+        String xStr = "X: "+mouseX;
+        String yStr = "Y: "+mouseY;
+        
+        new TestGui(mc, xStr, 100, 100);
+        new TestGui(mc, yStr, 100, 130);
 		
 		RenderUtils.drawEntityOnScreen(
-				150, 150,
+				posX, posY,
 				15,
-				-Mouse.getX()+310, (Mouse.getY()/2)-400,
+				mouseX, mouseY,
 				ConfigGui.pigeon);
 	}
 }
