@@ -3,6 +3,8 @@ package anonymousacid.pigeon;
 import static anonymousacid.pigeon.McIf.player;
 import static anonymousacid.pigeon.McIf.world;
 
+import java.util.Random;
+
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import anonymousacid.pigeon.commands.ConfigCommand;
 import anonymousacid.pigeon.commands.animations.FerocityAnimation;
@@ -32,7 +34,6 @@ import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.init.ModEntities;
 import anonymousacid.pigeon.proxy.CommonProxy;
 import anonymousacid.pigeon.utils.Utils;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
@@ -56,6 +57,7 @@ public class Pigeon {
 	public static CommonProxy proxy;
 	
 	public static PigeonButton pigeonButton;
+	public static Random random;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
@@ -77,6 +79,8 @@ public class Pigeon {
 		{//Gui stuff
 			pigeonButton = new PigeonButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 50);
 		}
+		
+		random = new Random();
 		
 //		MinecraftForge.EVENT_BUS.register(KeybindsInit.class);
 		

@@ -7,6 +7,7 @@ import static anonymousacid.pigeon.McIf.world;
 import java.util.Collection;
 import java.util.Random;
 
+import anonymousacid.pigeon.Pigeon;
 import anonymousacid.pigeon.gui.config.ConfigGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.RenderUtils;
@@ -77,7 +78,7 @@ public class EntityPigeon extends EntityMob implements IFakeEntity {
 		
 		//Play pigeon warbles time to time if the setting is on.
 		if(ConfigHandler.pigeonSound) {
-			Random rand = new Random();
+			Random rand = Pigeon.random;
 			if(rand.nextInt(6) == 1) {
 				if(soundTimer == 0) {
 					if(!(mc.currentScreen instanceof GuiIngameMenu)) {
