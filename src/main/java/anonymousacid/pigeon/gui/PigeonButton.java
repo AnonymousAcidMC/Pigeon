@@ -10,6 +10,7 @@ import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -23,7 +24,7 @@ public class PigeonButton extends GuiButton {
 	private int pressedX = 0;
 	private int pressedY = 0;
 	
-    //texture is 50x50 pixels
+    //texture is 50x100 pixels
 	private static final ResourceLocation pigeonButtonTexture = new ResourceLocation(Reference.MODID, "textures/gui/pigeon_button.png");
 	
 	public PigeonButton(int buttonId, int x, int y, int buttonSize) {
@@ -66,21 +67,35 @@ public class PigeonButton extends GuiButton {
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		
-		if(this.visible) {
-			mc.getTextureManager().bindTexture(pigeonButtonTexture);
-			
-			GlStateManager.color(1, 1, 1);
-			
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-			
-			int i = hovered ? 1 : 0;
-			
+		//just copied the minecraft drawButton code and modified it :/
+		if(visible) {
+            FontRenderer fontrenderer = mc.fontRendererObj;
+            mc.getTextureManager().bindTexture(pigeonButtonTexture);
+            
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            
+            hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+            int hoverState = hovered && !pressed ? 1 : 0;
+            
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.blendFunc(770, 771);
             
-//            drawTexturedModalRect(xPosition, yPosition, i * 50, 0, width, height);
-            drawTexturedModalRect(xPosition, yPosition, 0, 0, 50, 50);
+            drawModalRectWithCustomSizedTexture(xPosition, yPosition, 0, hoverState*50, 50, 50, 50, 100);
+            
+            mouseDragged(mc, mouseX, mouseY);
+            
+            int j = 14737632;
+            if (packedFGColour != 0) {
+                j = packedFGColour;
+            }
+            else
+            if (!enabled) {
+                j = 10526880;
+            }
+            else if (hovered) {
+                j = 16777120;
+            }
 		}
 		
 		//if mouse released
