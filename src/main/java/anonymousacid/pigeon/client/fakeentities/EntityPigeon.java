@@ -11,6 +11,7 @@ import anonymousacid.pigeon.gui.config.ConfigGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -52,21 +53,28 @@ public class EntityPigeon extends EntityMob implements IFakeEntity {
 	
 	@Override
 	public void onLivingUpdate() {
+		
 		if(isInventoryAsset) {flapWings = false; return;}
 		if(mc.currentScreen instanceof ConfigGui) return;
+		
 		BlockPos posBelow = getPosition().down();
 		IBlockState blockStateBelow = world().getBlockState(posBelow);
+		
 		//Spawn particles when on lava/water
-		if(blockStateBelow.getBlock().isEqualTo(blockStateBelow.getBlock(), Blocks.water) || blockStateBelow.getBlock().isEqualTo(blockStateBelow.getBlock(), Blocks.flowing_water)) {
+		if(Block.isEqualTo(blockStateBelow.getBlock(), Blocks.water) || Block.isEqualTo(blockStateBelow.getBlock(), Blocks.flowing_water)) {
 			world().spawnParticle(EnumParticleTypes.WATER_SPLASH, posX, posY, posZ, 0, 0, 0, 0);
 			world().spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX, posY, posZ, 0, 0, 0, 0);
 			flapWings = true;
-		} else if(blockStateBelow.getBlock().isEqualTo(blockStateBelow.getBlock(), Blocks.lava) || blockStateBelow.getBlock().isEqualTo(blockStateBelow.getBlock(), Blocks.flowing_lava)) {
+		} else if(Block.isEqualTo(blockStateBelow.getBlock(), Blocks.lava) || Block.isEqualTo(blockStateBelow.getBlock(), Blocks.flowing_lava)) {
 			world().spawnParticle(EnumParticleTypes.DRIP_LAVA, posX, posY, posZ, posX+0.1, 0, posZ+0.1, 0);
 			flapWings = true;
 		} else flapWings = false;
-		if(blockStateBelow.getBlock().getCollisionBoundingBox(world(), posBelow, blockStateBelow) == null)flapWings = true;
+		
+		if(blockStateBelow.getBlock().getCollisionBoundingBox(world(), posBelow, blockStateBelow) == null)
+				flapWings = true;
+		
 		ignoreFrustumCheck = true;
+		
 		//Play pigeon warbles time to time if the setting is on.
 		if(ConfigHandler.pigeonSound) {
 			Random rand = new Random();

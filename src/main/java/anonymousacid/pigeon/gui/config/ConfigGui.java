@@ -296,41 +296,48 @@ public class ConfigGui extends GuiScreen {
 						String[] desc = {"Display the tiers of minions above their heads.", EnumChatFormatting.RED+"Takes a while to load."};
 						List<String> temp = Arrays.asList(desc);
 						drawHoveringText(temp, mouseX, mouseY);
-					} else if(btn.equals(chatBubbles)) {
+					} 
+					else if(btn.equals(chatBubbles)) {
 						String[] desc = {"Display players' messages above their heads.", EnumChatFormatting.GRAY+"Only works on the Hypixel server"};
 						List<String> temp = Arrays.asList(desc);
 						drawHoveringText(temp, mouseX, mouseY);
-					} else if(btn.equals(chatKaomojis)) {
+					} 
+					else if(btn.equals(chatKaomojis)) {
 						String[] desc = {"Lets you type text emoticons in chat", EnumChatFormatting.GOLD+"Type \":\" along with a word that describes the emoticon and then press TAB,",
 								EnumChatFormatting.GOLD + "press arrow keys to select your emoticon of choice, and then Press SPACE",
 								EnumChatFormatting.GOLD + "to type it.",
 								"Example: "+EnumChatFormatting.GREEN+":happy"};
 						List<String> temp = Arrays.asList(desc);
 						drawHoveringText(temp, mouseX, mouseY);
-					} else if(btn.equals(renamePet)) {
+					} 
+					else if(btn.equals(renamePet)) {
 						String[] desc = {"Name your pet in Hypixel Skyblock.", EnumChatFormatting.GREEN+"Type \"&&\" to type a section sign in order to type colored pet names.",
 								EnumChatFormatting.RED+"A blank name will result in your pet not being named.",
 								EnumChatFormatting.RED+"Must have §a\"Hide Pets\" §cdisabled.",
 								EnumChatFormatting.RED+"This feature might remove up to 5 fps for some reason."};
 						List<String> temp = Arrays.asList(desc);
 						drawHoveringText(temp, mouseX, mouseY);
-					} else if(btn.equals(forcePetRename)) {
+					} 
+					else if(btn.equals(forcePetRename)) {
 						String[] desc = {"Change the name of the pet that is currently equiped", EnumChatFormatting.RED+"Click \"Set Pet Name\" first.",
 								EnumChatFormatting.RED+"Must have §a\"Hide Pets\" §cdisabled.",
 								EnumChatFormatting.YELLOW + "If name doesn't update, disable and enable §a\"Hide Pets\"§e",
 								EnumChatFormatting.YELLOW + "in pets menu."};
 						List<String> temp = Arrays.asList(desc);
 						drawHoveringText(temp, mouseX, mouseY);
-					} else if(btn.equals(setPetName)) {
+					} 
+					else if(btn.equals(setPetName)) {
 						String[] desc = {EnumChatFormatting.YELLOW+"If name doesn't update, disable and enable §a\"Hide Pets\"§e",
 								EnumChatFormatting.YELLOW + "in pets menu."};
 						List<String> temp = Arrays.asList(desc);
 						drawHoveringText(temp, mouseX, mouseY);
-					} else if(btn.equals(latencyCounter)) {
+					} 
+					else if(btn.equals(latencyCounter)) {
 						String[] desc = {EnumChatFormatting.GOLD + "Shows your ping/latency.", EnumChatFormatting.GREEN+""+EnumChatFormatting.UNDERLINE + "This works on Hypixel gamemodes!"};
 						List<String> temp = Arrays.asList(desc);
 						drawHoveringText(temp, mouseX, mouseY);
-					} else if(btn.equals(experimental)) {
+					} 
+					else if(btn.equals(experimental)) {
 						String[] desc = {EnumChatFormatting.GREEN + "A list of Random features that are a work in progress!.",
 									EnumChatFormatting.YELLOW + "Some of these features might stay here.",
 											EnumChatFormatting.RED+""+EnumChatFormatting.BOLD+"These features are EXPERIMENTAl.",
@@ -338,6 +345,7 @@ public class ConfigGui extends GuiScreen {
 						List<String> temp = Arrays.asList(desc);
 						drawHoveringText(temp, mouseX, mouseY);
 					}
+					
 				}
 			}
 		}
