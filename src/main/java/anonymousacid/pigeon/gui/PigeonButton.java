@@ -4,11 +4,13 @@ import java.awt.event.MouseListener;
 
 import org.lwjgl.input.Mouse;
 
+import anonymousacid.pigeon.Reference;
 import anonymousacid.pigeon.gui.config.ConfigGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.util.ResourceLocation;
 
 public class PigeonButton extends GuiButton {
 	
@@ -18,7 +20,9 @@ public class PigeonButton extends GuiButton {
 	//These are positions based on the middle of the button.
 	private int pressedX = 0;
 	private int pressedY = 0;
-
+	
+	private static final ResourceLocation pigeonButtonTexture = new ResourceLocation(Reference.MODID, "textures/gui/pigeon_button.png");
+	
 	public PigeonButton(int buttonId, int x, int y, int buttonSize, String buttonText) {
 		super(buttonId, x, y, buttonSize, buttonSize, buttonText);
 	}
@@ -58,7 +62,8 @@ public class PigeonButton extends GuiButton {
 	
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-		super.drawButton(mc, mouseX, mouseY);
+		
+		
 		
 		//if mouse released
 		if(pressed && !Mouse.isButtonDown(0)) {
