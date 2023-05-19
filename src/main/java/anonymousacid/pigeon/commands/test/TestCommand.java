@@ -1,11 +1,14 @@
 package anonymousacid.pigeon.commands.test;
 
 import static anonymousacid.pigeon.McIf.mc;
+import static anonymousacid.pigeon.McIf.player;
+import static anonymousacid.pigeon.McIf.world;
 
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
 
+import anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
 import anonymousacid.pigeon.gui.PigeonButton;
 import anonymousacid.pigeon.gui.TestGui;
 import anonymousacid.pigeon.gui.config.ConfigGui;
@@ -74,6 +77,8 @@ public class TestCommand extends CommandBase {
 			res = new ScaledResolution(mc);
 			commandOn = !commandOn;
 			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
+			EntityPigeon2 pigeon = new EntityPigeon2(world(), 3, 0.1f);
+			Utils.spawnEntity(pigeon, player().posX, player().posY, player().posZ);
 		}
 	}
 	
@@ -82,30 +87,32 @@ public class TestCommand extends CommandBase {
 		if(e.type !=  RenderGameOverlayEvent.ElementType.ALL)
 			return;
 		
-		GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.blendFunc(770, 771);
-        
-        int posX = 200;
-        int posY = 150;
-        
-        int mouseX = Mouse.getX()/2;
-        int mouseY = Math.abs((Mouse.getY()/2)-res.getScaledHeight());
-        mouseX -= posX;
-        mouseX *= -1;
-        mouseY -= posY;
-        mouseY *= -1;
-
-        String xStr = "X: "+mouseX;
-        String yStr = "Y: "+mouseY;
-        
-        new TestGui(mc, xStr, 100, 100);
-        new TestGui(mc, yStr, 100, 130);
 		
-		RenderUtils.drawEntityOnScreen(
-				posX, posY,
-				15,
-				mouseX, mouseY,
-				ConfigGui.pigeon);
+		
+//		GlStateManager.enableBlend();
+//        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+//        GlStateManager.blendFunc(770, 771);
+//        
+//        int posX = 200;
+//        int posY = 150;
+//        
+//        int mouseX = Mouse.getX()/2;
+//        int mouseY = Math.abs((Mouse.getY()/2)-res.getScaledHeight());
+//        mouseX -= posX;
+//        mouseX *= -1;
+//        mouseY -= posY;
+//        mouseY *= -1;
+//
+//        String xStr = "X: "+mouseX;
+//        String yStr = "Y: "+mouseY;
+//        
+//        new TestGui(mc, xStr, 100, 100);
+//        new TestGui(mc, yStr, 100, 130);
+//		
+//		RenderUtils.drawEntityOnScreen(
+//				posX, posY,
+//				15,
+//				mouseX, mouseY,
+//				ConfigGui.pigeon);
 	}
 }
