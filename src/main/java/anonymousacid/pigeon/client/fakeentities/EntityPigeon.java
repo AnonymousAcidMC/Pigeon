@@ -80,17 +80,22 @@ public class EntityPigeon extends EntityMob implements IFakeEntity {
 		if(ConfigHandler.pigeonSound) {
 			Random rand = Pigeon.random;
 			if(rand.nextInt(6) == 1) {
-				if(soundTimer == 0) {
+				if(soundTimer <= 0) {
 					if(!(mc.currentScreen instanceof GuiIngameMenu)) {
-						Utils.playClientSound(new ResourceLocation("pigeon:mob.pigeon.say"+Integer.toString(rand.nextInt(3)+1)), rand.nextInt(2)+0.5f, 1f, (float)posX, (float)posY, (float)posZ);
+						Utils.playClientSound(
+								new ResourceLocation("pigeon:mob.pigeon.say"+Integer.toString(rand.nextInt(3)+1)),
+								rand.nextInt(2)+0.5f, 1f,
+								(float)posX, (float)posY, (float)posZ);
+						
 						soundTimer = 60;
 					}
-				} else {
+				} else 
 					soundTimer--;
-				}
 			} 
 		}
+		
 		super.onLivingUpdate();
+		
 		//Moves pigeon up if inside a block
 		if(pushOutOfBlocks(posX, posY, posZ)) {
 			if(!Utils.getBlockAtPos((int)posX, (int)posY-1, (int)posZ).isCollidable()) {
@@ -102,12 +107,14 @@ public class EntityPigeon extends EntityMob implements IFakeEntity {
 		}
 		
 		if(player().posY-0.1 > posY) {//fly when player is at a higher y level
-			if(!peckItem) setPosition(posX, posY+0.2, posZ);
+			if(!peckItem)
+				setPosition(posX, posY+0.2, posZ);
 		}
 
 		//Checks for food nearby 
 		Collection<EntityItem> nearbyItems = world().getEntitiesWithinAABB(EntityItem.class, getEntityBoundingBox().expand(15, 15, 15));
 		boolean foundFood = false;
+		
 		for(EntityItem item : nearbyItems) {
 			String itemName = item.toString().split("'")[1];
 			if(itemName.equals("item.item.bread") || itemName.contains("seed") || itemName.contains("cake")) {
@@ -125,6 +132,7 @@ public class EntityPigeon extends EntityMob implements IFakeEntity {
 				}
 			}
 		}
+		
 		peckItem = foundFood;
 		startPecking = foundFood;
 		
