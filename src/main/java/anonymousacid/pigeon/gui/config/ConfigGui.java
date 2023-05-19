@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
+
 import anonymousacid.pigeon.McIf;
+import anonymousacid.pigeon.Pigeon;
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import anonymousacid.pigeon.features.chat.kaomojis.ChatKaomojis;
 import anonymousacid.pigeon.features.misc.SBPetName;
@@ -286,7 +289,7 @@ public class ConfigGui extends GuiScreen {
 		
 		drawDefaultBackground();
 		
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.drawScreen(mouseX, mouseY, partialTicks);	
 		
 		for(int i=0; i<buttonList.size(); i++) {
 			if(buttonList.get(i) instanceof GuiButton) {

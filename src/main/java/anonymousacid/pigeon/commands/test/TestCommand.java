@@ -1,40 +1,34 @@
 package anonymousacid.pigeon.commands.test;
 
-import static anonymousacid.pigeon.McIf.player;
-import static anonymousacid.pigeon.McIf.world;
 import static anonymousacid.pigeon.McIf.mc;
 
 import java.util.List;
 
-import anonymousacid.pigeon.McIf;
-import anonymousacid.pigeon.client.fakeentities.EntityPigeon;
-import anonymousacid.pigeon.events.ChestSlotClickedEvent;
-import anonymousacid.pigeon.gui.TestGui;
+import org.lwjgl.input.Mouse;
+
+import anonymousacid.pigeon.gui.PigeonButton;
+import anonymousacid.pigeon.gui.config.ConfigGui;
+import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 //This command is just to test some code that might be added to future features
 public class TestCommand extends CommandBase {
 	
 	public static TestCommand instance = new TestCommand();
 	public static boolean commandOn = false;
+	private ScaledResolution res;
 	
 	private boolean showGui = false;
 	
@@ -76,13 +70,25 @@ public class TestCommand extends CommandBase {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) throws CommandException {
 		if (icommandsender instanceof EntityPlayer) {
-//			commandOn = !commandOn;
-//			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
+			res = new ScaledResolution(mc);
+			commandOn = !commandOn;
+			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
 		}
 	}
 	
 	@SubscribeEvent
-	public void onTick(ChestSlotClickedEvent e) {
+	public void onTick(RenderGameOverlayEvent.Post e) {
+		if(e.type !=  RenderGameOverlayEvent.ElementType.ALL)
+			return;
 		
+		GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.blendFunc(770, 771);
+		
+		RenderUtils.drawEntityOnScreen(
+				150, 150,
+				15,
+				-Mouse.getX()+310, (Mouse.getY()/2)-400,
+				ConfigGui.pigeon);
 	}
 }

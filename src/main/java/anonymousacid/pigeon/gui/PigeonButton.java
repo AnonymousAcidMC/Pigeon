@@ -6,6 +6,7 @@ import anonymousacid.pigeon.Reference;
 import anonymousacid.pigeon.gui.config.ConfigGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.RenderUtils;
+import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -22,7 +23,7 @@ public class PigeonButton extends GuiButton {
 	private int pressedY = 0;
 	
     //texture is 50x100 pixels
-	private static final ResourceLocation pigeonButtonTexture = new ResourceLocation(Reference.MODID, "textures/gui/pigeon_button.png");
+	public static final ResourceLocation pigeonButtonTexture = new ResourceLocation(Reference.MODID, "textures/gui/pigeon_button.png");
 	
 	public PigeonButton(int buttonId, int x, int y, int buttonSize) {
 		super(buttonId, x, y, buttonSize, buttonSize, "");
@@ -66,7 +67,6 @@ public class PigeonButton extends GuiButton {
 		
 		//just copied the minecraft drawButton code and modified it :/
 		if(visible) {
-            FontRenderer fontrenderer = mc.fontRendererObj;
             mc.getTextureManager().bindTexture(pigeonButtonTexture);
             
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -74,27 +74,23 @@ public class PigeonButton extends GuiButton {
             hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
             int hoverState = hovered && !pressed ? 1 : 0;
             
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.blendFunc(770, 771);
+//            GlStateManager.enableBlend();
+//            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+//            GlStateManager.blendFunc(770, 771);
             
             drawModalRectWithCustomSizedTexture(xPosition, yPosition, 0, hoverState*50, 50, 50, 50, 100);
             
-            mouseDragged(mc, mouseX, mouseY);
+            mouseDragged(mc, mouseX, 	mouseY);
             
-            int j = 14737632;
-            if (packedFGColour != 0) {
-                j = packedFGColour;
-            }
-            else
-            if (!enabled) {
-                j = 10526880;
-            }
-            else if (hovered) {
-                j = 16777120;
-            }
+            GlStateManager.disableCull();
             
-            RenderUtils.drawEntityOnScreen(xPosition+width/2, yPosition+width/2, 15, (float)(100) - mouseX, (float)(75 + 140) - mouseY, ConfigGui.pigeon);
+            RenderUtils.drawEntityOnScreen(
+            		xPosition+width/2, yPosition+50,
+    				15,
+    				-Mouse.getX()+310, (Mouse.getY()/2)-400,
+    				ConfigGui.pigeon);
+            GlStateManager.enableCull();
+//            RenderUtils.drawEntityOnScreen(xPosition+width/2, yPosition+60, 15, (float)(100) - mouseX, (float)(75 + 140) - mouseY, ConfigGui.pigeon);
 		}
 		
 		//if mouse released

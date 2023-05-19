@@ -56,7 +56,8 @@ public class MixinGuiContainer {
 		
 		//need to cast this current GuiContainer to an Mixin Accessor interface
 		//first, cast it to a GuiScreen to access buttonList since it is a parent field
-		AccessorGuiScreen screenAccessor = (AccessorGuiScreen)(GuiScreen) ((Object)this);
+		AccessorGuiScreen screenAccessor = 
+				(AccessorGuiScreen)(GuiScreen) ((Object)this);
 		
 		//Access the private field
 		List<GuiButton> buttonList = screenAccessor.getButtonList();
