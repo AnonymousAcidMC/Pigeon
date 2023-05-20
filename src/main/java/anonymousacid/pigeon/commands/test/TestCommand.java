@@ -14,13 +14,16 @@ import anonymousacid.pigeon.gui.TestGui;
 import anonymousacid.pigeon.gui.config.ConfigGui;
 import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -77,7 +80,26 @@ public class TestCommand extends CommandBase {
 			res = new ScaledResolution(mc);
 			commandOn = !commandOn;
 			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
-			EntityPigeon2 pigeon = new EntityPigeon2(world(), 3, 0.1f);
+			
+//			List<AxisAlignedBB> list = world().func_147461_a(player().getEntityBoundingBox());
+//			
+//			Utils.sendMessage("List start");
+//			
+//			for(AxisAlignedBB aabb : list) {
+//				String str = (aabb == null) ? "null" : aabb.toString();
+//				Utils.sendMessage(str);
+//			}
+//			
+//			Utils.sendMessage("List end");
+			
+//			BlockPos pos = player().getPosition(); 
+//			IBlockState blockState = world().getBlockState(pos);
+//			AxisAlignedBB aabb = blockState.getBlock().getCollisionBoundingBox(world(), pos, blockState);
+//			String str = aabb == null ? "null"  : aabb.toString();
+//			Utils.sendMessage(str);
+			
+			
+			EntityPigeon2 pigeon = new EntityPigeon2(world(), 0.7, 0.05);
 			Utils.spawnEntity(pigeon, player().posX, player().posY, player().posZ);
 		}
 	}

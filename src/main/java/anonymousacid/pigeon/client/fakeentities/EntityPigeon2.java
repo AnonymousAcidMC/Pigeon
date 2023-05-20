@@ -1,12 +1,20 @@
 package anonymousacid.pigeon.client.fakeentities;
 
 import static anonymousacid.pigeon.McIf.player;
+import static anonymousacid.pigeon.McIf.world;
+
+import java.util.List;
 
 import javax.vecmath.Vector3d;
 
+import anonymousacid.pigeon.utils.Utils;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityPigeon2 extends EntityMob implements IFakeEntity{
@@ -66,16 +74,13 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		pos.z = posZ;
 		
 		Entity entityToFollow = entityAttractedTo != null ? entityAttractedTo : player();
-//		setPosition(
-//				entityToFollow.posX,
-//				entityToFollow.posY,
-//				entityToFollow.posZ
-//				);
 		
 		Vector3d vec = seekForce(
 				entityToFollow.posX,
 				entityToFollow.posY,
-				entityToFollow.posZ
+				entityToFollow.posZ,
+				10,
+				3
 				);
 		
 		steeringForce.add(vec);
@@ -83,18 +88,40 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		Move();
 	}
 	
-	private Vector3d seekForce(double xTarg, double yTarg, double zTarg) {
+	/**
+	 * Make a force vector that steers the pigeon towards the desired targe coordinates
+	 * @param xTarg
+	 * @param yTarg
+	 * @param zTarg
+	 * @param slowingRadius When entering this radius, pigeon starts slowing down
+	 * @param stoppingRadius When entering this radius, pigeon stops. This value MUST be smaller than slowingRadius.
+	 * @return
+	 */
+	private Vector3d seekForce(double xTarg, double yTarg, double zTarg, double slowingRadius, double stoppingRadius) {
 		Vector3d vec = new Vector3d(xTarg, yTarg, zTarg);
+		
+		if(vec.x == pos.x && vec.y == pos.y && vec.z == pos.z) {
+			vec.set(0, 0, 0);
+			return vec;
+		}
 		
 		//Get vector pointing to target position
 		vec.sub(pos);
 		
-		if(vec.x == 0 || vec.y == 0 || vec.z == 0) 
-			return vec;
-		
-		//Set magnitude to max speed
-		vec.normalize();
-		vec.scale(maxSpeed);
+		double dist = vec.length();
+		if(dist > slowingRadius) {
+			vec.normalize();
+			vec.scale(maxSpeed);
+		}
+		else if (dist > stoppingRadius) {
+			vec.normalize();
+			vec.scale(maxSpeed * (dist/slowingRadius));
+		}
+		else {
+			vec.x = 0;
+			vec.y = 0;
+			vec.z = 0;
+		}
 		
 		//subtract to get the steering force
 		vec.sub(movementVelocity);
@@ -117,11 +144,53 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			movementVelocity.scale(maxSpeed);
 		}
 		
-		pos.x += movementVelocity.x;
-		pos.y += movementVelocity.y;
-		pos.z += movementVelocity.z;
+		Vector3d startPos = new Vector3d(posX, posY, posZ);
 		
-		setPosition(pos.x, pos.y, pos.z);
+		Vector3d increment = new Vector3d(movementVelocity.x, movementVelocity.y, movementVelocity.z);
+		increment.normalize();
+		increment.scale(0.1);
+		
+		{//x collision test
+			
+			setPosition(posX+movementVelocity.x, posY, posZ);
+			
+			//apparently this is a collider-cast method that is used in pushOutOfBlocks, so I am using it here.
+			List<AxisAlignedBB> xCollisions = world().func_147461_a(this.getEntityBoundingBox());
+			
+			if(xCollisions.size() > 0) {
+				
+				boolean gotHit = true;
+				while(gotHit) {
+					setPosition(posX-increment.x, posY, posZ);
+					xCollisions = world().func_147461_a(this.getEntityBoundingBox());
+					
+					gotHit = xCollisions.size() > 0;
+				}
+				
+			}
+		}
+		
+		{//y collision test
+			
+			setPosition(posX, posY+movementVelocity.y, posZ);
+			
+			//apparently this is a collider-cast method that is used in pushOutOfBlocks, so I am using it here.
+			List<AxisAlignedBB> yCollisions = world().func_147461_a(this.getEntityBoundingBox());
+			
+			if(yCollisions.size() > 0) {
+				
+				boolean gotHit = true;
+				while(gotHit) {
+					setPosition(posX, posY-increment.y, posZ);
+					yCollisions = world().func_147461_a(this.getEntityBoundingBox());
+					
+					gotHit = yCollisions.size() > 0;
+				}
+				
+			}
+		}
+		
+		
 		
 		steeringForce.x = 0;
 		steeringForce.y = 0;
