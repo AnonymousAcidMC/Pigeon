@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.vecmath.Vector3d;
 
+import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
@@ -102,8 +103,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 				(itemToPeck == null || itemToPeck.isDead) ||
 				(entityToFollow == null || entityToFollow.isDead);
 		
-		if(setTargetToPlayer)
+		if(setTargetToPlayer) {
 			setTargetEntity(player());
+		}
 	}
 	
 	
@@ -142,7 +144,10 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	void tryFindItemToPeck() {
 		
 		if(!isPecking && canPeckItem && targetType != TargetType.ITEM) {
-			List<EntityItem> itemList = world().getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(10, 10, 10));
+			List<EntityItem> itemList = world().getEntitiesWithinAABB(
+					EntityItem.class,
+					this.getEntityBoundingBox().expand(itemToPeckRange, itemToPeckRange, itemToPeckRange));
+			
 			for(EntityItem itemEntity : itemList) {
 				int creativeTabIndex = itemEntity.getEntityItem().getItem().getCreativeTab().getTabIndex();
 				
@@ -273,11 +278,11 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			vec.normalize();
 			vec.scale(maxSpeed * (dist/slowingRadius));
 		}
-		else {
-			if(targetType != TargetType.ITEM) {
+		else {//if in stopping radius
+			if(targetType != TargetType.ITEM) {//if not pursuing item, stop
 				vec.set(0, 0, 0);
 			}
-			else if(dist <= stoppingRadius/3) {
+			else if(dist <= stoppingRadius/3) {//if pursuing item, get closer to the item
 				vec.set(0, 0, 0);
 			}
 			else {
