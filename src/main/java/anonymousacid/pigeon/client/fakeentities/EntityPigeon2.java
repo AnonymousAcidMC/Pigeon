@@ -88,6 +88,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		Move();
 	}
 	
+	
 	/**
 	 * Make a force vector that steers the pigeon towards the desired targe coordinates
 	 * @param xTarg
@@ -148,7 +149,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		Vector3d increment = new Vector3d(movementVelocity.x, movementVelocity.y, movementVelocity.z);
 		increment.normalize();
-		increment.scale(0.1);
+		increment.scale(0.015);
 		
 		{//x collision test
 			
@@ -185,6 +186,26 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 					yCollisions = world().func_147461_a(this.getEntityBoundingBox());
 					
 					gotHit = yCollisions.size() > 0;
+				}
+				
+			}
+		}
+		
+		{//Z collision test
+			
+			setPosition(posX, posY, posZ+movementVelocity.z);
+			
+			//apparently this is a collider-cast method that is used in pushOutOfBlocks, so I am using it here.
+			List<AxisAlignedBB> zCollisions = world().func_147461_a(this.getEntityBoundingBox());
+			
+			if(zCollisions.size() > 0) {
+				
+				boolean gotHit = true;
+				while(gotHit) {
+					setPosition(posX, posY, posZ-increment.z);
+					zCollisions = world().func_147461_a(this.getEntityBoundingBox());
+					
+					gotHit = zCollisions.size() > 0;
 				}
 				
 			}
