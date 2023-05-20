@@ -1,5 +1,6 @@
 package anonymousacid.pigeon.client.fakeentities;
 
+import static anonymousacid.pigeon.McIf.mc;
 import static anonymousacid.pigeon.McIf.player;
 import static anonymousacid.pigeon.McIf.world;
 
@@ -12,10 +13,15 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.storage.ISaveHandler;
+import net.minecraft.world.storage.WorldInfo;
 
 public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
@@ -42,6 +48,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		steeringForce = new Vector3d(0, 0, 0);
 		pos = new Vector3d(0, 0, 0);
 		gravity = -9.81f;
+		
+		//This lets the player place blocks on the entity
+		preventEntitySpawning = false;
 	}
 	
 	public EntityPigeon2(World worldIn, double maxSpeed, double maxForce) {
@@ -49,6 +58,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		movementVelocity = new Vector3d(0, 0, 0);
 		steeringForce = new Vector3d(0, 0, 0);
 		pos = new Vector3d(0, 0, 0);
+		
+		//This lets the player place blocks on the entity
+		preventEntitySpawning = false;
 		
 		gravity = -9.81f;
 		
@@ -212,7 +224,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 		
-		
 		steeringForce.x = 0;
 		steeringForce.y = 0;
 		steeringForce.z = 0;
@@ -223,5 +234,4 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	public boolean canBeCollidedWith() {
 		return false;
 	}
-
 }
