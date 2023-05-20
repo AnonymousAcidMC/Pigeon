@@ -277,8 +277,16 @@ public class ConfigGui extends GuiScreen {
 		GlStateManager.color(1F, 1F, 1F);
 		this.pigeon.isInventoryAsset = true;
 		
+		ScaledResolution res = new ScaledResolution(mc);
+		int posX = (int) (res.getScaledWidth()*0.1);
+		int posY = (int) (res.getScaledHeight()*0.5);
+		
 		//Draws pigeon on screen
-		RenderUtils.drawEntityOnScreen(105, 200+75, 30, (float)(100) - this.oldMouseX, (float)(75 + 140) - this.oldMouseY, this.pigeon);
+		RenderUtils.drawEntityOnScreen(
+				posX, posY,
+				30,
+				-(mouseX-posX),
+				-(mouseY-posY+80), this.pigeon);
 		
 		chatBubbleDuration.drawTextBox();
 		petNameInput.drawTextBox();

@@ -10,6 +10,7 @@ import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -74,23 +75,21 @@ public class PigeonButton extends GuiButton {
             hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
             int hoverState = hovered && !pressed ? 1 : 0;
             
-//            GlStateManager.enableBlend();
-//            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-//            GlStateManager.blendFunc(770, 771);
-            
             drawModalRectWithCustomSizedTexture(xPosition, yPosition, 0, hoverState*50, 50, 50, 50, 100);
             
-            mouseDragged(mc, mouseX, 	mouseY);
             
-            GlStateManager.disableCull();
+    		GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+            GlStateManager.blendFunc(770, 771);
+            
+            int posX = xPosition+width/2;
+            int posY = yPosition+height;
             
             RenderUtils.drawEntityOnScreen(
-            		xPosition+width/2, yPosition+50,
+    				posX, posY,
     				15,
-    				-Mouse.getX()+310, (Mouse.getY()/2)-400,
+    				-(mouseX-posX), -(mouseY-posY+40),
     				ConfigGui.pigeon);
-            GlStateManager.enableCull();
-//            RenderUtils.drawEntityOnScreen(xPosition+width/2, yPosition+60, 15, (float)(100) - mouseX, (float)(75 + 140) - mouseY, ConfigGui.pigeon);
 		}
 		
 		//if mouse released

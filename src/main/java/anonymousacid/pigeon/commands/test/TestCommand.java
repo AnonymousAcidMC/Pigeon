@@ -6,9 +6,15 @@ import static anonymousacid.pigeon.McIf.world;
 
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
+
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
+import anonymousacid.pigeon.gui.TestGui;
+import anonymousacid.pigeon.gui.config.ConfigGui;
+import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -66,7 +72,6 @@ public class TestCommand extends CommandBase {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) throws CommandException {
 		if (icommandsender instanceof EntityPlayer) {
-			res = new ScaledResolution(mc);
 			commandOn = !commandOn;
 			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
 			
@@ -79,13 +84,15 @@ public class TestCommand extends CommandBase {
 	public void onTick(RenderGameOverlayEvent.Post e) {
 		if(e.type !=  RenderGameOverlayEvent.ElementType.ALL)
 			return;
-		
+//		
 //		GlStateManager.enableBlend();
 //        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 //        GlStateManager.blendFunc(770, 771);
 //        
-//        int posX = 200;
+//        int posX = 20;
 //        int posY = 150;
+//        
+//        res = new ScaledResolution(mc);
 //        
 //        int mouseX = Mouse.getX()/2;
 //        int mouseY = Math.abs((Mouse.getY()/2)-res.getScaledHeight());

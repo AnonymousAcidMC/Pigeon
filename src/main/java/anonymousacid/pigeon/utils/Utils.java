@@ -497,6 +497,7 @@ public class Utils {
     	return false;
     }
     
+    
     /**
      * These two event listeners check if the client is connected to Hypixel or not.
      */
