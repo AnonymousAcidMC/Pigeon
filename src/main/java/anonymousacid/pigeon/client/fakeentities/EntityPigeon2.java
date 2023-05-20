@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
-	public float gravity;
+	public double gravity;
 	public Vector3d movementVelocity;
 	public Vector3d steeringForce;
 	private Vector3d pos;
@@ -37,7 +37,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		movementVelocity = new Vector3d(0, 0, 0);
 		steeringForce = new Vector3d(0, 0, 0);
 		pos = new Vector3d(0, 0, 0);
-		gravity = -9.81f;
+		gravity = -1.15;
 		
 		//This lets the player place blocks on the entity
 		preventEntitySpawning = false;
@@ -52,7 +52,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		//This lets the player place blocks on the entity
 		preventEntitySpawning = false;
 		
-		gravity = -9.81f;
+		gravity = -1.15;
 		
 		this.maxSpeed = maxSpeed;
 		this.maxForce = maxForce;
