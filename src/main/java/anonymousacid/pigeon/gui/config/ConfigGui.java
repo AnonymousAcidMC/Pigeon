@@ -57,6 +57,7 @@ public class ConfigGui extends GuiScreen {
 	@Override
 	public void initGui() {
 		super.initGui();
+		
 		pigeon.isInventoryAsset = true;
 		ScaledResolution resolution = new ScaledResolution(mc);
 		int screenWidth = resolution.getScaledWidth();
@@ -145,6 +146,7 @@ public class ConfigGui extends GuiScreen {
 		latencyCounter = new GuiButton(0, cdGui.xPosition, cdGui.yPosition+40, "Latency Counter: " + Utils.getBooleanColor(ConfigHandler.latencyCounter));
 		latencyCounter.setWidth(210);
 		buttonList.add(latencyCounter);
+
 	}
 	
 	@Override

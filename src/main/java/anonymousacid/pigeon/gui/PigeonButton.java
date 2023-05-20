@@ -6,11 +6,8 @@ import anonymousacid.pigeon.Reference;
 import anonymousacid.pigeon.gui.config.ConfigGui;
 import anonymousacid.pigeon.handlers.ConfigHandler;
 import anonymousacid.pigeon.utils.RenderUtils;
-import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -37,7 +34,7 @@ public class PigeonButton extends GuiButton {
 			//If not dragged yet, constantly check if it is being dragged (true when going out of button bounds)
 			if(!dragged) {
 				double distFromPressedPos = Math.sqrt(
-						Math.pow(mouseX - pressedX, 2) + Math.pow(mouseY - pressedY, 2) 
+						(mouseX - pressedX)*(mouseX - pressedX) + (mouseY - pressedY)*(mouseY - pressedY) 
 						);
 				
 				dragged = distFromPressedPos > width/2;
@@ -90,6 +87,8 @@ public class PigeonButton extends GuiButton {
     				15,
     				-(mouseX-posX), -(mouseY-posY+40),
     				ConfigGui.pigeon);
+            
+            this.mouseDragged(mc, mouseX, mouseY);
 		}
 		
 		//if mouse released
