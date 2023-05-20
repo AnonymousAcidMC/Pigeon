@@ -6,27 +6,16 @@ import static anonymousacid.pigeon.McIf.world;
 
 import java.util.List;
 
-import org.lwjgl.input.Mouse;
-
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
-import anonymousacid.pigeon.gui.PigeonButton;
-import anonymousacid.pigeon.gui.TestGui;
-import anonymousacid.pigeon.gui.config.ConfigGui;
-import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

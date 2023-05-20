@@ -1,6 +1,5 @@
 package anonymousacid.pigeon.client.fakeentities;
 
-import static anonymousacid.pigeon.McIf.mc;
 import static anonymousacid.pigeon.McIf.player;
 import static anonymousacid.pigeon.McIf.world;
 
@@ -8,20 +7,11 @@ import java.util.List;
 
 import javax.vecmath.Vector3d;
 
-import anonymousacid.pigeon.utils.Utils;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.profiler.Profiler;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.storage.ISaveHandler;
-import net.minecraft.world.storage.WorldInfo;
 
 public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
