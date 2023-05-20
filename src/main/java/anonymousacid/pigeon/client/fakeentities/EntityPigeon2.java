@@ -7,18 +7,22 @@ import java.util.List;
 
 import javax.vecmath.Vector3d;
 
+import anonymousacid.pigeon.utils.Utils;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import scala.reflect.internal.TreeInfo.SeeThroughBlocks;
 
 public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
 	public double gravity;
-	public Vector3d movementVelocity;
-	public Vector3d steeringForce;
-	private Vector3d pos;
+	public Vector3d movementVelocity = new Vector3d(0, 0, 0);
+	public Vector3d steeringForce = new Vector3d(0, 0, 0);
+	private Vector3d pos = new Vector3d(0, 0, 0);
 	public double maxSpeed;
 	public double maxForce;
 	
@@ -26,28 +30,24 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	public int soundTimer;
 	
 	public boolean flapWings;
+	public boolean isFlying;
 	public boolean isScreenAsset;
 	public boolean isPecking;
+	public boolean canPeckItem = true;
 	
-	public EntityItem itemToPeck;
-	public Entity entityAttractedTo;
+	private EntityItem itemToPeck;
+	private Entity entityToFollow;
+	private Vector3d targetVector = new Vector3d(0, 0, 0);
+	private TargetType targetType = TargetType.PLAYER;
 	
-	public EntityPigeon2(World worldIn) {
-		super(worldIn);
-		movementVelocity = new Vector3d(0, 0, 0);
-		steeringForce = new Vector3d(0, 0, 0);
-		pos = new Vector3d(0, 0, 0);
-		gravity = -1.15;
-		
-		//This lets the player place blocks on the entity
-		preventEntitySpawning = false;
-	}
+	/*if the player is this distance far from the pigeon, the pigeon teleports to the player*/
+	public int playerTeleportDistance = 500;
+	/*the range that the pigeon checks for items to peck (rectangular. not a radius.)*/
+	public int itemToPeckRange = 10;
 	
 	public EntityPigeon2(World worldIn, double maxSpeed, double maxForce) {
 		super(worldIn);
-		movementVelocity = new Vector3d(0, 0, 0);
-		steeringForce = new Vector3d(0, 0, 0);
-		pos = new Vector3d(0, 0, 0);
+		setSize(1, 1);
 		
 		//This lets the player place blocks on the entity
 		preventEntitySpawning = false;
@@ -59,35 +59,188 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
-	
 	@Override
 	public void onLivingUpdate() {
 		if(isScreenAsset) {
 			flapWings = false;
 			isPecking = false;
 			itemToPeck = null;
-			entityAttractedTo = null;
+			entityToFollow = null;
 			return;
 		}
+		EntityPlayerSP player = player();
 		
 		//Update pos vector
 		pos.x = posX;
 		pos.y = posY;
 		pos.z = posZ;
 		
-		Entity entityToFollow = entityAttractedTo != null ? entityAttractedTo : player();
+		doNullChecks();
+		
+		tryFindItemToPeck();
+		tryTeleportToPlayer();
+		
+		if(entityToFollow == null)
+			entityToFollow = player();
+		
+		setTargetPosition();
 		
 		Vector3d vec = seekForce(
-				entityToFollow.posX,
-				entityToFollow.posY,
-				entityToFollow.posZ,
-				10,
+				targetVector.x,
+				targetVector.y,
+				targetVector.z,
+				playerTeleportDistance/35,
 				3
 				);
+		
+		handleFlying();
 		
 		steeringForce.add(vec);
 		
 		Move();
+	}
+	
+	/**
+	 * Checks if target entities are either null, or do not exist
+	 */
+	void doNullChecks() {
+		boolean setTargetToPlayer = 
+				(itemToPeck == null || itemToPeck.isDead) ||
+				(entityToFollow == null || entityToFollow.isDead);
+		
+		if(setTargetToPlayer)
+			setTargetEntity(player());
+	}
+	
+	
+	/**
+	 * Sets isFlying to the appropriate value.
+	 */
+	void handleFlying() {
+		BlockPos pos;
+		if(entityToFollow != null) {
+			pos = entityToFollow.getPosition().down();
+		}
+		else if (targetType == TargetType.TARGET_VECTOR){
+			pos = new BlockPos(targetVector.x, targetVector.y, targetVector.z);
+		}
+		else {
+			isFlying = false;
+			flapWings = false;
+			return;
+		}
+		isFlying = world().isAirBlock(pos);
+		flapWings = isFlying;
+	}
+	
+	
+	/**
+	 * Try to teleport to the player if distance to player is more than playerTeleportDistance.
+	 */
+	void tryTeleportToPlayer() {
+		Entity player = player();
+		if (getPosition().distanceSq(player.posX, player.posY, player.posZ) > playerTeleportDistance) {
+			setPosition(player.posX, player.posY, player.posZ);
+		}
+	}
+	
+	
+	void tryFindItemToPeck() {
+		
+		if(!isPecking && canPeckItem && targetType != TargetType.ITEM) {
+			List<EntityItem> itemList = world().getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(10, 10, 10));
+			for(EntityItem itemEntity : itemList) {
+				int creativeTabIndex = itemEntity.getEntityItem().getItem().getCreativeTab().getTabIndex();
+				
+				//If this item goes into the "Foodstuffs" category in the creative inventory, set it as food to peck.
+				if(creativeTabIndex == 6) {
+					setItemToPeck(itemEntity);
+					return;
+				}
+			}
+		}
+		
+	}
+	
+	
+	/**
+	 * Sets targetVector to a position appropriate to the current targetType.
+	 */
+	void setTargetPosition() {
+		
+		switch(targetType) {
+			case ENTITY:
+				targetVector.x = entityToFollow.posX;
+				targetVector.y = entityToFollow.posY;
+				targetVector.z = entityToFollow.posZ; 
+				break;
+			case ITEM:
+				targetVector.x = itemToPeck.posX;
+				targetVector.y = itemToPeck.posY;
+				targetVector.z = itemToPeck.posZ;
+				break;
+			case PLAYER://entityToFollow can be the player too.
+				targetVector.x = entityToFollow.posX;
+				targetVector.y = entityToFollow.posY;
+				targetVector.z = entityToFollow.posZ;
+				break;
+				
+			case TARGET_VECTOR://the target vector is already set if TARGET_VECTOR is the case.
+				break;
+			case NONE:
+				return;
+		}
+	}
+	
+	
+	/**
+	 * Pigeon will move to inputted location.
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public void setTargetVector(double x, double y, double z) {
+		targetType = TargetType.TARGET_VECTOR;
+		targetVector.x = x;
+		targetVector.y = y;
+		targetVector.z = z;
+	}
+	
+	
+	/**
+	 * Sets the entity that the pigeon wants to follow
+	 * If the inputted entity happens to be the player, the pigeon will switch its movement type to PLAYER.
+	 * Otherwise, it will be set to ENTITY.
+	 * NOTE: if you put in an item, the pigeon will not peck it. Use setItemToPeck if you want the pigeon to peck.
+	 * @param entityToFollow
+	 */
+	public void setTargetEntity(Entity entityToFollow) {
+		targetType = entityToFollow == player() ? TargetType.PLAYER : TargetType.ENTITY;
+		this.entityToFollow = entityToFollow;
+	}
+	
+	
+	/**
+	 * Pigeon will peck this inputted item entity.
+	 * @param item
+	 */
+	public void setItemToPeck(EntityItem item) {
+		itemToPeck = item;
+		targetType = TargetType.ITEM;
+	}
+	
+	
+	public void setNoTarget() {
+		targetType = TargetType.NONE;
+	}
+	
+	
+	enum TargetType {
+		TARGET_VECTOR,
+		ITEM,
+		ENTITY,
+		PLAYER,
+		NONE
 	}
 	
 	
@@ -138,6 +291,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		return vec;
 	}
 	
+	
 	private void Move() {
 		
 		movementVelocity.add(steeringForce);
@@ -154,6 +308,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		steeringForce.y = 0;
 		steeringForce.z = 0;
 	}
+	
 	
 	void doMovementAndBlockCollisions() {
 		
@@ -224,6 +379,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 	}
+	
+	
 	
 	@Override
 	public boolean canBeCollidedWith() {

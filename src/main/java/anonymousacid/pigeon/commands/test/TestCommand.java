@@ -70,24 +70,6 @@ public class TestCommand extends CommandBase {
 			commandOn = !commandOn;
 			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
 			
-//			List<AxisAlignedBB> list = world().func_147461_a(player().getEntityBoundingBox());
-//			
-//			Utils.sendMessage("List start");
-//			
-//			for(AxisAlignedBB aabb : list) {
-//				String str = (aabb == null) ? "null" : aabb.toString();
-//				Utils.sendMessage(str);
-//			}
-//			
-//			Utils.sendMessage("List end");
-			
-//			BlockPos pos = player().getPosition(); 
-//			IBlockState blockState = world().getBlockState(pos);
-//			AxisAlignedBB aabb = blockState.getBlock().getCollisionBoundingBox(world(), pos, blockState);
-//			String str = aabb == null ? "null"  : aabb.toString();
-//			Utils.sendMessage(str);
-			
-			
 			EntityPigeon2 pigeon = new EntityPigeon2(world(), 0.7, 0.05);
 			Utils.spawnEntity(pigeon, player().posX, player().posY, player().posZ);
 		}
@@ -97,8 +79,6 @@ public class TestCommand extends CommandBase {
 	public void onTick(RenderGameOverlayEvent.Post e) {
 		if(e.type !=  RenderGameOverlayEvent.ElementType.ALL)
 			return;
-		
-		
 		
 //		GlStateManager.enableBlend();
 //        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
