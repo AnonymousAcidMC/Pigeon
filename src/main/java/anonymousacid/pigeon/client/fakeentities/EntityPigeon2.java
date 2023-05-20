@@ -157,6 +157,16 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			movementVelocity.scale(maxSpeed);
 		}
 		
+		doMovementAndBlockCollisions();
+		
+		
+		steeringForce.x = 0;
+		steeringForce.y = 0;
+		steeringForce.z = 0;
+	}
+	
+	void doMovementAndBlockCollisions() {
+		
 		Vector3d startPos = new Vector3d(posX, posY, posZ);
 		
 		Vector3d increment = new Vector3d(movementVelocity.x, movementVelocity.y, movementVelocity.z);
@@ -223,12 +233,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			}
 		}
 		
-		
-		steeringForce.x = 0;
-		steeringForce.y = 0;
-		steeringForce.z = 0;
 	}
-	
 	
 	@Override
 	public boolean canBeCollidedWith() {
