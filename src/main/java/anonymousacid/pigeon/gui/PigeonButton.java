@@ -9,6 +9,7 @@ import anonymousacid.pigeon.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class PigeonButton extends GuiButton {
@@ -65,6 +66,8 @@ public class PigeonButton extends GuiButton {
 		
 		//just copied the minecraft drawButton code and modified it :/
 		if(visible) {
+	        GlStateManager.enableDepth();/*GuiContainer disables depth when doing super.drawScreen*/
+	        
             mc.getTextureManager().bindTexture(pigeonButtonTexture);
             
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -87,6 +90,8 @@ public class PigeonButton extends GuiButton {
     				15,
     				-(mouseX-posX), -(mouseY-posY+40),
     				ConfigGui.pigeon);
+
+            GlStateManager.disableDepth();
             
             this.mouseDragged(mc, mouseX, mouseY);
 		}
