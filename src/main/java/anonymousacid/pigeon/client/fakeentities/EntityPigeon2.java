@@ -68,12 +68,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			entityToFollow = null;
 			return;
 		}
-		EntityPlayerSP player = player();
 		
 		//Update pos vector
-		pos.x = posX;
-		pos.y = posY;
-		pos.z = posZ;
+		pos.set(posX, posY, posZ);
 		
 		doNullChecks();
 		
@@ -157,6 +154,12 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 					setItemToPeck(itemEntity);
 					return;
 				}
+			}
+		}
+		else if(itemToPeck != null) {
+			double dist = getPosition().distanceSq(itemToPeck.posX, itemToPeck.posY, itemToPeck.posZ);
+			if(dist > itemToPeckRange) {
+				setTargetEntity(player()); 
 			}
 		}
 		
@@ -274,9 +277,16 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			vec.scale(maxSpeed * (dist/slowingRadius));
 		}
 		else {
-			vec.x = 0;
-			vec.y = 0;
-			vec.z = 0;
+			if(targetType != TargetType.ITEM) {
+				vec.set(0, 0, 0);
+			}
+			else if(dist <= stoppingRadius/3) {
+				vec.set(0, 0, 0);
+			}
+			else {
+				vec.normalize();
+				vec.scale(maxSpeed * (dist/slowingRadius));
+			}
 		}
 		
 		//subtract to get the steering force
