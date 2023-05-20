@@ -7,15 +7,12 @@ import java.util.List;
 
 import javax.vecmath.Vector3d;
 
-import anonymousacid.pigeon.utils.Utils;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import scala.reflect.internal.TreeInfo.SeeThroughBlocks;
 
 public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
