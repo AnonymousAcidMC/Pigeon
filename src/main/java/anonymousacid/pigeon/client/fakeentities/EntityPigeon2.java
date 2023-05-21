@@ -33,7 +33,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	public boolean isFlying;
 	public boolean isScreenAsset;
 	public boolean isPecking;
-	public boolean canPeckItem = true;
+	public boolean allowedToPeckItem = true;
 	private boolean flyDown;
 	
 	private EntityItem itemToPeck;
@@ -49,6 +49,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	/*distance from these entities at which the pigeon stops moving*/
 	public int itemStoppingDistance = 1;
 	public int playerStoppingDistance = 3;
+	
+	private boolean atTarget = false;
 	
 	public EntityPigeon2(World worldIn, double maxSpeed, double maxForce) {
 		super(worldIn);
@@ -77,6 +79,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		groundedCheck();
 		
+		handlePecking();
+		
 		doNullChecks();
 		
 		tryFindItemToPeck();
@@ -101,6 +105,12 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		steeringForce.add(vec);
 		
 		Move();
+		
+		
+		//set previous positions before next tick
+		this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
 	}
 	
 	void groundedCheck() {
@@ -109,6 +119,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		onGround = !groundCollisions.isEmpty(); 
 	}
+	
+	
 	
 	/**
 	 * Checks if target entities are either null, or do not exist
@@ -146,7 +158,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
 	
 	/**
-	 * Sets isFlying to the appropriate value.
+	 * Sets isFlying and flyDown to the appropriate value.
 	 */
 	void handleFlying() {
 		
@@ -172,10 +184,18 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			
 			flyDown = pigeonGroundCollisionsAtTargetY.size() != 0;
 		}
+		else if(targetType == TargetType.ITEM) {
+			flyDown = atTarget && (posY > itemToPeck.posY);
+		}
 		else {
 			flyDown = false;
 			return;
 		}
+	}
+	
+	
+	void handlePecking() {
+		isPecking = (targetType == TargetType.ITEM) && allowedToPeckItem && onGround;
 	}
 	
 	
@@ -197,11 +217,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
-	
-	
 	void tryFindItemToPeck() {
 		
-		if(!isPecking && canPeckItem && targetType != TargetType.ITEM) {
+		if(!isPecking && allowedToPeckItem && targetType != TargetType.ITEM) {
 			List<EntityItem> itemList = world().getEntitiesWithinAABB(
 					EntityItem.class,
 					this.getEntityBoundingBox().expand(itemToPeckRange, itemToPeckRange, itemToPeckRange));
@@ -263,8 +281,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
-	
-	
 	/**
 	 * Pigeon will move to inputted location.
 	 * @param x
@@ -277,8 +293,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		targetVector.y = y;
 		targetVector.z = z;
 	}
-	
-	
 	
 	
 	/**
@@ -294,18 +308,14 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
-	
-	
 	/**
 	 * Pigeon will peck this inputted item entity.
 	 * @param item
 	 */
-	
 	public void setItemToPeck(EntityItem item) {
 		itemToPeck = item;
 		targetType = TargetType.ITEM;
 	}
-	
 	
 	
 	public void setNoTarget() {
@@ -337,6 +347,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	 */
 	private Vector3d seekForce(double xTarg, double yTarg, double zTarg, double slowingRadius, double stoppingRadius) {
 		Vector3d vec = new Vector3d(xTarg, yTarg, zTarg);
+		atTarget = false;
 		
 		if(vec.x == pos.x && vec.y == pos.y && vec.z == pos.z) {
 			vec.set(0, 0, 0);
@@ -357,6 +368,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		else {//if in stopping radius
 			vec.set(0, 0, 0);
+			atTarget = true;
 		}
 		
 		//subtract to get the steering force
@@ -387,15 +399,10 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		doMovementAndBlockCollisions();
 		
-		
 		steeringForce.x = 0;
 		steeringForce.y = 0;
 		steeringForce.z = 0;
 	}
-	
-	
-	
-	
 	
 	
 	void doMovementAndBlockCollisions() {
@@ -407,7 +414,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		increment.scale(0.015);
 		
 		{//x collision test
-			
+			increment.x = increment.x < 0.0001 ? 0.01:increment.x;
 			setPosition(posX+movementVelocity.x, posY, posZ);
 			
 			//apparently this is a collider-cast method that is used in pushOutOfBlocks, so I am using it here.
@@ -427,6 +434,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 		{//y collision test
+			increment.y = increment.y < 0.0001 ? 0.01:increment.y;
 			
 			setPosition(posX, posY+movementVelocity.y, posZ);
 			
@@ -447,6 +455,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 		{//Z collision test
+			increment.z = increment.z < 0.0001 ? 0.01:increment.z;
 			
 			setPosition(posX, posY, posZ+movementVelocity.z);
 			
@@ -468,9 +477,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 	}
 	
-	
 
-	
 	
 	
 	@Override
