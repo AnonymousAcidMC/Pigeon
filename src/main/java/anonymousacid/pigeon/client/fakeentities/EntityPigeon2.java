@@ -39,9 +39,13 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	private TargetType targetType = TargetType.PLAYER;
 	
 	/*if the player is this distance far from the pigeon, the pigeon teleports to the player*/
-	public int playerTeleportDistance = 500;
+	public int playerTeleportDistance = 15;
 	/*the range that the pigeon checks for items to peck (rectangular. not a radius.)*/
 	public int itemToPeckRange = 10;
+	
+	/*distance from these entities at which the pigeon stops moving*/
+	public int itemStoppingDistance = 1;
+	public int playerStoppingDistance = 3;
 	
 	public EntityPigeon2(World worldIn, double maxSpeed, double maxForce) {
 		super(worldIn);
@@ -85,8 +89,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 				targetVector.x,
 				targetVector.y,
 				targetVector.z,
-				playerTeleportDistance/35,
-				3
+				playerTeleportDistance,
+				targetType == TargetType.ITEM ? itemStoppingDistance : playerStoppingDistance
 				);
 		
 		handleFlying();
@@ -156,7 +160,13 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	 */
 	void tryTeleportToPlayer() {
 		Entity player = player();
-		if (getPosition().distanceSq(player.posX, player.posY, player.posZ) > playerTeleportDistance) {
+		double dist = Math.sqrt(
+				(player.posX - pos.x)*(player.posX - pos.x) +
+				(player.posY - pos.y)*(player.posY - pos.y) +
+				(player.posZ - pos.z)*(player.posZ - pos.z) 
+				);
+		
+		if (dist > playerTeleportDistance) {
 			setPosition(player.posX, player.posY, player.posZ);
 		}
 	}
@@ -187,7 +197,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 					);
 			
 			if(dist > itemToPeckRange) {
-				Utils.sendMessage("test"+System.currentTimeMillis());
 				setTargetEntity(player()); 
 			}
 		}
@@ -306,16 +315,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			vec.scale(maxSpeed * (dist/slowingRadius));
 		}
 		else {//if in stopping radius
-			if(targetType != TargetType.ITEM) {//if not pursuing item, stop
-				vec.set(0, 0, 0);
-			}
-			else if(dist <= stoppingRadius/3) {//if pursuing item, get closer to the item
-				vec.set(0, 0, 0);
-			}
-			else {
-				vec.normalize();
-				vec.scale(maxSpeed * (dist/slowingRadius));
-			}
+			vec.set(0, 0, 0);
 		}
 		
 		//subtract to get the steering force
