@@ -8,16 +8,18 @@ import java.util.List;
 import javax.vecmath.Vector3d;
 
 import anonymousacid.pigeon.utils.Utils;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
-	public double gravity;
+	public double gravity = -0.04;
 	public Vector3d movementVelocity = new Vector3d(0, 0, 0);
 	public Vector3d steeringForce = new Vector3d(0, 0, 0);
 	private Vector3d pos = new Vector3d(0, 0, 0);
@@ -32,6 +34,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	public boolean isScreenAsset;
 	public boolean isPecking;
 	public boolean canPeckItem = true;
+	private boolean flyDown;
 	
 	private EntityItem itemToPeck;
 	private Entity entityToFollow;
@@ -54,8 +57,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		//This lets the player place blocks on the entity
 		preventEntitySpawning = false;
 		
-		gravity = -1.15;
-		
 		this.maxSpeed = maxSpeed;
 		this.maxForce = maxForce;
 	}
@@ -74,6 +75,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		//Update pos vector
 		pos.set(posX, posY, posZ);
 		
+		groundedCheck();
+		
 		doNullChecks();
 		
 		tryFindItemToPeck();
@@ -85,6 +88,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		setTargetPosition();
 		
+		handleFlying();
+		
 		Vector3d vec = seekForce(
 				targetVector.x,
 				targetVector.y,
@@ -93,11 +98,16 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 				targetType == TargetType.ITEM ? itemStoppingDistance : playerStoppingDistance
 				);
 		
-		handleFlying();
-		
 		steeringForce.add(vec);
 		
 		Move();
+	}
+	
+	void groundedCheck() {
+		AxisAlignedBB aabb = Utils.boundingBoxAt(this, posX, posY-0.05, posZ);
+		List<AxisAlignedBB> groundCollisions = world().func_147461_a(aabb);
+		
+		onGround = !groundCollisions.isEmpty(); 
 	}
 	
 	/**
@@ -134,25 +144,40 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
 	/**
 	 * Sets isFlying to the appropriate value.
 	 */
 	void handleFlying() {
-		BlockPos pos;
-		if(entityToFollow != null) {
-			pos = entityToFollow.getPosition().down();
-		}
-		else if (targetType == TargetType.TARGET_VECTOR){
-			pos = new BlockPos(targetVector.x, targetVector.y, targetVector.z);
-		}
-		else {
-			isFlying = false;
-			flapWings = false;
+		
+		if(onGround) {
+			flyDown = false;
 			return;
 		}
-		isFlying = world().isAirBlock(pos);
-		flapWings = isFlying;
+		
+		//if target is grounded, then fly down to it.
+		Vector3d targPosDown;
+		if(targetType == TargetType.ENTITY || targetType == TargetType.PLAYER) {
+			AxisAlignedBB aabb = Utils.boundingBoxAt(entityToFollow, entityToFollow.posX, entityToFollow.posY-0.1, entityToFollow.posZ);
+			List<AxisAlignedBB> targetGroundCollisions = world().func_147461_a(aabb);
+			
+			aabb = Utils.boundingBoxAt(this, this.posX, entityToFollow.posY-0.1, this.posZ);
+			List<AxisAlignedBB> pigeonGroundCollisionsAtTargetY = world().func_147461_a(aabb);
+			
+			flyDown = targetGroundCollisions.size() != 0 && pigeonGroundCollisionsAtTargetY.size() != 0;
+		}
+		else if (targetType == TargetType.TARGET_VECTOR){
+			AxisAlignedBB aabb = Utils.boundingBoxAt(this, this.posX, targetVector.y-0.1, this.posZ);
+			List<AxisAlignedBB> pigeonGroundCollisionsAtTargetY = world().func_147461_a(aabb);
+			
+			flyDown = pigeonGroundCollisionsAtTargetY.size() != 0;
+		}
+		else {
+			flyDown = false;
+			return;
+		}
 	}
+	
 	
 	
 	/**
@@ -170,6 +195,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			setPosition(player.posX, player.posY, player.posZ);
 		}
 	}
+	
+	
 	
 	
 	void tryFindItemToPeck() {
@@ -204,6 +231,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
+	
 	/**
 	 * Sets targetVector to a position appropriate to the current targetType.
 	 */
@@ -234,6 +263,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
+	
 	/**
 	 * Pigeon will move to inputted location.
 	 * @param x
@@ -246,6 +277,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		targetVector.y = y;
 		targetVector.z = z;
 	}
+	
+	
 	
 	
 	/**
@@ -261,19 +294,25 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
+	
 	/**
 	 * Pigeon will peck this inputted item entity.
 	 * @param item
 	 */
+	
 	public void setItemToPeck(EntityItem item) {
 		itemToPeck = item;
 		targetType = TargetType.ITEM;
 	}
 	
 	
+	
 	public void setNoTarget() {
 		targetType = TargetType.NONE;
 	}
+	
+	
 	
 	
 	enum TargetType {
@@ -285,8 +324,10 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
+	
 	/**
-	 * Make a force vector that steers the pigeon towards the desired targe coordinates
+	 * Make a force vector that steers the pigeon towards the desired target coordinates
 	 * @param xTarg
 	 * @param yTarg
 	 * @param zTarg
@@ -327,6 +368,10 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			vec.scale(maxForce);
 		}
 		
+		if(flyDown) {
+			vec.y += gravity;
+		}
+		
 		return vec;
 	}
 	
@@ -347,6 +392,10 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		steeringForce.y = 0;
 		steeringForce.z = 0;
 	}
+	
+	
+	
+	
 	
 	
 	void doMovementAndBlockCollisions() {
@@ -420,9 +469,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
-	void doGravity() {
-		
-	}
+
+	
 	
 	
 	@Override

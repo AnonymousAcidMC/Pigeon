@@ -497,6 +497,24 @@ public class Utils {
     	return false;
     }
     
+    /**
+     * Get the bounding box of an entity as if it were at the inputted coordinates.
+     * @param entity
+     * @param x
+     * @param y
+     * @param z
+     * @return
+     */
+    public static AxisAlignedBB boundingBoxAt(Entity entity, double x, double y, double z) {
+        float halfWidth = entity.width / 2.0F;
+        float height = entity.height;
+        
+        AxisAlignedBB aabbAt = new AxisAlignedBB(
+        			x - (double)halfWidth, y, z - (double)halfWidth,
+        			x + (double)halfWidth, y + (double)height, z + (double)halfWidth);
+        
+        return aabbAt;
+    }
     
     /**
      * These two event listeners check if the client is connected to Hypixel or not.
