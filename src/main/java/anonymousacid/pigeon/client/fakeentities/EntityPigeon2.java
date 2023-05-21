@@ -75,8 +75,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		tryFindItemToPeck();
 		tryTeleportToPlayer();
 		
-		if(entityToFollow == null)
+		if(entityToFollow == null) {
 			entityToFollow = player();
+		}
 		
 		setTargetPosition();
 		
@@ -99,9 +100,29 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	 * Checks if target entities are either null, or do not exist
 	 */
 	void doNullChecks() {
-		boolean setTargetToPlayer = 
-				(itemToPeck == null || itemToPeck.isDead) ||
-				(entityToFollow == null || entityToFollow.isDead);
+		
+		boolean setTargetToPlayer = false;
+		
+		switch(targetType) {
+			case ENTITY:
+				if(entityToFollow == null || entityToFollow.isDead) {
+					entityToFollow = null;
+					setTargetToPlayer = true;
+				}
+				break;
+			case ITEM:
+				if(itemToPeck == null || itemToPeck.isDead) {
+					itemToPeck = null;
+					setTargetToPlayer = true;
+				}
+				break;
+			case PLAYER:
+				break;
+			case TARGET_VECTOR:
+				break;
+			case NONE:
+				break;
+		}
 		
 		if(setTargetToPlayer) {
 			setTargetEntity(player());
@@ -158,9 +179,15 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 				}
 			}
 		}
-		else if(itemToPeck != null) {
-			double dist = getPosition().distanceSq(itemToPeck.posX, itemToPeck.posY, itemToPeck.posZ);
+		else if(itemToPeck != null && targetType == TargetType.ITEM) {
+			double dist = Math.sqrt(
+					(itemToPeck.posX - posX)*(itemToPeck.posX - posX) +
+					(itemToPeck.posY - posY)*(itemToPeck.posY - posY) +
+					(itemToPeck.posZ - posZ)*(itemToPeck.posZ - posZ)
+					);
+			
 			if(dist > itemToPeckRange) {
+				Utils.sendMessage("test"+System.currentTimeMillis());
 				setTargetEntity(player()); 
 			}
 		}
