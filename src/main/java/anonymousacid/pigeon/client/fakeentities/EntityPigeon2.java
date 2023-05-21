@@ -184,8 +184,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			
 			flyDown = pigeonGroundCollisionsAtTargetY.size() != 0;
 		}
-		else if(targetType == TargetType.ITEM) {
-			flyDown = atTarget && (posY > itemToPeck.posY);
+		else if(targetType == TargetType.ITEM) {//If at item
+			flyDown = atTarget && (posY > itemToPeck.posY);//drop down to item's y level
 		}
 		else {
 			flyDown = false;
