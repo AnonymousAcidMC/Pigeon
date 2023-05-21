@@ -84,33 +84,5 @@ public class TestCommand extends CommandBase {
 	public void onTick(RenderGameOverlayEvent.Post e) {
 		if(e.type !=  RenderGameOverlayEvent.ElementType.ALL)
 			return;
-//		
-//		GlStateManager.enableBlend();
-//        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-//        GlStateManager.blendFunc(770, 771);
-//        
-//        int posX = 20;
-//        int posY = 150;
-//        
-//        res = new ScaledResolution(mc);
-//        
-//        int mouseX = Mouse.getX()/2;
-//        int mouseY = Math.abs((Mouse.getY()/2)-res.getScaledHeight());
-//        mouseX -= posX;
-//        mouseX *= -1;
-//        mouseY -= posY;
-//        mouseY *= -1;
-//
-//        String xStr = "X: "+mouseX;
-//        String yStr = "Y: "+mouseY;
-//        
-//        new TestGui(mc, xStr, 100, 100);
-//        new TestGui(mc, yStr, 100, 130);
-//		
-//		RenderUtils.drawEntityOnScreen(
-//				posX, posY,
-//				15,
-//				mouseX, mouseY,
-//				ConfigGui.pigeon);
 	}
 }
