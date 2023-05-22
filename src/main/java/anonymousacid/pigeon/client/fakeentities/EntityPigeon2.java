@@ -8,13 +8,11 @@ import java.util.List;
 import javax.vecmath.Vector3d;
 
 import anonymousacid.pigeon.utils.Utils;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityPigeon2 extends EntityMob implements IFakeEntity{
@@ -225,10 +223,17 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 					this.getEntityBoundingBox().expand(itemToPeckRange, itemToPeckRange, itemToPeckRange));
 			
 			for(EntityItem itemEntity : itemList) {
-				int creativeTabIndex = itemEntity.getEntityItem().getItem().getCreativeTab().getTabIndex();
+				ItemStack itemStack = itemEntity.getEntityItem();
+				int creativeTabIndex = itemStack.getItem().getCreativeTab().getTabIndex();
+				String minecraftItemName = itemStack.toString().split("'")[1];
+				
+				boolean foundItem =
+						creativeTabIndex == 6 || 
+						minecraftItemName.contains("seed") || 
+						(itemStack.getDisplayName().equals("item.item.skull.char") && itemStack.getDisplayName().contains("Tasty Cheese"));
 				
 				//If this item goes into the "Foodstuffs" category in the creative inventory, set it as food to peck.
-				if(creativeTabIndex == 6) {
+				if(foundItem) {
 					setItemToPeck(itemEntity);
 					return;
 				}
@@ -481,7 +486,5 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
 	
 	@Override
-	public boolean canBeCollidedWith() {
-		return false;
-	}
+	public boolean canBeCollidedWith() {return false;}
 }
