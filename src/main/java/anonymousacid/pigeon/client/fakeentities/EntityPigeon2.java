@@ -94,7 +94,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		setTargetPosition();
 		
-		
+		RenderUtils.facePosition(this, targetVector.x, targetVector.y, targetVector.z, 360, 360);
 		
 		handleFlying();
 		
