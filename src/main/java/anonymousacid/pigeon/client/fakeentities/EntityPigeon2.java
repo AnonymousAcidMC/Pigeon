@@ -118,6 +118,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
         this.prevPosZ = this.posZ;
 	}
 	
+	
 	void groundedCheck() {
 		AxisAlignedBB aabb = Utils.boundingBoxAt(this, posX, posY-0.05, posZ);
 		List<AxisAlignedBB> groundCollisions = world().func_147461_a(aabb);
@@ -322,6 +323,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
 	/**
 	 * Sets the entity that the pigeon wants to follow
 	 * If the inputted entity happens to be the player, the pigeon will switch its movement type to PLAYER.
@@ -335,6 +337,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
 	/**
 	 * Pigeon will peck this inputted item entity.
 	 * @param item
@@ -345,9 +348,11 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
 	public void setNoTarget() {
 		targetType = TargetType.NONE;
 	}
+	
 	
 	
 	
@@ -359,6 +364,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		PLAYER,
 		NONE
 	}
+	
 	
 	
 	
@@ -509,6 +515,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 
+	
+	
 	
 	
 	@Override
