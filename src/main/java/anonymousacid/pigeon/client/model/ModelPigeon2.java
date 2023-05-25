@@ -1,7 +1,6 @@
 package anonymousacid.pigeon.client.model;
 
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
-import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
@@ -163,5 +162,9 @@ public class ModelPigeon2 extends ModelBase {
 	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float p_78086_2_, float p_78086_3_,
 			float partialTickTime) {
 		EntityPigeon2 pigeon = (EntityPigeon2) entitylivingbaseIn;
+		
+		if(pigeon.getTargetType() != EntityPigeon2.TargetType.NONE) {
+			
+		}
 	}
 }

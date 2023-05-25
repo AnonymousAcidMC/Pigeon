@@ -356,8 +356,12 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
 	
 	
+	public TargetType getTargetType() {
+		return this.targetType;
+	}
 	
-	enum TargetType {
+	
+	public enum TargetType {
 		TARGET_VECTOR,
 		ITEM,
 		ENTITY,
