@@ -251,8 +251,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 	}
-	
-	
+		
 	
 	
 	/**
