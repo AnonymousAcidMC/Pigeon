@@ -516,6 +516,17 @@ public class Utils {
         return aabbAt;
     }
     
+    
+    public static double getRotationYaw(Vec3 lookVec) {
+    	double x = lookVec.xCoord;
+    	double z = lookVec.zCoord;
+    	
+//    	double d = (double)MathHelper.sqrt_double(x * x + z * z);
+        float yaw = (float)(MathHelper.atan2(z, x) * 180.0D / Math.PI)-90f;
+        return yaw;
+    }
+    
+    
     /**
      * These two event listeners check if the client is connected to Hypixel or not.
      */

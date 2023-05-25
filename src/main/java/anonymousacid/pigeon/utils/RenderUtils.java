@@ -118,7 +118,7 @@ public class RenderUtils {
 		double z = targZ - entity.posZ;
 		
 		double d = (double)MathHelper.sqrt_double(x * x + z * z);
-        float yaw = (float)(MathHelper.atan2(z, x) * 180.0D / Math.PI) - 90.0F;
+        float yaw = (float)(MathHelper.atan2(z, x) * 180.0D / Math.PI)-90f;
         float pitch = (float)(-(MathHelper.atan2(y, d) * 180.0D / Math.PI));
         
         entity.rotationPitch = updateRotation(entity.rotationPitch, pitch, pitchMax);
