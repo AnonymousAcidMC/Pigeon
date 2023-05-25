@@ -225,14 +225,13 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			for(EntityItem itemEntity : itemList) {
 				ItemStack itemStack = itemEntity.getEntityItem();
 				int creativeTabIndex = itemStack.getItem().getCreativeTab().getTabIndex();
-				String minecraftItemName = itemStack.toString().split("'")[1];
+				String unlocalizedName = itemStack.getUnlocalizedName();
 				
 				boolean foundItem =
-						creativeTabIndex == 6 || 
-						minecraftItemName.contains("seed") || 
-						(itemStack.getDisplayName().equals("item.item.skull.char") && itemStack.getDisplayName().contains("Tasty Cheese"));
+						/*if item is in "Foodstuffs" category*/ creativeTabIndex == 6 ||  
+						/*or is a seed*/ unlocalizedName.contains("seed") || 
+						/*or is Hypixel Skyblock "Tasty Cheese"*/ (unlocalizedName.equals("item.item.skull.char") && itemStack.getDisplayName().contains("Tasty Cheese")); 
 				
-				//If this item goes into the "Foodstuffs" category in the creative inventory, set it as food to peck.
 				if(foundItem) {
 					setItemToPeck(itemEntity);
 					return;
