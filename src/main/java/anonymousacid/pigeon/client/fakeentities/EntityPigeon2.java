@@ -14,6 +14,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityPigeon2 extends EntityMob implements IFakeEntity{
@@ -92,7 +93,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 		setTargetPosition();
-		lookAtTargetPosition();
+		
+		
 		
 		handleFlying();
 		
@@ -292,9 +294,18 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		lookVector.set(targetVector);
 		
 		lookVector.sub(pos);
-		Utils.sendMessage(lookVector.toString());
 		
-		rotationPitch = (float) Math.atan2(lookVector.y, lookVector.x);
+		double x = lookVector.x;
+		double y = lookVector.y;
+		double z = lookVector.z;
+		
+		double d3 = (double)MathHelper.sqrt_double(x*x + z*z);
+        float pitch = (float)(-(MathHelper.atan2(y, d3) * 180.0D / Math.PI));
+        float yaw = (float)(MathHelper.atan2(z, x) * 180.0D / Math.PI) - 90.0F;
+        
+        rotationPitch = RenderUtils.updateRotation(rotationPitch, pitch, 360);
+        rotationYaw = RenderUtils.updateRotation(rotationYaw, yaw, 360);
+        setRotationYawHead(rotationYaw);
 	}
 	
 	/**
@@ -404,6 +415,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
 	private void Move() {
 		
 		movementVelocity.add(steeringForce);
@@ -421,6 +433,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
 	void doMovementAndBlockCollisions() {
 		
 		Vector3d startPos = new Vector3d(posX, posY, posZ);
@@ -429,8 +442,12 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		increment.normalize();
 		increment.scale(0.015);
 		
+
+		increment.x = MathHelper.clamp_double(increment.x, -0.001, 0.001);
+		increment.y = MathHelper.clamp_double(increment.y, -0.001, 0.001);
+		increment.z = MathHelper.clamp_double(increment.z, -0.001, 0.001);
+		
 		{//x collision test
-			increment.x = increment.x < 0.0001 ? 0.01:increment.x;
 			setPosition(posX+movementVelocity.x, posY, posZ);
 			
 			//apparently this is a collider-cast method that is used in pushOutOfBlocks, so I am using it here.
@@ -450,7 +467,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 		{//y collision test
-			increment.y = increment.y < 0.0001 ? 0.01:increment.y;
 			
 			setPosition(posX, posY+movementVelocity.y, posZ);
 			
@@ -471,7 +487,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 		{//Z collision test
-			increment.z = increment.z < 0.0001 ? 0.01:increment.z;
 			
 			setPosition(posX, posY, posZ+movementVelocity.z);
 			

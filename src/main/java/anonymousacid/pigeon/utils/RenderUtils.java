@@ -89,27 +89,42 @@ public class RenderUtils {
 	 * Modified to work with any entity and entity head rotation 
 	 */
 	public static void rotateHeadToFaceEntity(Entity entity, Entity targetEntity, float p_70625_2_, float p_70625_3_) {
-        double d0 = targetEntity.posX - entity.posX;
-        double d2 = targetEntity.posZ - entity.posZ;
-        double d1;
+        double x = targetEntity.posX - entity.posX;
+        double y;
+        double z = targetEntity.posZ - entity.posZ;
 
         if (targetEntity instanceof EntityLivingBase)
         {
             EntityLivingBase entitylivingbase = (EntityLivingBase)targetEntity;
-            d1 = entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() - (entity.posY + (double)entity.getEyeHeight());
+            y = (entitylivingbase.posY + (double)entitylivingbase.getEyeHeight())
+            		- (entity.posY + (double)entity.getEyeHeight());
         }
         else
         {
-            d1 = (targetEntity.getEntityBoundingBox().minY + targetEntity.getEntityBoundingBox().maxY) / 2.0D - (entity.posY + (double)entity.getEyeHeight());
+            y = (targetEntity.getEntityBoundingBox().minY + targetEntity.getEntityBoundingBox().maxY) / 2.0D - (entity.posY + (double)entity.getEyeHeight());
         }
 
-        double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
-        float f = (float)(MathHelper.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
-        float f1 = (float)(-(MathHelper.atan2(d1, d3) * 180.0D / Math.PI));
-        entity.rotationPitch = updateRotation(entity.rotationPitch, f1, p_70625_3_);
-        entity.rotationYaw = updateRotation(entity.rotationYaw, f, p_70625_2_);
-        entity.setRotationYawHead(updateRotation(entity.rotationYaw, f, p_70625_2_));
+        double d = (double)MathHelper.sqrt_double(x * x + z * z);
+        float yaw = (float)(MathHelper.atan2(z, x) * 180.0D / Math.PI) - 90.0F;
+        float pitch = (float)(-(MathHelper.atan2(y, d) * 180.0D / Math.PI));
+        entity.rotationPitch = updateRotation(entity.rotationPitch, pitch, p_70625_3_);
+        entity.rotationYaw = updateRotation(entity.rotationYaw, yaw, p_70625_2_);
+        entity.setRotationYawHead(entity.rotationYaw);
     }
+	
+	public static void facePosition(Entity entity, double targX, double targY, double targZ, float pitchMax, float yawMax) {
+		double x = targX - entity.posX; 
+		double y = targY - entity.posY;
+		double z = targZ - entity.posZ;
+		
+		double d = (double)MathHelper.sqrt_double(x * x + z * z);
+        float yaw = (float)(MathHelper.atan2(z, x) * 180.0D / Math.PI) - 90.0F;
+        float pitch = (float)(-(MathHelper.atan2(y, d) * 180.0D / Math.PI));
+        
+        entity.rotationPitch = updateRotation(entity.rotationPitch, pitch, pitchMax);
+        entity.rotationYaw = updateRotation(entity.rotationYaw, yaw, yawMax);
+        entity.setRotationYawHead(entity.rotationYaw);
+	}
 	
 	/**
 	 * @param p_70663_1_ current rotation
@@ -117,7 +132,7 @@ public class RenderUtils {
 	 * @param p_70663_3_ max increment
 	 * @return
 	 */
-	private static float updateRotation(float p_70663_1_, float p_70663_2_, float p_70663_3_) {
+	public static float updateRotation(float p_70663_1_, float p_70663_2_, float p_70663_3_) {
         float f = MathHelper.wrapAngleTo180_float(p_70663_2_ - p_70663_1_);
 
         if (f > p_70663_3_)
