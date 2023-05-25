@@ -94,7 +94,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		setTargetPosition();
 		
-		RenderUtils.facePosition(this, targetVector.x, targetVector.y, targetVector.z, 360, 360);
+		lookAtTargetPosition();
 		
 		handleFlying();
 		
@@ -292,22 +292,13 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	void lookAtTargetPosition() {
-		lookVector.set(targetVector);
+		//if targeting entity, look at it in the eyes.
+		double yOffset = 
+			(targetType == TargetType.ENTITY || targetType == TargetType.PLAYER) ? entityToFollow.getEyeHeight()/2 : 0;
 		
-		lookVector.sub(pos);
-		
-		double x = lookVector.x;
-		double y = lookVector.y;
-		double z = lookVector.z;
-		
-		double d3 = (double)MathHelper.sqrt_double(x*x + z*z);
-        float pitch = (float)(-(MathHelper.atan2(y, d3) * 180.0D / Math.PI));
-        float yaw = (float)(MathHelper.atan2(z, x) * 180.0D / Math.PI) - 90.0F;
-        
-        rotationPitch = RenderUtils.updateRotation(rotationPitch, pitch, 360);
-        rotationYaw = RenderUtils.updateRotation(rotationYaw, yaw, 360);
-        setRotationYawHead(rotationYaw);
+		RenderUtils.facePosition(this, targetVector.x, targetVector.y + yOffset, targetVector.z, 360, 360);
 	}
+	
 	
 	/**
 	 * Pigeon will move to inputted location.
