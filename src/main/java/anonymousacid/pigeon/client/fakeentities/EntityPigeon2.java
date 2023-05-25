@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.vecmath.Vector3d;
 
+import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -36,7 +37,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
 	private EntityItem itemToPeck;
 	private Entity entityToFollow;
-	private Vector3d targetVector = new Vector3d(0, 0, 0);
+	public Vector3d targetVector = new Vector3d(0, 0, 0);
+	public Vector3d lookVector = new Vector3d(0, 0, 0);
 	private TargetType targetType = TargetType.PLAYER;
 	
 	/*if the player is this distance far from the pigeon, the pigeon teleports to the player*/
@@ -69,6 +71,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			isPecking = false;
 			itemToPeck = null;
 			entityToFollow = null;
+			onGround = true;
 			return;
 		}
 		
@@ -89,8 +92,10 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 		setTargetPosition();
+		lookAtTargetPosition();
 		
 		handleFlying();
+		
 		
 		Vector3d vec = seekForce(
 				targetVector.x,
@@ -283,6 +288,14 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 	}
 	
+	void lookAtTargetPosition() {
+		lookVector.set(targetVector);
+		
+		lookVector.sub(pos);
+		Utils.sendMessage(lookVector.toString());
+		
+		rotationPitch = (float) Math.atan2(lookVector.y, lookVector.x);
+	}
 	
 	/**
 	 * Pigeon will move to inputted location.

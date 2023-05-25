@@ -1,9 +1,12 @@
 package anonymousacid.pigeon.client.model;
 
+import anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
+import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 
 public class ModelPigeon2 extends ModelBase {
 	private final ModelRenderer leg1;
@@ -154,5 +157,11 @@ public class ModelPigeon2 extends ModelBase {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
+	}
+	
+	@Override
+	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float p_78086_2_, float p_78086_3_,
+			float partialTickTime) {
+		EntityPigeon2 pigeon = (EntityPigeon2) entitylivingbaseIn;
 	}
 }

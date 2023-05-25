@@ -130,14 +130,14 @@ public class EntityPigeon extends EntityMob implements IFakeEntity {
 			if (itemName.equals("item.item.bread") || itemName.contains("seed") || itemName.contains("cake")) {
 				food = item;
 				foundFood = true;
-				RenderUtils.faceEntity(this, item, 360f, rotationPitch);
+				RenderUtils.rotateHeadToFaceEntity(this, item, 360f, rotationPitch);
 				break;
 			}
 			if (itemName.equals("item.item.skull.char")) {
 				if (item.getEntityItem().getDisplayName().contains("Tasty Cheese")) {
 					food = item;
 					foundFood = true;
-					RenderUtils.faceEntity(this, item, 360f, rotationPitch);
+					RenderUtils.rotateHeadToFaceEntity(this, item, 360f, rotationPitch);
 					break;
 				}
 			}
@@ -166,7 +166,7 @@ public class EntityPigeon extends EntityMob implements IFakeEntity {
 				coords[1] = player().posY - posY;
 				coords[2] = player().posZ - posZ;
 				setPosition(posX + coords[0] / 10, posY + coords[1] / 10, posZ + coords[2] / 10);
-				RenderUtils.faceEntity(this, player(), 360f, 360f);
+				RenderUtils.rotateHeadToFaceEntity(this, player(), 360f, 360f);
 			} else {
 				// Makes pigeon look around when near player
 				isMoving = false;

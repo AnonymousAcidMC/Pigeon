@@ -88,7 +88,7 @@ public class RenderUtils {
 	 * Copied from net.minecraft.entity.EntityLiving;
 	 * Modified to work with any entity and entity head rotation 
 	 */
-	public static void faceEntity(Entity entity, Entity targetEntity, float p_70625_2_, float p_70625_3_) {
+	public static void rotateHeadToFaceEntity(Entity entity, Entity targetEntity, float p_70625_2_, float p_70625_3_) {
         double d0 = targetEntity.posX - entity.posX;
         double d2 = targetEntity.posZ - entity.posZ;
         double d1;
