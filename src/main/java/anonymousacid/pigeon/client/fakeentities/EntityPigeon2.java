@@ -106,7 +106,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		handleFlying();
 		
-		
 		Vector3d vec = seekForce(
 				targetVector.x,
 				targetVector.y,
@@ -311,6 +310,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	
 	/**
 	 * Pigeon will move to inputted location.
 	 * @param x
@@ -354,6 +354,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
 	
 	
+	
 	/**
 	 * targetType is private and should not be changed directly.
 	 * Use the setTarget and setItemToPeck methods to manipulate this variable
@@ -380,8 +381,8 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	 */
 	public boolean hasMoved() {
 		return 
-			posX != prevPosX &&
-            posY != prevPosY &&
+			posX != prevPosX ||
+            posY != prevPosY ||
             posZ != prevPosZ;
 	}
 	
@@ -477,9 +478,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		increment.scale(0.015);
 		
 
-		increment.x = MathHelper.clamp_double(increment.x, -0.001, 0.001);
-		increment.y = MathHelper.clamp_double(increment.y, -0.001, 0.001);
-		increment.z = MathHelper.clamp_double(increment.z, -0.001, 0.001);
+		increment.x = MathHelper.clamp_double(increment.x, -0.01, 0.01);
+		increment.y = MathHelper.clamp_double(increment.y, -0.01, 0.01);
+		increment.z = MathHelper.clamp_double(increment.z, -0.01, 0.01);
 		
 		{//x collision test
 			setPosition(posX+movementVelocity.x, posY, posZ);

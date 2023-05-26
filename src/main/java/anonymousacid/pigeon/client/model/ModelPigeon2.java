@@ -173,7 +173,15 @@ public class ModelPigeon2 extends ModelBase {
 	@Override
 	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float p_78086_2_, float p_78086_3_,
 			float partialTickTime) {
+		EntityPigeon2 pigeon = (EntityPigeon2) entitylivingbaseIn;
 		
+        if(pigeon.hasMoved() && pigeon.onGround) {
+        	rotateLeftLegWalk();
+        	rotateRightLegWalk();
+        }
+        else {
+        	interpolateLegsStop();
+        }
 	}
 	
 	@Override
@@ -185,14 +193,8 @@ public class ModelPigeon2 extends ModelBase {
         head.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
         head.rotateAngleX = MathHelper.clamp_float(head.rotateAngleX, (float)-Math.PI/2, (float)Math.PI/6);
         
-        if(pigeon.hasMoved()) {
-        	rotateLeftLegWalk();
-        	rotateRightLegWalk();
-        }
-        else {
-        	interpolateLegsStop();
-        }
 	}
+	
 	
 	void rotateLeftLegWalk() {
 		if(Math.abs(leftLeg.rotateAngleX) < maxLegXRot) {
@@ -209,6 +211,7 @@ public class ModelPigeon2 extends ModelBase {
 	}
 
 	void interpolateLegsStop() {
-		
+		leftLeg.rotateAngleX = 0;
+		rightLeg.rotateAngleX = 0;
 	}
 }
