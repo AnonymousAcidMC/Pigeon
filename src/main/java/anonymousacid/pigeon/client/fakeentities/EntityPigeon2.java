@@ -6,6 +6,7 @@ import static anonymousacid.pigeon.McIf.world;
 import java.util.List;
 
 import javax.vecmath.Vector3d;
+import javax.vecmath.Vector3f;
 
 import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
@@ -28,6 +29,15 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
 	public int poopTimer;
 	public int soundTimer;
+	
+	/*these are used in the pigeon's Model class*/
+	public Vector3f leftLegRot = new Vector3f();
+	public Vector3f rightLegRot = new Vector3f();
+	public Vector3f leftWingRot = new Vector3f();
+	public Vector3f rightWingRot = new Vector3f();
+	public Vector3f headRot = new Vector3f();
+	public Vector3f bodyRot = new Vector3f();
+	public Vector3f tailRot = new Vector3f();
 	
 	public boolean flapWings;
 	public boolean isFlying;
