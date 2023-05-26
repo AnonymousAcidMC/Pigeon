@@ -157,6 +157,8 @@ public class ModelPigeon2 extends ModelBase {
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		
 		leftLeg.render(f5);
 		rightLeg.render(f5);
 		body.render(f5);
@@ -172,32 +174,31 @@ public class ModelPigeon2 extends ModelBase {
 		modelRenderer.rotateAngleZ = z;
 	}
 	
-	@Override
-	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float p_78086_2_, float p_78086_3_,
-			float partialTickTime) {
-	}
 	
 	@Override
 	public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_,
 			float p_78087_5_, float p_78087_6_, Entity entityIn) {
+		
 		EntityPigeon2 pigeon = (EntityPigeon2) entityIn;
+		getRotations(pigeon);
 		
 		head.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
         head.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
         head.rotateAngleX = MathHelper.clamp_float(head.rotateAngleX, (float)-Math.PI/2, (float)Math.PI/6);
         
-
-		
+        
         if(pigeon.hasMoved() && pigeon.onGround) {
         	rotateLeftLegWalk();
         	rotateRightLegWalk();
         }
         else {
-//        	interpolateLegsStop();
+        	interpolateLegsStop();
         }
+        
+        setRotations(pigeon);
 	}
 	
-	void setRotations(EntityPigeon2 pigeon) {
+	void getRotations(EntityPigeon2 pigeon) {
 		head.rotateAngleX = pigeon.headRot.x;
 		head.rotateAngleY = pigeon.headRot.y;
 		head.rotateAngleZ = pigeon.headRot.z;
@@ -229,6 +230,35 @@ public class ModelPigeon2 extends ModelBase {
 		rightWing.rotateAngleZ = pigeon.rightWingRot.z;
 	}
 	
+	void setRotations(EntityPigeon2 pigeon) {
+		pigeon.headRot.x = head.rotateAngleX;
+		pigeon.headRot.y = head.rotateAngleY;
+		pigeon.headRot.z = head.rotateAngleZ;
+
+		pigeon.bodyRot.x = body.rotateAngleX;
+		pigeon.bodyRot.y = body.rotateAngleY;
+		pigeon.bodyRot.z = body.rotateAngleZ;
+
+		pigeon.tailRot.x = tail.rotateAngleX;
+		pigeon.tailRot.y = tail.rotateAngleY;
+		pigeon.tailRot.z = tail.rotateAngleZ;
+		
+
+		pigeon.leftLegRot.x = leftLeg.rotateAngleX;
+		pigeon.leftLegRot.y = leftLeg.rotateAngleY;
+		pigeon.leftLegRot.z = leftLeg.rotateAngleZ;
+		pigeon.rightLegRot.x = rightLeg.rotateAngleX;
+		pigeon.rightLegRot.y = rightLeg.rotateAngleY;
+		pigeon.rightLegRot.z = rightLeg.rotateAngleZ;
+
+		
+		pigeon.leftWingRot.x = leftWing.rotateAngleX;
+		pigeon.leftWingRot.y = leftWing.rotateAngleY;
+		pigeon.leftWingRot.z = leftWing.rotateAngleZ;
+		pigeon.rightWingRot.x = rightWing.rotateAngleX;
+		pigeon.rightWingRot.y = rightWing.rotateAngleY;
+		pigeon.rightWingRot.z = rightWing.rotateAngleZ;
+	}
 	
 	void rotateLeftLegWalk() {
 		if(Math.abs(leftLeg.rotateAngleX) < maxLegXRot) {
