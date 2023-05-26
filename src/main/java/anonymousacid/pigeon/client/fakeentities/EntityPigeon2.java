@@ -52,14 +52,25 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	public Vector3d lookVector = new Vector3d(0, 0, 0);
 	private TargetType targetType = TargetType.PLAYER;
 	
+	
 	/*if the player is this distance far from the pigeon, the pigeon teleports to the player*/
 	public int playerTeleportDistance = 15;
 	/*the range that the pigeon checks for items to peck (rectangular. not a radius.)*/
 	public int itemToPeckRange = 10;
 	
-	/*distance from these entities at which the pigeon stops moving*/
+	
+	/*distance from these entities at which the pigeon stops moving or slows down*/
+	public int itemSlowingDistance = 2;
 	public int itemStoppingDistance = 1;
+	
+	public int playerSlowingDistance = 10;
 	public int playerStoppingDistance = 3;
+
+	public int entitySlowingDistance = 10;
+	public int entityStoppingDistance = 3;
+	
+	public int targVecSlowingDistance = 0;
+	public int targVecStoppingDistance = 0;
 	
 	private boolean atTarget = false;
 	
@@ -116,15 +127,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		handleFlying();
 		
-		Vector3d vec = seekForce(
-				targetVector.x,
-				targetVector.y,
-				targetVector.z,
-				playerTeleportDistance,
-				targetType == TargetType.ITEM ? itemStoppingDistance : playerStoppingDistance
-				);
-		
-		steeringForce.add(vec);
+		calculateAndSetSteeringForce();
 		
 		Move();
 	}
@@ -219,7 +222,43 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		isPecking = (targetType == TargetType.ITEM) && allowedToPeckItem && onGround;
 	}
 	
-	
+	void calculateAndSetSteeringForce() {
+		double slowingDist;
+		double stoppingDist;
+		
+		switch(targetType) {
+			case ENTITY:
+				slowingDist = entitySlowingDistance;
+				stoppingDist = entityStoppingDistance;
+				break;
+			case ITEM:
+				slowingDist = itemSlowingDistance;
+				stoppingDist = itemStoppingDistance;
+				break;
+			case NONE:
+				slowingDist = 0;
+				stoppingDist = 0;
+				break;
+			case PLAYER:
+				slowingDist = playerSlowingDistance;
+				stoppingDist = playerStoppingDistance;
+				break;
+			case TARGET_VECTOR:
+				slowingDist = targVecSlowingDistance;
+				stoppingDist = targVecStoppingDistance;
+				break;
+		}
+		
+		Vector3d vec = seekForce(
+				targetVector.x,
+				targetVector.y,
+				targetVector.z,
+				targetType == TargetType.ITEM ? itemSlowingDistance : playerSlowingDistance,
+				targetType == TargetType.ITEM ? itemStoppingDistance : playerStoppingDistance
+				);
+		
+		steeringForce.add(vec);
+	}
 	
 	/**
 	 * Try to teleport to the player if distance to player is more than playerTeleportDistance.

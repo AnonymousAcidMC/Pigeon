@@ -1,5 +1,7 @@
 package anonymousacid.pigeon.client.model;
 
+import static anonymousacid.pigeon.McIf.mc;
+
 import anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
 import anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.model.ModelBase;
@@ -182,6 +184,8 @@ public class ModelPigeon2 extends ModelBase {
 		
 		EntityPigeon2 pigeon = (EntityPigeon2) entityIn;
 		getRotations(pigeon);
+		if(mc.isGamePaused())
+			return;
 		
 		head.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
         head.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
