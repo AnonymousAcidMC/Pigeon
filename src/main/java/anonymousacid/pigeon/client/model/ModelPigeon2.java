@@ -33,11 +33,16 @@ public class ModelPigeon2 extends ModelBase {
 	private final ModelRenderer cube_r5;
 	private final ModelRenderer cube_r6;
 	private final ModelRenderer cube_r7;
+	
 	private final ModelRenderer leftWing;
 	private final ModelRenderer rightWing;
+	private byte flapDir = -1;
 	
 	private static double maxLegXRot = Math.toRadians(70);
 	private static double legXRotIncrement = Math.toRadians(10);
+	
+	private static double maxWingFlapRot = Math.toRadians(-100);
+	private static double wingFlapIncrement = Math.toRadians(25);
 
 	public ModelPigeon2() {
 		textureWidth = 64;
@@ -184,6 +189,7 @@ public class ModelPigeon2 extends ModelBase {
 		
 		EntityPigeon2 pigeon = (EntityPigeon2) entityIn;
 		getRotations(pigeon);
+		
 		if(mc.isGamePaused())
 			return;
 		
@@ -200,8 +206,16 @@ public class ModelPigeon2 extends ModelBase {
         	interpolateLegsStop();
         }
         
+        
+        if(pigeon.flapWings) {
+        	leftWingFlap();
+        	rightWingFlap();
+        }
+        
         setRotations(pigeon);
 	}
+	
+	
 	
 	void getRotations(EntityPigeon2 pigeon) {
 		head.rotateAngleX = pigeon.headRot.x;
@@ -235,6 +249,7 @@ public class ModelPigeon2 extends ModelBase {
 		rightWing.rotateAngleZ = pigeon.rightWingRot.z;
 	}
 	
+	
 	void setRotations(EntityPigeon2 pigeon) {
 		pigeon.headRot.x = head.rotateAngleX;
 		pigeon.headRot.y = head.rotateAngleY;
@@ -265,6 +280,21 @@ public class ModelPigeon2 extends ModelBase {
 		pigeon.rightWingRot.z = rightWing.rotateAngleZ;
 	}
 	
+	
+	
+	
+	void leftWingFlap() {
+		
+	}
+	
+	
+	void rightWingFlap() {
+		
+	}
+	
+	
+	
+	
 	void rotateLeftLegWalk() {
 		if(Math.abs(leftLeg.rotateAngleX) < maxLegXRot) {
 			leftLeg.rotateAngleX += legXRotIncrement*leftLegXDir;
@@ -275,6 +305,7 @@ public class ModelPigeon2 extends ModelBase {
 		}
 	}
 	
+	
 	void rotateRightLegWalk() {
 		if(Math.abs(rightLeg.rotateAngleX) < maxLegXRot) {
 			rightLeg.rotateAngleX += legXRotIncrement*rightLegXDir;
@@ -284,9 +315,11 @@ public class ModelPigeon2 extends ModelBase {
 			rightLegXDir *= -1;
 		}
 	}
+	
 
 	void interpolateLegsStop() {
 		leftLeg.rotateAngleX = 0;
 		rightLeg.rotateAngleX = 0;
 	}
+	
 }
