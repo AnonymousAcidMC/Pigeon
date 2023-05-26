@@ -173,6 +173,9 @@ public class ModelPigeon2 extends ModelBase {
 	}
 	
 	
+	/**
+	 * Set the rotation angles according to data in the entity being rendered
+	 */
 	@Override
 	public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_,
 			float p_78087_5_, float p_78087_6_, Entity entityIn) {
@@ -190,7 +193,7 @@ public class ModelPigeon2 extends ModelBase {
         	rotateRightLegWalk();
         }
         else {
-//        	interpolateLegsStop();
+        	interpolateLegsStop();
         }
         
         setRotations(pigeon);
@@ -269,7 +272,13 @@ public class ModelPigeon2 extends ModelBase {
 	}
 	
 	void rotateRightLegWalk() {
-		
+		if(Math.abs(rightLeg.rotateAngleX) < maxLegXRot) {
+			rightLeg.rotateAngleX += legXRotIncrement*rightLegXDir;
+		}
+		else {
+			rightLeg.rotateAngleX -= legXRotIncrement*rightLegXDir;
+			rightLegXDir *= -1;
+		}
 	}
 
 	void interpolateLegsStop() {
