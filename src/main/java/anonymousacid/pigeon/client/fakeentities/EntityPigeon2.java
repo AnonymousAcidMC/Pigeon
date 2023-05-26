@@ -53,6 +53,7 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
 	private boolean atTarget = false;
 	
+	
 	public EntityPigeon2(World worldIn, double maxSpeed, double maxForce) {
 		super(worldIn);
 		setSize(1, 1);
@@ -65,6 +66,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	}
 	
 	
+	/**
+	 * Where all the magic gets executed
+	 */
 	@Override
 	public void onLivingUpdate() {
 		if(isScreenAsset) {
@@ -75,6 +79,10 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 			onGround = true;
 			return;
 		}
+		
+		this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
 		
 		//Update pos vector
 		pos.set(posX, posY, posZ);
@@ -110,15 +118,11 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		steeringForce.add(vec);
 		
 		Move();
-		
-		
-		//set previous positions before next tick
-		this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
 	}
 	
-	
+	/**
+	 * Sets onGround variable to appropriate type using aabb casting method
+	 */
 	void groundedCheck() {
 		AxisAlignedBB aabb = Utils.boundingBoxAt(this, posX, posY-0.05, posZ);
 		List<AxisAlignedBB> groundCollisions = world().func_147461_a(aabb);
@@ -199,7 +203,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 	}
 	
-	
+	/**
+	 * handle isPecking variable
+	 */
 	void handlePecking() {
 		isPecking = (targetType == TargetType.ITEM) && allowedToPeckItem && onGround;
 	}
@@ -222,7 +228,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 	}
 	
-	
+	/**
+	 * Look for items in aabb expanded by 10 blocks (11x11x11 box around pigeon)
+	 */
 	void tryFindItemToPeck() {
 		
 		if(!isPecking && allowedToPeckItem && targetType != TargetType.ITEM) {
@@ -291,6 +299,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 	}
 	
+	/**
+	 * Look at the targetVector position
+	 */
 	void lookAtTargetPosition() {
 		//if targeting entity, look at it in the eyes.
 		double yOffset = 
@@ -313,8 +324,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		targetVector.z = z;
 	}
 	
-	
-	
 	/**
 	 * Sets the entity that the pigeon wants to follow
 	 * If the inputted entity happens to be the player, the pigeon will switch its movement type to PLAYER.
@@ -327,8 +336,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		this.entityToFollow = entityToFollow;
 	}
 	
-	
-	
 	/**
 	 * Pigeon will peck this inputted item entity.
 	 * @param item
@@ -338,20 +345,27 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		targetType = TargetType.ITEM;
 	}
 	
-	
-	
+	/**
+	 * Makes the pigeon stay still
+	 */
 	public void setNoTarget() {
 		targetType = TargetType.NONE;
 	}
 	
 	
 	
-	
+	/**
+	 * targetType is private and should not be changed directly.
+	 * Use the setTarget and setItemToPeck methods to manipulate this variable
+	 * @return this.targetType 
+	 */
 	public TargetType getTargetType() {
 		return this.targetType;
 	}
 	
-	
+	/**
+	 * Enum that is used for manipulating responses to different types of targets
+	 */
 	public enum TargetType {
 		TARGET_VECTOR,
 		ITEM,
@@ -360,8 +374,27 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		NONE
 	}
 	
+	/**
+	 * Checks if there was a change in the xyz coordinate since the last tick
+	 * @return true if the pigeon has moved since the last tick.
+	 */
+	public boolean hasMoved() {
+		return 
+			posX != prevPosX &&
+            posY != prevPosY &&
+            posZ != prevPosZ;
+	}
 	
-	
+	/**
+	 * @return Distance moved since last tick 
+	 */
+	public double calculateMovedDistance() {
+		return Math.sqrt(
+				(posX-prevPosX)*(posX-prevPosX) +
+				(posY-prevPosY)*(posY-prevPosY) +
+				(posZ-prevPosZ)*(posZ-prevPosZ)
+				);
+	}
 	
 	
 	/**
@@ -415,8 +448,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		return vec;
 	}
 	
-	
-	
+	/**
+	 * Handles movementVelocity, movement, and block collisions.
+	 */
 	private void Move() {
 		
 		movementVelocity.add(steeringForce);
@@ -432,7 +466,6 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		steeringForce.y = 0;
 		steeringForce.z = 0;
 	}
-	
 	
 	
 	void doMovementAndBlockCollisions() {
@@ -513,7 +546,9 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	
 	
 	
-	
+	/**
+	 * @Return false. This prevents the pigeon from blocking attacks from the user player.
+	 */
 	@Override
 	public boolean canBeCollidedWith() {return false;}
 }

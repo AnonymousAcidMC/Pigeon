@@ -14,8 +14,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 
 public class ModelPigeon2 extends ModelBase {
-	private final ModelRenderer leg1;
-	private final ModelRenderer leg2;
+	private final ModelRenderer leftLeg;
+	private byte leftLegXDir = -1;
+	private final ModelRenderer rightLeg;
+	private byte rightLegXDir = 1;
+	
 	private final ModelRenderer body;
 	private final ModelRenderer head;
 	private final ModelRenderer tail;
@@ -28,26 +31,29 @@ public class ModelPigeon2 extends ModelBase {
 	private final ModelRenderer cube_r7;
 	private final ModelRenderer wing1;
 	private final ModelRenderer wing2;
+	
+	private static double maxLegXRot = Math.toRadians(70);
+	private static double legXRotIncrement = Math.toRadians(10);
 
 	public ModelPigeon2() {
 		textureWidth = 64;
 		textureHeight = 64;
 
-		leg1 = new ModelRenderer(this);
-		leg1.setRotationPoint(2.5F, 20.0F, -0.5F);
-		leg1.cubeList.add(new ModelBox(leg1, 6, 20, -0.5F, 0.0F, -0.5F, 1, 4, 1, 0.0F, false));
-		leg1.cubeList.add(new ModelBox(leg1, 0, 26, -0.5F, 3.0F, -1.5F, 1, 1, 1, 0.0F, false));
-		leg1.cubeList.add(new ModelBox(leg1, 0, 26, -1.5F, 3.0F, -0.5F, 1, 1, 1, 0.0F, false));
-		leg1.cubeList.add(new ModelBox(leg1, 0, 26, 0.5F, 3.0F, -0.5F, 1, 1, 1, 0.0F, false));
-		leg1.cubeList.add(new ModelBox(leg1, 12, 50, -1.5F, -1.0F, -1.5F, 3, 2, 3, 0.0F, false));
+		leftLeg = new ModelRenderer(this);
+		leftLeg.setRotationPoint(2.5F, 20.0F, -0.5F);
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 6, 20, -0.5F, 0.0F, -0.5F, 1, 4, 1, 0.0F, false));
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 0, 26, -0.5F, 3.0F, -1.5F, 1, 1, 1, 0.0F, false));
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 0, 26, -1.5F, 3.0F, -0.5F, 1, 1, 1, 0.0F, false));
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 0, 26, 0.5F, 3.0F, -0.5F, 1, 1, 1, 0.0F, false));
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 12, 50, -1.5F, -1.0F, -1.5F, 3, 2, 3, 0.0F, false));
 
-		leg2 = new ModelRenderer(this);
-		leg2.setRotationPoint(-2.5F, 20.0F, 0.0F);
-		leg2.cubeList.add(new ModelBox(leg2, 6, 20, -0.5F, 0.0F, -1.0F, 1, 4, 1, 0.0F, false));
-		leg2.cubeList.add(new ModelBox(leg2, 0, 26, -0.5F, 3.0F, -2.0F, 1, 1, 1, 0.0F, false));
-		leg2.cubeList.add(new ModelBox(leg2, 0, 26, -1.5F, 3.0F, -1.0F, 1, 1, 1, 0.0F, false));
-		leg2.cubeList.add(new ModelBox(leg2, 0, 26, 0.5F, 3.0F, -1.0F, 1, 1, 1, 0.0F, false));
-		leg2.cubeList.add(new ModelBox(leg2, 35, 47, -1.5F, -2.0F, -2.0F, 3, 3, 3, 0.0F, false));
+		rightLeg = new ModelRenderer(this);
+		rightLeg.setRotationPoint(-2.5F, 20.0F, 0.0F);
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 6, 20, -0.5F, 0.0F, -1.0F, 1, 4, 1, 0.0F, false));
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 0, 26, -0.5F, 3.0F, -2.0F, 1, 1, 1, 0.0F, false));
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 0, 26, -1.5F, 3.0F, -1.0F, 1, 1, 1, 0.0F, false));
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 0, 26, 0.5F, 3.0F, -1.0F, 1, 1, 1, 0.0F, false));
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 35, 47, -1.5F, -2.0F, -2.0F, 3, 3, 3, 0.0F, false));
 
 		body = new ModelRenderer(this);
 		body.setRotationPoint(0.0F, 17.0F, 0.0F);
@@ -149,8 +155,8 @@ public class ModelPigeon2 extends ModelBase {
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		leg1.render(f5);
-		leg2.render(f5);
+		leftLeg.render(f5);
+		rightLeg.render(f5);
 		body.render(f5);
 		head.render(f5);
 		tail.render(f5);
@@ -173,9 +179,36 @@ public class ModelPigeon2 extends ModelBase {
 	@Override
 	public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_,
 			float p_78087_5_, float p_78087_6_, Entity entityIn) {
+		EntityPigeon2 pigeon = (EntityPigeon2) entityIn;
 		
 		head.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
         head.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
         head.rotateAngleX = MathHelper.clamp_float(head.rotateAngleX, (float)-Math.PI/2, (float)Math.PI/6);
+        
+        if(pigeon.hasMoved()) {
+        	rotateLeftLegWalk();
+        	rotateRightLegWalk();
+        }
+        else {
+        	interpolateLegsStop();
+        }
+	}
+	
+	void rotateLeftLegWalk() {
+		if(Math.abs(leftLeg.rotateAngleX) < maxLegXRot) {
+			leftLeg.rotateAngleX += legXRotIncrement*leftLegXDir;
+		}
+		else {
+			leftLeg.rotateAngleX -= legXRotIncrement*leftLegXDir;
+			leftLegXDir *= -1;
+		}
+	}
+	
+	void rotateRightLegWalk() {
+		
+	}
+
+	void interpolateLegsStop() {
+		
 	}
 }
