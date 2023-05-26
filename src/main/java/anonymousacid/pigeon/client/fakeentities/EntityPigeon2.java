@@ -122,13 +122,14 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		}
 		
 		setTargetPosition();
-		
 		lookAtTargetPosition();
 		
+		groundedCheck();
 		handleFlying();
 		
-		calculateAndSetSteeringForce();
+		flapWings = isFlying;
 		
+		calculateAndSetSteeringForce();
 		Move();
 	}
 	
@@ -186,8 +187,11 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 		
 		if(onGround) {
 			flyDown = false;
+			isFlying = false;
 			return;
 		}
+		
+		isFlying = true;
 		
 		//if target is grounded, then fly down to it.
 		Vector3d targPosDown;
