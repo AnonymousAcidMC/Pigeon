@@ -10,6 +10,7 @@ import javax.vecmath.Vector3f;
 
 import anonymousacid.pigeon.utils.RenderUtils;
 import anonymousacid.pigeon.utils.Utils;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
@@ -38,6 +39,10 @@ public class EntityPigeon2 extends EntityMob implements IFakeEntity{
 	public Vector3f headRot = new Vector3f();
 	public Vector3f bodyRot = new Vector3f();
 	public Vector3f tailRot = new Vector3f();
+	public byte leftFlapDir = 1;
+	public byte rightFlapDir = 1;
+	public byte leftLegXDir = -1;
+	public byte rightLegXDir = 1;
 	
 	public boolean flapWings;
 	public boolean isFlying;

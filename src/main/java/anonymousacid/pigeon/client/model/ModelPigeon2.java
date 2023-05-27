@@ -36,12 +36,14 @@ public class ModelPigeon2 extends ModelBase {
 	
 	private final ModelRenderer leftWing;
 	private final ModelRenderer rightWing;
-	private byte flapDir = -1;
+	private byte leftFlapDir = 1;
+	private byte rightFlapDir = 1;
 	
 	private static double maxLegXRot = Math.toRadians(70);
 	private static double legXRotIncrement = Math.toRadians(10);
 	
-	private static double maxWingFlapRot = Math.toRadians(-100);
+	private static double maxWingFlapRot = Math.toRadians(100);
+	private static double minWingFlapRot = Math.toRadians(0);
 	private static double wingFlapIncrement = Math.toRadians(25);
 
 	public ModelPigeon2() {
@@ -188,7 +190,7 @@ public class ModelPigeon2 extends ModelBase {
 			float p_78087_5_, float p_78087_6_, Entity entityIn) {
 		
 		EntityPigeon2 pigeon = (EntityPigeon2) entityIn;
-		getRotations(pigeon);
+		getModelTransformations(pigeon);
 		
 		if(mc.isGamePaused())
 			return;
@@ -211,13 +213,17 @@ public class ModelPigeon2 extends ModelBase {
         	leftWingFlap();
         	rightWingFlap();
         }
+        else {
+        	leftWing.rotateAngleZ = 0;
+        	rightWing.rotateAngleZ = 0;
+        }
         
-        setRotations(pigeon);
+        setModelTransformations(pigeon);
 	}
 	
 	
 	
-	void getRotations(EntityPigeon2 pigeon) {
+	void getModelTransformations(EntityPigeon2 pigeon) {
 		head.rotateAngleX = pigeon.headRot.x;
 		head.rotateAngleY = pigeon.headRot.y;
 		head.rotateAngleZ = pigeon.headRot.z;
@@ -247,10 +253,15 @@ public class ModelPigeon2 extends ModelBase {
 		rightWing.rotateAngleX = pigeon.rightWingRot.x;
 		rightWing.rotateAngleY = pigeon.rightWingRot.y;
 		rightWing.rotateAngleZ = pigeon.rightWingRot.z;
+		
+		leftLegXDir = pigeon.leftLegXDir;
+		rightLegXDir = pigeon.rightLegXDir;
+		leftFlapDir = pigeon.leftFlapDir;
+		rightFlapDir = pigeon.rightFlapDir;
 	}
 	
 	
-	void setRotations(EntityPigeon2 pigeon) {
+	void setModelTransformations(EntityPigeon2 pigeon) {
 		pigeon.headRot.x = head.rotateAngleX;
 		pigeon.headRot.y = head.rotateAngleY;
 		pigeon.headRot.z = head.rotateAngleZ;
@@ -278,18 +289,39 @@ public class ModelPigeon2 extends ModelBase {
 		pigeon.rightWingRot.x = rightWing.rotateAngleX;
 		pigeon.rightWingRot.y = rightWing.rotateAngleY;
 		pigeon.rightWingRot.z = rightWing.rotateAngleZ;
+		
+		pigeon.leftLegXDir = leftLegXDir;
+		pigeon.rightLegXDir = rightLegXDir;
+		pigeon.leftFlapDir = leftFlapDir;
+		pigeon.rightFlapDir = leftFlapDir;
 	}
 	
 	
 	
 	
 	void leftWingFlap() {
-		
+		if(leftFlapDir == 1 && leftWing.rotateAngleZ > -maxWingFlapRot) {
+			leftWing.rotateAngleZ -= wingFlapIncrement;
+		}
+		else if(leftFlapDir == -1 && leftWing.rotateAngleZ < minWingFlapRot) {
+			leftWing.rotateAngleZ += wingFlapIncrement;
+		}
+		else {
+			leftFlapDir *= -1;
+		}
 	}
 	
 	
 	void rightWingFlap() {
-		
+		if(rightFlapDir == 1 && rightWing.rotateAngleZ > -maxWingFlapRot) {
+			rightWing.rotateAngleZ += wingFlapIncrement;
+		}
+		else if(rightFlapDir == -1 && rightWing.rotateAngleZ > minWingFlapRot) {
+			rightWing.rotateAngleZ -= wingFlapIncrement;
+		}
+		else {
+			rightFlapDir *= -1;
+		}
 	}
 	
 	
