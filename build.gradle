@@ -24,6 +24,7 @@ buildscript {
 	  classpath 'com.github.xcfrg:MixinGradle:0.6-SNAPSHOT'
     }
 }
+
 plugins {
     id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
@@ -86,6 +87,12 @@ mixin {
     add sourceSets.main, "mixins.pigeon.refmap.json"
 }
 
+reobf { 
+    shadowJar { 
+        mappingType = "SEARGE"
+    } 
+}
+
 jar {
     manifest.attributes(
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
@@ -94,7 +101,7 @@ jar {
             "ForceLoadAsMod": true
     )
 
-    enabled = false
+    enabled = true
 }
 
 processResources
@@ -116,9 +123,3 @@ processResources
         exclude 'mcmod.info'
     }
 }
-shadowJar {
-   
-}
-
-reobf { shadowJar { mappingType = "SEARGE" } }
-tasks.reobfShadowJar.mustRunAfter compileJava
