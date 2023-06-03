@@ -1,0 +1,10 @@
+{
+  "package": "io.github.anonymousacid.pigeon.mixins",
+  "refmap": "mixins.pigeon.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinNetworkManager",
+    "MixinGuiContainer",
+    "AccessorGuiScreen"
+  ]
+}
