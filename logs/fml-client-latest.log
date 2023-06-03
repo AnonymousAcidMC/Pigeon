@@ -201,34 +201,34 @@ Caused by: com.google.gson.stream.MalformedJsonException: Unterminated object at
 	... 26 more
 [20:11:16] [Client thread/DEBUG] [FML/]: Found an mcmod.info file in directory main
 [20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.anonymousacid
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.anonymousacid.pigeon
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.client
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.client.fakeentities
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.client.model
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.client.render
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.commands
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.commands.animations
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.commands.test
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.events
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.features
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.features.chat
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.features.chat.chatbubbles
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.features.chat.kaomojis
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.features.dungeons
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.features.misc
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.features.misc.miniontiers
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.gui
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.gui.config
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.gui.misc
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.handlers
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.init
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.mixins
-[20:11:16] [Client thread/DEBUG] [FML/]: Identified a mod of type Lnet/minecraftforge/fml/common/Mod; (anonymousacid.pigeon.Pigeon) - loading
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.anonymousacid
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.io.github.anonymousacid.pigeon
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.client
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.client.fakeentities
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.client.model
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.client.render
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.commands
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.commands.animations
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.commands.test
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.events
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.features
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.features.chat
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.features.chat.chatbubbles
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.features.chat.kaomojis
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.features.dungeons
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.features.misc
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.features.misc.miniontiers
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.gui
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.gui.config
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.gui.misc
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.handlers
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.init
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.mixins
+[20:11:16] [Client thread/DEBUG] [FML/]: Identified a mod of type Lnet/minecraftforge/fml/common/Mod; (io.github.anonymousacid.pigeon.Pigeon) - loading
 [20:11:16] [Client thread/TRACE] [pigeon/]: Parsed dependency info : [] [] []
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.proxy
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon.utils
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.proxy
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon.utils
 [20:11:16] [Client thread/TRACE] [FML/]: Recursing into package assets
 [20:11:16] [Client thread/TRACE] [FML/]: Recursing into package assets.pigeon
 [20:11:16] [Client thread/TRACE] [FML/]: Recursing into package assets.pigeon.data
@@ -240,8 +240,8 @@ Caused by: com.google.gson.stream.MalformedJsonException: Unterminated object at
 [20:11:16] [Client thread/DEBUG] [FML/]: Examining directory default for potential mods
 [20:11:16] [Client thread/DEBUG] [FML/]: No mcmod.info file found in directory default
 [20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid
-[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package anonymousacid.pigeon
-[20:11:16] [Client thread/DEBUG] [FML/]: Identified a mod of type Lnet/minecraftforge/fml/common/Mod; (anonymousacid.pigeon.Pigeon) - loading
+[20:11:16] [Client thread/TRACE] [FML/]: Recursing into package io.github.anonymousacid.pigeon
+[20:11:16] [Client thread/DEBUG] [FML/]: Identified a mod of type Lnet/minecraftforge/fml/common/Mod; (io.github.anonymousacid.pigeon.Pigeon) - loading
 [20:11:16] [Client thread/TRACE] [net.minecraftforge.fml.relauncher.FMLRelaunchLog/]: Parsed dependency info : [] [] []
 [20:11:16] [Client thread/INFO] [net.minecraftforge.fml.relauncher.FMLRelaunchLog/]: Mod null is missing the required element 'name'. Substituting null
 [20:11:16] [Client thread/DEBUG] [net.minecraftforge.fml.relauncher.FMLRelaunchLog/]: Attempting to load the file version.properties from default to locate a version number for null
