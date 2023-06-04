@@ -25,7 +25,7 @@ public class TestCommand extends BaseCommand {
     }
 
     private int execute(CommandSourceStack commandSourceStack) {
-        commandSourceStack.sendSystemMessage(Component.literal("test thing"));
+        commandSourceStack.sendSystemMessage(Component.literal("test thing thing"));
         return Command.SINGLE_SUCCESS;
     }
 }
