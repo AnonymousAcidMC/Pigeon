@@ -2,6 +2,7 @@ package io.github.anonymousacid.pigeon.command.impl;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.github.anonymousacid.pigeon.McIf;
 import io.github.anonymousacid.pigeon.command.BaseCommand;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -11,6 +12,8 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.commands.GiveCommand;
 import net.minecraftforge.client.ClientCommandHandler;
+
+import static io.github.anonymousacid.pigeon.McIf.*;
 
 public class TestCommand extends BaseCommand {
 
@@ -25,7 +28,7 @@ public class TestCommand extends BaseCommand {
     }
 
     private int execute(CommandSourceStack commandSourceStack) {
-        commandSourceStack.sendSystemMessage(Component.literal("test thing thing"));
+        commandSourceStack.sendSystemMessage(Component.literal("hmahrkmnaklejn"));
         return Command.SINGLE_SUCCESS;
     }
 }

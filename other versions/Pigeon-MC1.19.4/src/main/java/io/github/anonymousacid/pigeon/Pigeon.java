@@ -29,6 +29,7 @@ public class Pigeon {
 
     @SubscribeEvent
     public void commonSetup(final RegisterClientCommandsEvent event) {
+        McIf.setMinecraftSingleton();
         CommandsInit.registerCommands(event);
     }
 }
