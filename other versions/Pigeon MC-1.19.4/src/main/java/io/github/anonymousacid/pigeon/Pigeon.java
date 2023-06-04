@@ -3,6 +3,7 @@ package io.github.anonymousacid.pigeon;
 import com.mojang.logging.LogUtils;
 import io.github.anonymousacid.pigeon.init.CommandsInit;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -22,11 +23,12 @@ public class Pigeon {
 
     public Pigeon() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(this::commonSetup);
+
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        CommandsInit.registerCommands();
+    @SubscribeEvent
+    public void commonSetup(final RegisterClientCommandsEvent event) {
+        CommandsInit.registerCommands(event);
     }
 }
