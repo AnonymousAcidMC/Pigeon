@@ -58,7 +58,7 @@ public class PigeonEntity extends CommandBase{
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) throws CommandException {
 		if (icommandsender instanceof EntityPlayer) {
-			Utils.spawnEntity(new EntityPigeon(world()), player().posX, player().posY, player().posZ);
+			Utils.spawnPigeon();
 		}
 	}
 }

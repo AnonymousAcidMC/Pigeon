@@ -1,18 +1,28 @@
 package io.github.anonymousacid.pigeon.client.model;
 
-import org.lwjgl.input.Mouse;
+import static io.github.anonymousacid.pigeon.McIf.mc;
 
 import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
+import io.github.anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBox;
+import net.minecraft.client.model.ModelChicken;
+import net.minecraft.client.model.ModelCow;
+import net.minecraft.client.model.ModelPig;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.util.MathHelper;
 
 public class ModelPigeon extends ModelBase {
+	private final ModelRenderer leftLeg;
+	private byte leftLegXDir = -1;
+	private final ModelRenderer rightLeg;
+	private byte rightLegXDir = 1;
 	
-	private final ModelRenderer leg1;
-	private final ModelRenderer leg2;
 	private final ModelRenderer body;
 	private final ModelRenderer head;
 	private final ModelRenderer tail;
@@ -23,62 +33,63 @@ public class ModelPigeon extends ModelBase {
 	private final ModelRenderer cube_r5;
 	private final ModelRenderer cube_r6;
 	private final ModelRenderer cube_r7;
-	private final ModelRenderer wing1;
-	private final ModelRenderer wing2;
-	private double neckMoved = 0;
 	
-	protected double distanceMovedTotal = 0.0d;
-	protected static final double CYCLES_PER_BLOCK = 3.0D;
-	protected int cycleIndex = 0;
-	protected int peckingTimer = 4;
-	protected boolean invertCycle = false;
-	protected boolean invertFlap = false;
-	protected boolean swim = false;
+	private final ModelRenderer leftWing;
+	private final ModelRenderer rightWing;
+	private byte leftFlapDir = 1;
+	private byte rightFlapDir = 1;
 	
-	protected float[][] undulationCycle = new float[][]
-	{
-		{ 0F, -45F, -45F, 0F, 45F, 45F, 0F, -45F, 0f },//leg1
-		{ -45F, 0F, 45F, 0F, -45F, 0F, 45F, 0F, -45f }//leg2
-	};
+	private static double maxLegXRot = Math.toRadians(70);
+	private static double legXRotIncrement = Math.toRadians(10);
 	
+	private static double maxWingFlapRot = Math.toRadians(100);
+	private static double minWingFlapRot = Math.toRadians(0);
+	private static double wingFlapIncrement = Math.toRadians(25);
+
 	public ModelPigeon() {
 		textureWidth = 64;
 		textureHeight = 64;
-		
 
-		leg1 = new ModelRenderer(this);
-		leg1.setRotationPoint(2.5F, 20.0F, -0.5F);
-		leg1.cubeList.add(new ModelBox(leg1, 0, 0, -0.5F, 0.0F, -0.5F, 1, 4, 1, 0.0F, false));
-		leg1.cubeList.add(new ModelBox(leg1, 0, 0, -0.5F, 3.0F, -1.5F, 1, 1, 1, 0.0F, false));
-		leg1.cubeList.add(new ModelBox(leg1, 0, 0, -1.5F, 3.0F, -0.5F, 1, 1, 1, 0.0F, false));
-		leg1.cubeList.add(new ModelBox(leg1, 0, 0, 0.5F, 3.0F, -0.5F, 1, 1, 1, 0.0F, false));
+		leftLeg = new ModelRenderer(this);
+		leftLeg.setRotationPoint(2.5F, 20.0F, -0.5F);
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 6, 20, -0.5F, 0.0F, -0.5F, 1, 4, 1, 0.0F, false));
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 0, 26, -0.5F, 3.0F, -1.5F, 1, 1, 1, 0.0F, false));
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 0, 26, -1.5F, 3.0F, -0.5F, 1, 1, 1, 0.0F, false));
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 0, 26, 0.5F, 3.0F, -0.5F, 1, 1, 1, 0.0F, false));
+		leftLeg.cubeList.add(new ModelBox(leftLeg, 12, 50, -1.5F, -1.0F, -1.5F, 3, 2, 3, 0.0F, false));
 
-		leg2 = new ModelRenderer(this);
-		leg2.setRotationPoint(-2.5F, 20.0F, 0.0F);
-		leg2.cubeList.add(new ModelBox(leg2, 0, 0, -0.5F, 0.0F, -1.0F, 1, 4, 1, 0.0F, false));
-		leg2.cubeList.add(new ModelBox(leg2, 0, 0, -0.5F, 3.0F, -2.0F, 1, 1, 1, 0.0F, false));
-		leg2.cubeList.add(new ModelBox(leg2, 0, 0, -1.5F, 3.0F, -1.0F, 1, 1, 1, 0.0F, false));
-		leg2.cubeList.add(new ModelBox(leg2, 0, 0, 0.5F, 3.0F, -1.0F, 1, 1, 1, 0.0F, false));
+		rightLeg = new ModelRenderer(this);
+		rightLeg.setRotationPoint(-2.5F, 20.0F, 0.0F);
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 6, 20, -0.5F, 0.0F, -1.0F, 1, 4, 1, 0.0F, false));
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 0, 26, -0.5F, 3.0F, -2.0F, 1, 1, 1, 0.0F, false));
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 0, 26, -1.5F, 3.0F, -1.0F, 1, 1, 1, 0.0F, false));
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 0, 26, 0.5F, 3.0F, -1.0F, 1, 1, 1, 0.0F, false));
+		rightLeg.cubeList.add(new ModelBox(rightLeg, 35, 47, -1.5F, -2.0F, -2.0F, 3, 3, 3, 0.0F, false));
 
 		body = new ModelRenderer(this);
-		body.setRotationPoint(0.0F, 24.0F, 0.0F);
-		body.cubeList.add(new ModelBox(body, 16, 0, -3.0F, -5.0F, -4.0F, 6, 1, 7, 0.0F, false));
-		body.cubeList.add(new ModelBox(body, 14, 3, -5.0F, -6.0F, -5.0F, 10, 1, 9, 0.0F, false));
-		body.cubeList.add(new ModelBox(body, 10, 15, -5.0F, -9.0F, -6.0F, 10, 3, 11, 0.0F, false));
-		body.cubeList.add(new ModelBox(body, 24, 0, -5.0F, -10.0F, -7.0F, 10, 1, 11, 0.0F, false));
-		body.cubeList.add(new ModelBox(body, 0, 50, -4.0F, -11.0F, -7.0F, 8, 1, 8, 0.0F, false));
-		body.cubeList.add(new ModelBox(body, 35, 52, -3.0F, -12.0F, -7.0F, 6, 1, 7, 0.0F, false));
-		body.cubeList.add(new ModelBox(body, 24, 0, -5.0F, -9.0F, -7.0F, 10, 1, 1, 0.0F, false));
+		body.setRotationPoint(0.0F, 17.0F, 0.0F);
+		body.cubeList.add(new ModelBox(body, 31, 14, -3.0F, 2.0F, -4.0F, 6, 1, 7, 0.0F, false));
+		body.cubeList.add(new ModelBox(body, 0, 26, -5.0F, 1.0F, -5.0F, 10, 1, 9, 0.0F, false));
+		body.cubeList.add(new ModelBox(body, 0, 0, -5.0F, -2.0F, -6.0F, 10, 3, 11, 0.0F, false));
+		body.cubeList.add(new ModelBox(body, 0, 14, -5.0F, -3.0F, -7.0F, 10, 1, 11, 0.0F, false));
+		body.cubeList.add(new ModelBox(body, 29, 26, -4.0F, -4.0F, -7.0F, 8, 1, 8, 0.0F, false));
+		body.cubeList.add(new ModelBox(body, 31, 0, -3.0F, -5.0F, -7.0F, 6, 1, 7, 0.0F, false));
+		body.cubeList.add(new ModelBox(body, 31, 8, -5.0F, -2.0F, -7.0F, 10, 1, 1, 0.0F, false));
 
 		head = new ModelRenderer(this);
 		head.setRotationPoint(0.0F, 12.0F, -3.5F);
-		head.cubeList.add(new ModelBox(head, 17, 44, -3.0F, -1.0F, -2.5F, 6, 1, 5, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 12, 45, -2.0F, -2.0F, -2.5F, 4, 1, 5, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 16, 45, -2.0F, -3.0F, -2.5F, 4, 1, 4, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 15, 45, -2.0F, -4.0F, -2.5F, 4, 1, 3, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 25, 58, -1.0F, -3.0F, -3.5F, 2, 1, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 1, 16, -3.0F, -3.0F, -1.5F, 1, 1, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 1, 16, 2.0F, -3.0F, -1.5F, 1, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 33, 35, -3.0F, -1.0F, -2.5F, 6, 1, 5, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 18, -2.0F, 0.0F, -2.5F, 4, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 46, 46, -2.0F, 0.0F, -1.5F, 4, 1, 3, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 18, -2.0F, 0.0F, 1.5F, 4, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 18, -2.0F, -1.0F, -3.5F, 4, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 18, -2.0F, -1.0F, 2.5F, 4, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 31, 41, -2.0F, -2.0F, -2.5F, 4, 1, 5, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 12, 45, -2.0F, -3.0F, -2.5F, 4, 1, 4, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 48, 22, -2.0F, -4.0F, -2.5F, 4, 1, 3, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 0, 23, -1.0F, -3.0F, -3.5F, 2, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 7, 14, -3.0F, -3.0F, -1.5F, 1, 1, 1, 0.0F, false));
+		head.cubeList.add(new ModelBox(head, 7, 14, 2.0F, -3.0F, -1.5F, 1, 1, 1, 0.0F, false));
 
 		tail = new ModelRenderer(this);
 		tail.setRotationPoint(0.0F, 15.0F, 4.0F);
@@ -88,242 +99,259 @@ public class ModelPigeon extends ModelBase {
 		cube_r1.setRotationPoint(0.0F, 10.0F, -5.0F);
 		tail.addChild(cube_r1);
 		setRotationAngle(cube_r1, -0.48F, 0.0F, 0.0F);
-		cube_r1.cubeList.add(new ModelBox(cube_r1, 44, 29, -3.0F, -11.0F, 2.0F, 6, 1, 4, 0.0F, false));
+		cube_r1.cubeList.add(new ModelBox(cube_r1, 16, 40, -3.0F, -11.0F, 2.0F, 6, 1, 4, 0.0F, false));
 
 		cube_r2 = new ModelRenderer(this);
 		cube_r2.setRotationPoint(0.0F, 11.0F, -4.0F);
 		tail.addChild(cube_r2);
 		setRotationAngle(cube_r2, -0.48F, 0.0F, 0.0F);
-		cube_r2.cubeList.add(new ModelBox(cube_r2, 44, 29, -2.0F, -11.0F, 2.0F, 4, 1, 4, 0.0F, false));
+		cube_r2.cubeList.add(new ModelBox(cube_r2, 44, 41, -2.0F, -11.0F, 2.0F, 4, 1, 4, 0.0F, false));
 
 		cube_r3 = new ModelRenderer(this);
 		cube_r3.setRotationPoint(0.0F, 13.0F, -1.0F);
 		tail.addChild(cube_r3);
 		setRotationAngle(cube_r3, -0.48F, 0.0F, 0.0F);
-		cube_r3.cubeList.add(new ModelBox(cube_r3, 2, 19, -1.0F, -11.0F, 4.0F, 2, 1, 3, 0.0F, false));
+		cube_r3.cubeList.add(new ModelBox(cube_r3, 0, 14, -1.0F, -11.0F, 4.0F, 2, 1, 3, 0.0F, false));
 
 		cube_r4 = new ModelRenderer(this);
 		cube_r4.setRotationPoint(0.0F, 12.0F, -2.0F);
 		tail.addChild(cube_r4);
 		setRotationAngle(cube_r4, -0.48F, 0.0F, 0.0F);
-		cube_r4.cubeList.add(new ModelBox(cube_r4, 44, 29, -2.0F, -11.0F, 2.0F, 4, 1, 4, 0.0F, false));
+		cube_r4.cubeList.add(new ModelBox(cube_r4, 44, 41, -2.0F, -11.0F, 2.0F, 4, 1, 4, 0.0F, false));
 
 		cube_r5 = new ModelRenderer(this);
 		cube_r5.setRotationPoint(0.0F, 11.0F, -3.0F);
 		tail.addChild(cube_r5);
 		setRotationAngle(cube_r5, -0.3927F, 0.0F, 0.0F);
-		cube_r5.cubeList.add(new ModelBox(cube_r5, 44, 29, -3.0F, -11.0F, 2.0F, 6, 1, 3, 0.0F, false));
+		cube_r5.cubeList.add(new ModelBox(cube_r5, 42, 10, -3.0F, -11.0F, 2.0F, 6, 1, 3, 0.0F, false));
 
 		cube_r6 = new ModelRenderer(this);
 		cube_r6.setRotationPoint(0.0F, 10.0F, -4.0F);
 		tail.addChild(cube_r6);
 		setRotationAngle(cube_r6, -0.3927F, 0.0F, 0.0F);
-		cube_r6.cubeList.add(new ModelBox(cube_r6, 44, 29, -4.0F, -11.0F, 1.0F, 8, 1, 3, 0.0F, false));
+		cube_r6.cubeList.add(new ModelBox(cube_r6, 9, 36, -4.0F, -11.0F, 1.0F, 8, 1, 3, 0.0F, false));
 
 		cube_r7 = new ModelRenderer(this);
 		cube_r7.setRotationPoint(0.0F, 9.0F, -5.0F);
 		tail.addChild(cube_r7);
 		setRotationAngle(cube_r7, -0.2182F, 0.0F, 0.0F);
-		cube_r7.cubeList.add(new ModelBox(cube_r7, 34, 29, -4.0F, -10.0F, 3.0F, 8, 1, 2, 0.0F, false));
+		cube_r7.cubeList.add(new ModelBox(cube_r7, 31, 22, -4.0F, -10.0F, 3.0F, 8, 1, 2, 0.0F, false));
 
-		wing1 = new ModelRenderer(this);
-		wing1.setRotationPoint(5.0F, 14.0F, 0.0F);
-		wing1.cubeList.add(new ModelBox(wing1, 33, 1, 0.0F, 1.0F, -4.0F, 1, 3, 7, 0.0F, false));
-		wing1.cubeList.add(new ModelBox(wing1, 25, 24, 1.0F, 1.0F, -3.0F, 1, 3, 5, 0.0F, false));
-		wing1.cubeList.add(new ModelBox(wing1, 43, 3, 0.0F, 4.0F, -3.0F, 1, 1, 5, 0.0F, false));
-		wing1.cubeList.add(new ModelBox(wing1, 43, 1, 1.0F, 2.0F, 2.0F, 1, 3, 1, 0.0F, false));
-		wing1.cubeList.add(new ModelBox(wing1, 27, 7, 1.0F, 4.0F, -2.0F, 1, 1, 4, 0.0F, false));
-		wing1.cubeList.add(new ModelBox(wing1, 42, 8, 1.0F, 4.0F, 3.0F, 1, 1, 1, 0.0F, false));
-		wing1.cubeList.add(new ModelBox(wing1, 30, 7, 1.0F, 5.0F, 2.0F, 1, 1, 1, 0.0F, false));
-		wing1.cubeList.add(new ModelBox(wing1, 32, 6, 1.0F, 5.0F, 0.0F, 1, 1, 2, 0.0F, false));
-		wing1.cubeList.add(new ModelBox(wing1, 35, 6, 1.0F, 2.0F, 3.0F, 1, 2, 1, 0.0F, false));
-		wing1.cubeList.add(new ModelBox(wing1, 38, 3, 0.0F, 0.0F, -2.0F, 1, 1, 4, 0.0F, false));
+		leftWing = new ModelRenderer(this);
+		leftWing.setRotationPoint(5.0F, 14.0F, 0.0F);
+		leftWing.cubeList.add(new ModelBox(leftWing, 0, 36, 0.0F, 1.0F, -4.0F, 1, 3, 7, 0.0F, false));
+		leftWing.cubeList.add(new ModelBox(leftWing, 0, 46, 1.0F, 1.0F, -3.0F, 1, 3, 5, 0.0F, false));
+		leftWing.cubeList.add(new ModelBox(leftWing, 50, 0, 0.0F, 4.0F, -3.0F, 1, 1, 5, 0.0F, false));
+		leftWing.cubeList.add(new ModelBox(leftWing, 0, 0, 1.0F, 2.0F, 2.0F, 1, 3, 1, 0.0F, false));
+		leftWing.cubeList.add(new ModelBox(leftWing, 0, 5, 1.0F, 4.0F, -2.0F, 1, 1, 4, 0.0F, false));
+		leftWing.cubeList.add(new ModelBox(leftWing, 6, 7, 1.0F, 4.0F, 3.0F, 1, 1, 1, 0.0F, false));
+		leftWing.cubeList.add(new ModelBox(leftWing, 6, 5, 1.0F, 5.0F, 2.0F, 1, 1, 1, 0.0F, false));
+		leftWing.cubeList.add(new ModelBox(leftWing, 0, 20, 1.0F, 5.0F, 0.0F, 1, 1, 2, 0.0F, false));
+		leftWing.cubeList.add(new ModelBox(leftWing, 0, 5, 1.0F, 2.0F, 3.0F, 1, 2, 1, 0.0F, false));
+		leftWing.cubeList.add(new ModelBox(leftWing, 0, 0, 0.0F, 0.0F, -2.0F, 1, 1, 4, 0.0F, false));
 
-		wing2 = new ModelRenderer(this);
-		wing2.setRotationPoint(-5.0F, 14.0F, 0.0F);
-		wing2.cubeList.add(new ModelBox(wing2, 33, 1, -1.0F, 1.0F, -4.0F, 1, 3, 7, 0.0F, false));
-		wing2.cubeList.add(new ModelBox(wing2, 30, 24, -2.0F, 1.0F, -2.0F, 1, 3, 5, 0.0F, false));
-		wing2.cubeList.add(new ModelBox(wing2, 43, 3, -1.0F, 4.0F, -3.0F, 1, 1, 5, 0.0F, false));
-		wing2.cubeList.add(new ModelBox(wing2, 43, 1, -2.0F, 2.0F, -3.0F, 1, 2, 1, 0.0F, false));
-		wing2.cubeList.add(new ModelBox(wing2, 27, 7, -2.0F, 4.0F, -2.0F, 1, 1, 4, 0.0F, false));
-		wing2.cubeList.add(new ModelBox(wing2, 42, 8, -2.0F, 4.0F, 2.0F, 1, 1, 1, 0.0F, false));
-		wing2.cubeList.add(new ModelBox(wing2, 30, 7, -2.0F, 5.0F, 1.0F, 1, 1, 1, 0.0F, false));
-		wing2.cubeList.add(new ModelBox(wing2, 32, 6, -2.0F, 5.0F, -1.0F, 1, 1, 2, 0.0F, false));
-		wing2.cubeList.add(new ModelBox(wing2, 35, 6, -2.0F, 2.0F, 3.0F, 1, 2, 1, 0.0F, false));
-		wing2.cubeList.add(new ModelBox(wing2, 38, 3, -1.0F, 0.0F, -2.0F, 1, 1, 4, 0.0F, false));
+		rightWing = new ModelRenderer(this);
+		rightWing.setRotationPoint(-5.0F, 14.0F, 0.0F);
+		rightWing.cubeList.add(new ModelBox(rightWing, 0, 36, -1.0F, 1.0F, -4.0F, 1, 3, 7, 0.0F, false));
+		rightWing.cubeList.add(new ModelBox(rightWing, 23, 45, -2.0F, 1.0F, -2.0F, 1, 3, 5, 0.0F, false));
+		rightWing.cubeList.add(new ModelBox(rightWing, 50, 0, -1.0F, 4.0F, -3.0F, 1, 1, 5, 0.0F, false));
+		rightWing.cubeList.add(new ModelBox(rightWing, 6, 0, -2.0F, 2.0F, -3.0F, 1, 2, 1, 0.0F, false));
+		rightWing.cubeList.add(new ModelBox(rightWing, 0, 5, -2.0F, 4.0F, -2.0F, 1, 1, 4, 0.0F, false));
+		rightWing.cubeList.add(new ModelBox(rightWing, 6, 7, -2.0F, 4.0F, 2.0F, 1, 1, 1, 0.0F, false));
+		rightWing.cubeList.add(new ModelBox(rightWing, 6, 5, -2.0F, 5.0F, 1.0F, 1, 1, 1, 0.0F, false));
+		rightWing.cubeList.add(new ModelBox(rightWing, 0, 20, -2.0F, 5.0F, -1.0F, 1, 1, 2, 0.0F, false));
+		rightWing.cubeList.add(new ModelBox(rightWing, 0, 5, -2.0F, 2.0F, 3.0F, 1, 2, 1, 0.0F, false));
+		rightWing.cubeList.add(new ModelBox(rightWing, 0, 0, -1.0F, 0.0F, -2.0F, 1, 1, 4, 0.0F, false));
 	}
 
 	@Override
-	public void render(Entity parEntity, float parTime, float parSwingSuppress, float par4, float parHeadAngleY, float parHeadAngleX, float par7) {
-		leg1.render(par7);
-		leg2.render(par7);
-		body.render(par7);
-		head.render(par7);
-		tail.render(par7);
-		wing1.render(par7);
-		wing2.render(par7);
-		if(leg1.rotateAngleX >= 45/20) {
-			invertCycle = false;
-			leg1.rotateAngleX = 45/20;
-		} else if(leg1.rotateAngleX <= -45/20) {
-			invertCycle = true;
-			leg1.rotateAngleX = -45/20;
-		}
-		if(leg2.rotateAngleX >= 45/20) {
-			invertCycle = false;
-			leg2.rotateAngleX = 45/20;
-		} else if(leg2.rotateAngleX <= -45/20) {
-			invertCycle = true;
-			leg2.rotateAngleX = -45/20;
-		}
-		if(wing1.rotateAngleZ <= -75/20) {
-			wing1.rotateAngleZ = -75/20;
-			invertFlap = true;
-		} else if(wing1.rotateAngleZ >= 0) {
-			wing1.rotateAngleZ = 0;
-			invertFlap = false;
-		}
-		if(wing2.rotateAngleZ >= 75/20) {
-			wing2.rotateAngleZ = 75/20;
-			invertFlap = true;
-		} else if(wing2.rotateAngleZ <= 0) {
-			wing2.rotateAngleZ = 0;
-			invertFlap = false;
-		}
-		renderPigeon((EntityPigeon) parEntity, parTime, parSwingSuppress, par4, parHeadAngleY, parHeadAngleX, par7);
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+		leftLeg.render(f5);
+		rightLeg.render(f5);
+		body.render(f5);
+		head.render(f5);
+		tail.render(f5);
+		leftWing.render(f5);
+		rightWing.render(f5);
 	}
-	
+
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
 	
-	public void renderPigeon(EntityPigeon parEntity, float parTime, float parSwingSuppress, float par4, float parHeadAngleY, float parHeadAngleX, float par7) {
-		setRotationAngles(parTime, parSwingSuppress, par4, parHeadAngleY, parHeadAngleX, par7, parEntity);
-	}
-    
-    protected void setRotation(ModelRenderer model, float rotX, float rotY, float rotZ) {
-        model.rotateAngleX = degToRad(rotX);
-        model.rotateAngleY = degToRad(rotY);
-        model.rotateAngleZ = degToRad(rotZ);        
-    }
-    
-  	@Override
-  	public void setRotationAngles(float parTime, float parSwingSuppress, float par3, float parHeadAngleY, float parHeadAngleX, float par6, Entity parEntity) {
-  	
-  	}
-
-    //ANIMATIONS
-  	@Override
-  	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float p_78086_2_, float p_78086_3_,
-  			float partialTickTime) {
-  		EntityPigeon entity = (EntityPigeon)entitylivingbaseIn;
-  		if(entity.isInventoryAsset) {
-			if(Mouse.getEventButtonState()) {head.offsetZ = -0.1f;}
-			else head.offsetZ = 0;
+	
+	/**
+	 * Set the rotation angles according to data in the entity being rendered
+	 */
+	@Override
+	public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_,
+			float p_78087_5_, float p_78087_6_, Entity entityIn) {
+		
+		EntityPigeon pigeon = (EntityPigeon) entityIn;
+		getModelTransformations(pigeon);
+		
+		if(mc.isGamePaused())
 			return;
-		}
-  		super.setLivingAnimations(entitylivingbaseIn, p_78086_2_, p_78086_3_, partialTickTime);
-  		double traveledDistance = entity.getDistance(entity.prevPosX, entity.prevPosY, entity.prevPosZ);
-  		if(traveledDistance != 0) {
-  			if(traveledDistance > 0.2) {
-	  			if(!invertCycle) {
-	  				leg1.rotateAngleX += 0.4f;
-	  				leg2.rotateAngleX -= 0.4f;
-	  			} else {
-	  				leg1.rotateAngleX -= 0.4f;
-	  				leg2.rotateAngleX += 0.4f;
-	  			}
-  			} else {
-  				leg1.rotateAngleX = 0f;
-  	  			leg2.rotateAngleX = 0f;
-  			}
-  		} else {
-  			leg1.rotateAngleX = 0f;
-  			leg2.rotateAngleX = 0f;
-  		}
-  		
-		if(entity.flapWings) {
-			if(!invertFlap) {
-  				wing1.rotateAngleZ -= 0.6f;
-  				wing2.rotateAngleZ += 0.6f;
-  			} else {
-  				wing1.rotateAngleZ += 0.6f;
-  				wing2.rotateAngleZ -= 0.6f;
-  			}
-		} else {
-			wing1.rotateAngleZ = 0;
-  			wing2.rotateAngleZ = 0;
-		}
-  		if(entity.isMoving) {
-  			if(neckMoved != 0.1) {
-	  			head.offsetZ += 0.1;
-	  			neckMoved += 0.1;	
-  			} else {
-  				if(neckMoved != -0.1) {
-  					head.offsetZ -= 0.1;
-  					neckMoved -= 0.1;
-  				} else {
-  					head.offsetZ = 0;
-  					neckMoved = 0;
-  				}
-  			}
-  		} else {
-  			head.offsetZ = 0f;
-  			neckMoved = 0.1;
-  		}
-  		if(entity.startPecking) {
-  			if(peckingTimer == 0) {
-	  			head.rotateAngleX = 0.3f;
-	  			head.offsetY = 0.4f;
-	  			body.offsetY = 0.4f;
-	  			tail.offsetY = 0.4f;
-	  			wing1.offsetY = 0.4f;
-	  			wing2.offsetY = 0.4f;
-	  			if(head.offsetZ != 0f) {
-	  				head.offsetZ += 0.1f;
-	  			} else if(head.offsetZ != -0.1f){
-	  				head.offsetZ += -0.1f;
-	  			}
-	  			peckingTimer = 4;
-  			} else {
-  				peckingTimer--;
-  			}
-  		} else {
-  			head.rotateAngleX = 0f;
-  			head.offsetZ = 0f;
-  			head.offsetY = 0f;
-  			body.offsetY = 0f;    
-  			tail.offsetY = 0f;       
-  			wing1.offsetY = 0f;  
-  			wing2.offsetY = 0f;  
-  		}
-  	}
-  	
-	protected float degToRad(float degrees) {
-	    return degrees * (float)Math.PI / 180 ;
+		
+		head.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
+        head.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
+        head.rotateAngleX = MathHelper.clamp_float(head.rotateAngleX, (float)-Math.PI/2, (float)Math.PI/6);
+        
+        
+        if(pigeon.hasMoved() && pigeon.onGround) {
+        	rotateLeftLegWalk();
+        	rotateRightLegWalk();
+        }
+        else {
+        	interpolateLegsStop();
+        }
+        
+        
+        if(pigeon.flapWings) {
+        	leftWingFlap();
+        	rightWingFlap();
+        }
+        else {
+        	leftWing.rotateAngleZ = 0;
+        	rightWing.rotateAngleZ = 0;
+        }
+        
+        setModelTransformations(pigeon);
 	}
-    
-    // spin methods are good for testing and debug rotation points and offsets in the model
-    protected void spinX(ModelRenderer model) {
-        model.rotateAngleX += degToRad(0.5F);
-    }
-    
-    protected void spinY(ModelRenderer model) {
-        model.rotateAngleY += degToRad(0.5F);
-    }
-    
-    protected void spinZ(ModelRenderer model) {
-        model.rotateAngleZ += degToRad(0.5F);
-    }
-    
-    protected void updateDistanceMovedTotal(Entity entity) {
-    	distanceMovedTotal = entity.getDistance(entity.lastTickPosX, entity.lastTickPosX, entity.lastTickPosX);
-    }
-    
-    protected double getDistanceMovedTotal(Entity parEntity) 
-    {
-        return (distanceMovedTotal);
-    }
+	
+	
+	
+	void getModelTransformations(EntityPigeon pigeon) {
+		head.rotateAngleX = pigeon.headRot.x;
+		head.rotateAngleY = pigeon.headRot.y;
+		head.rotateAngleZ = pigeon.headRot.z;
+		
+
+		body.rotateAngleX = pigeon.bodyRot.x;
+		body.rotateAngleY = pigeon.bodyRot.y;
+		body.rotateAngleZ = pigeon.bodyRot.z;
+		
+
+		tail.rotateAngleX = pigeon.tailRot.x;
+		tail.rotateAngleY = pigeon.tailRot.y;
+		tail.rotateAngleZ = pigeon.tailRot.z;
+		
+
+		leftLeg.rotateAngleX = pigeon.leftLegRot.x;
+		leftLeg.rotateAngleY = pigeon.leftLegRot.y;
+		leftLeg.rotateAngleZ = pigeon.leftLegRot.z;
+		rightLeg.rotateAngleX = pigeon.rightLegRot.x;
+		rightLeg.rotateAngleY = pigeon.rightLegRot.y;
+		rightLeg.rotateAngleZ = pigeon.rightLegRot.z;
+		
+
+		leftWing.rotateAngleX = pigeon.leftWingRot.x;
+		leftWing.rotateAngleY = pigeon.leftWingRot.y;
+		leftWing.rotateAngleZ = pigeon.leftWingRot.z;
+		rightWing.rotateAngleX = pigeon.rightWingRot.x;
+		rightWing.rotateAngleY = pigeon.rightWingRot.y;
+		rightWing.rotateAngleZ = pigeon.rightWingRot.z;
+		
+		leftLegXDir = pigeon.leftLegXDir;
+		rightLegXDir = pigeon.rightLegXDir;
+		leftFlapDir = pigeon.leftFlapDir;
+		rightFlapDir = pigeon.rightFlapDir;
+	}
+	
+	
+	void setModelTransformations(EntityPigeon pigeon) {
+		pigeon.headRot.x = head.rotateAngleX;
+		pigeon.headRot.y = head.rotateAngleY;
+		pigeon.headRot.z = head.rotateAngleZ;
+
+		pigeon.bodyRot.x = body.rotateAngleX;
+		pigeon.bodyRot.y = body.rotateAngleY;
+		pigeon.bodyRot.z = body.rotateAngleZ;
+
+		pigeon.tailRot.x = tail.rotateAngleX;
+		pigeon.tailRot.y = tail.rotateAngleY;
+		pigeon.tailRot.z = tail.rotateAngleZ;
+		
+
+		pigeon.leftLegRot.x = leftLeg.rotateAngleX;
+		pigeon.leftLegRot.y = leftLeg.rotateAngleY;
+		pigeon.leftLegRot.z = leftLeg.rotateAngleZ;
+		pigeon.rightLegRot.x = rightLeg.rotateAngleX;
+		pigeon.rightLegRot.y = rightLeg.rotateAngleY;
+		pigeon.rightLegRot.z = rightLeg.rotateAngleZ;
+
+		
+		pigeon.leftWingRot.x = leftWing.rotateAngleX;
+		pigeon.leftWingRot.y = leftWing.rotateAngleY;
+		pigeon.leftWingRot.z = leftWing.rotateAngleZ;
+		pigeon.rightWingRot.x = rightWing.rotateAngleX;
+		pigeon.rightWingRot.y = rightWing.rotateAngleY;
+		pigeon.rightWingRot.z = rightWing.rotateAngleZ;
+		
+		pigeon.leftLegXDir = leftLegXDir;
+		pigeon.rightLegXDir = rightLegXDir;
+		pigeon.leftFlapDir = leftFlapDir;
+		pigeon.rightFlapDir = leftFlapDir;
+	}
+	
+	
+	
+	
+	void leftWingFlap() {
+		if(leftFlapDir == 1 && leftWing.rotateAngleZ > -maxWingFlapRot) {
+			leftWing.rotateAngleZ -= wingFlapIncrement;
+		}
+		else if(leftFlapDir == -1 && leftWing.rotateAngleZ < minWingFlapRot) {
+			leftWing.rotateAngleZ += wingFlapIncrement;
+		}
+		else {
+			leftFlapDir *= -1;
+		}
+	}
+	
+	
+	void rightWingFlap() {
+		if(rightFlapDir == 1 && rightWing.rotateAngleZ > -maxWingFlapRot) {
+			rightWing.rotateAngleZ += wingFlapIncrement;
+		}
+		else if(rightFlapDir == -1 && rightWing.rotateAngleZ > minWingFlapRot) {
+			rightWing.rotateAngleZ -= wingFlapIncrement;
+		}
+		else {
+			rightFlapDir *= -1;
+		}
+	}
+	
+	
+	
+	
+	void rotateLeftLegWalk() {
+		if(Math.abs(leftLeg.rotateAngleX) < maxLegXRot) {
+			leftLeg.rotateAngleX += legXRotIncrement*leftLegXDir;
+		}
+		else {
+			leftLeg.rotateAngleX -= legXRotIncrement*leftLegXDir;
+			leftLegXDir *= -1;
+		}
+	}
+	
+	
+	void rotateRightLegWalk() {
+		if(Math.abs(rightLeg.rotateAngleX) < maxLegXRot) {
+			rightLeg.rotateAngleX += legXRotIncrement*rightLegXDir;
+		}
+		else {
+			rightLeg.rotateAngleX -= legXRotIncrement*rightLegXDir;
+			rightLegXDir *= -1;
+		}
+	}
+	
+
+	void interpolateLegsStop() {
+		leftLeg.rotateAngleX = 0;
+		rightLeg.rotateAngleX = 0;
+	}
+	
 }

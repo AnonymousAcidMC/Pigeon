@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderPigeon extends RenderLiving<EntityPigeon> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/entity/pigeonboi.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MODID, "textures/entity/pigeon.png");
 
 	public RenderPigeon(RenderManager rendermanagerIn, ModelBase modelbaseIn, float shadowsizeIn) {
 		super(rendermanagerIn, modelbaseIn, shadowsizeIn);

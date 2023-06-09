@@ -189,7 +189,7 @@ public class Pigeon {
 	    if(this.worldJustLoaded) {
 	        this.worldJustLoaded = false;
 	        if(ConfigHandler.getBoolean("miscellaneous animations", "spawnPigeon")) {
-	        	Utils.spawnEntity(new EntityPigeon(world()), player().posX,player().posY,player().posZ);
+	        	Utils.spawnPigeon();
 	        }
 	    }
 	}

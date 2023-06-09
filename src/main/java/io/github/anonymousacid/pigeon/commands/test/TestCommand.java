@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.lwjgl.input.Mouse;
 
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
+import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import io.github.anonymousacid.pigeon.gui.TestGui;
 import io.github.anonymousacid.pigeon.gui.config.ConfigGui;
 import io.github.anonymousacid.pigeon.utils.RenderUtils;
@@ -76,8 +76,7 @@ public class TestCommand extends CommandBase {
 			commandOn = !commandOn;
 			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
 			
-			EntityPigeon2 pigeon = new EntityPigeon2(world(), 0.7, 0.05);
-			Utils.spawnEntity(pigeon, player().posX, player().posY, player().posZ);
+			Utils.spawnPigeon();
 		}
 	}
 	

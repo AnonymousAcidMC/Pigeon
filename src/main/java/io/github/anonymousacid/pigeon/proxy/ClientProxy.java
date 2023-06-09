@@ -2,27 +2,9 @@ package io.github.anonymousacid.pigeon.proxy;
 
 import static io.github.anonymousacid.pigeon.McIf.mc;
 
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityFerocityMelee;
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityHealerWish;
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPoop;
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityVoidgloomShield;
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityWishEffect;
-import io.github.anonymousacid.pigeon.client.model.ModelFerocityMelee;
-import io.github.anonymousacid.pigeon.client.model.ModelHealerWish;
-import io.github.anonymousacid.pigeon.client.model.ModelPigeon;
-import io.github.anonymousacid.pigeon.client.model.ModelPigeon2;
-import io.github.anonymousacid.pigeon.client.model.ModelPoop;
-import io.github.anonymousacid.pigeon.client.model.ModelVoidgloomShield;
-import io.github.anonymousacid.pigeon.client.model.ModelWishEffect;
-import io.github.anonymousacid.pigeon.client.render.RenderFerocityMelee;
-import io.github.anonymousacid.pigeon.client.render.RenderHealerWish;
-import io.github.anonymousacid.pigeon.client.render.RenderPigeon;
-import io.github.anonymousacid.pigeon.client.render.RenderPigeon2;
-import io.github.anonymousacid.pigeon.client.render.RenderPoop;
-import io.github.anonymousacid.pigeon.client.render.RenderVoidgloomShield;
-import io.github.anonymousacid.pigeon.client.render.RenderWishEffect;
+import io.github.anonymousacid.pigeon.client.fakeentities.*;
+import io.github.anonymousacid.pigeon.client.model.*;
+import io.github.anonymousacid.pigeon.client.render.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.KeyBinding;
@@ -43,9 +25,8 @@ public class ClientProxy extends CommonProxy {
 		RenderManager renderm = mc.getRenderManager();
 		RenderingRegistry.registerEntityRenderingHandler(EntityVoidgloomShield.class, new RenderVoidgloomShield(renderm, new ModelVoidgloomShield(), 0f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityHealerWish.class, new RenderHealerWish(renderm, new ModelHealerWish(), 0f));
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityPigeon.class, new RenderPigeon(renderm, new ModelPigeon(), 0f));
-		RenderingRegistry.registerEntityRenderingHandler(EntityPigeon2.class, new RenderPigeon2(renderm, new ModelPigeon2(), 0f));
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityWishEffect.class, new RenderWishEffect(renderm, new ModelWishEffect(), 0f));
 		RenderingRegistry.registerEntityRenderingHandler(EntityPoop.class, new RenderPoop(renderm, new ModelPoop(), 0f));
