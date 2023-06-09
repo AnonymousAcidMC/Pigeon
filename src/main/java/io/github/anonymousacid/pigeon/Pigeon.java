@@ -5,7 +5,7 @@ import static io.github.anonymousacid.pigeon.McIf.world;
 
 import java.util.Random;
 
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
+import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import io.github.anonymousacid.pigeon.commands.ConfigCommand;
 import io.github.anonymousacid.pigeon.commands.animations.FerocityAnimation;
 import io.github.anonymousacid.pigeon.commands.animations.HealerWish;
@@ -189,9 +189,7 @@ public class Pigeon {
 	    if(this.worldJustLoaded) {
 	        this.worldJustLoaded = false;
 	        if(ConfigHandler.getBoolean("miscellaneous animations", "spawnPigeon")) {
-	        	Utils.spawnEntity(
-						new EntityPigeon2(world(), 0.7, 0.05),
-						player().posX,player().posY,player().posZ);
+	        	Utils.spawnEntity(new EntityPigeon(world()), player().posX,player().posY,player().posZ);
 	        }
 	    }
 	}
