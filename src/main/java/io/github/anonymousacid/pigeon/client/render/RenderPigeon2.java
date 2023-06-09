@@ -1,7 +1,6 @@
 package io.github.anonymousacid.pigeon.client.render;
 
 import io.github.anonymousacid.pigeon.Reference;
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;

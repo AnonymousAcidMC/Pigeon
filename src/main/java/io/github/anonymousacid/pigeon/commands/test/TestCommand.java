@@ -75,9 +75,8 @@ public class TestCommand extends CommandBase {
 		if (icommandsender instanceof EntityPlayer) {
 			commandOn = !commandOn;
 			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
-			
-			EntityPigeon2 pigeon = new EntityPigeon2(world(), 0.7, 0.05);
-			Utils.spawnEntity(pigeon, player().posX, player().posY, player().posZ);
+
+			Utils.spawnPigeon();
 		}
 	}
 	

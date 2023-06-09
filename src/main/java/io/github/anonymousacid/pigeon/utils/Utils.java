@@ -19,6 +19,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import io.github.anonymousacid.pigeon.McIf;
+import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
 import io.github.anonymousacid.pigeon.client.fakeentities.IFakeEntity;
 import io.github.anonymousacid.pigeon.features.chat.ChatStuff;
 import io.github.anonymousacid.pigeon.handlers.ScoreboardHandler;
@@ -418,6 +419,20 @@ public class Utils {
     	entity.setPosition(x,y,z);
 		world().loadEntities(Arrays.asList(entity));
     }
+
+	/**
+	 * Spawn a pigeon at the player's position
+	 */
+	public static void spawnPigeon() {
+		if(player() != null) {
+			EntityPigeon2 pigeon = new EntityPigeon2(world(), 0.7, 0.05);
+			spawnEntity(pigeon, player().posX, player().posY, player().posZ);
+		}
+		else {
+			EntityPigeon2 pigeon = new EntityPigeon2(world(), 0.7, 0.05);
+			Utils.spawnEntity(pigeon, 0, 0, 0);
+		}
+	}
     
     /**
      * Unloads the entities within the given radius around the player.

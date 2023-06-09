@@ -5,7 +5,7 @@ import static io.github.anonymousacid.pigeon.McIf.world;
 
 import java.util.List;
 
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
+import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
 import io.github.anonymousacid.pigeon.utils.Utils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -58,7 +58,9 @@ public class PigeonEntity extends CommandBase{
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) throws CommandException {
 		if (icommandsender instanceof EntityPlayer) {
-			Utils.spawnEntity(new EntityPigeon(world()), player().posX, player().posY, player().posZ);
+			Utils.spawnEntity(
+					new EntityPigeon2(world(), 0.7, 0.05),
+					player().posX, player().posY, player().posZ);
 		}
 	}
 }

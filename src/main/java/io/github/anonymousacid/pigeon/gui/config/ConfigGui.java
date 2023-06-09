@@ -10,7 +10,7 @@ import org.lwjgl.input.Mouse;
 
 import io.github.anonymousacid.pigeon.McIf;
 import io.github.anonymousacid.pigeon.Pigeon;
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
+import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
 import io.github.anonymousacid.pigeon.features.chat.kaomojis.ChatKaomojis;
 import io.github.anonymousacid.pigeon.features.misc.SBPetName;
 import io.github.anonymousacid.pigeon.features.misc.miniontiers.MinionTierRender;
@@ -33,7 +33,7 @@ public class ConfigGui extends GuiScreen {
 	private float oldMouseY = 1;
 	
 	//variables holding the gui elements
-	public static EntityPigeon pigeon = new EntityPigeon(world());
+	public static EntityPigeon2 pigeon = new EntityPigeon2(world(), 0.7, 0.05);
 	private GuiButton minionTiers;
 	private GuiButton setTargetedMinion;
 	private GuiButton clearMinionTags;
@@ -58,7 +58,7 @@ public class ConfigGui extends GuiScreen {
 	public void initGui() {
 		super.initGui();
 		
-		pigeon.isInventoryAsset = true;
+		pigeon.isScreenAsset = true;
 		ScaledResolution resolution = new ScaledResolution(mc);
 		int screenWidth = resolution.getScaledWidth();
 		int screenHeight = resolution.getScaledHeight();
@@ -228,10 +228,10 @@ public class ConfigGui extends GuiScreen {
 		if(button == this.spawnPigeon) {
 			if(ConfigHandler.spawnPigeon) {
 				spawnPigeon.displayString = "Pigeon mob: " + Utils.getBooleanColor(false);
-				Utils.unloadNearbyEntityType(EntityPigeon.class, 30);
+				Utils.unloadNearbyEntityType(EntityPigeon2.class, 30);
 				ConfigHandler.writeBoolean("miscellaneous animations", "spawnPigeon", false);
 			} else {
-				Utils.spawnEntity(new EntityPigeon(McIf.world()), 0,0,0);
+				Utils.spawnEntity(new EntityPigeon2(world(), 0.7, 0.05), 0,0,0);
 				ConfigHandler.writeBoolean("miscellaneous animations", "spawnPigeon", true);
 				spawnPigeon.displayString = "Pigeon mob: " + Utils.getBooleanColor(true);
 			}
@@ -277,7 +277,7 @@ public class ConfigGui extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		GlStateManager.color(1F, 1F, 1F);
-		this.pigeon.isInventoryAsset = true;
+		this.pigeon.isScreenAsset = true;
 		
 		ScaledResolution res = new ScaledResolution(mc);
 		int posX = (int) (res.getScaledWidth()*0.1);

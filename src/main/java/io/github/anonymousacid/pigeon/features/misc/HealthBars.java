@@ -3,7 +3,7 @@ package io.github.anonymousacid.pigeon.features.misc;
 import static io.github.anonymousacid.pigeon.McIf.mc;
 import static io.github.anonymousacid.pigeon.McIf.player;
 
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
+import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon2;
 import io.github.anonymousacid.pigeon.handlers.ConfigHandler;
 import io.github.anonymousacid.pigeon.utils.RenderUtils;
 import io.github.anonymousacid.pigeon.utils.Utils;
@@ -30,7 +30,7 @@ public class HealthBars {
 	public void onRender(Pre<EntityLivingBase> e) {
 		if(!Utils.inSkyblock()) return;
 		if(!ConfigHandler.hpBars) return;
-		if(e.entity instanceof EntityPigeon) return;
+		if(e.entity instanceof EntityPigeon2) return;
 		if(e.entity instanceof EntityArmorStand) return;
 		if(e.entity.isInvisible()) return;
 		if(!Utils.canSeeEntity(player(), e.entity)) return;
