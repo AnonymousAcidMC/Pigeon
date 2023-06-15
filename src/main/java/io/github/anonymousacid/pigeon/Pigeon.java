@@ -121,13 +121,13 @@ public class Pigeon {
 		}
 		
 		{//Features
-			MinecraftForge.EVENT_BUS.register(ChatBubbles.instance);
-			MinecraftForge.EVENT_BUS.register(ChatBubbleNametags.instance);
-			MinecraftForge.EVENT_BUS.register(ChatBubbleTimer.instance);
-		
-			MinecraftForge.EVENT_BUS.register(ChatKaomojis.instance);
-			MinecraftForge.EVENT_BUS.register(KaomojiGuiInit.instance);
-			MinecraftForge.EVENT_BUS.register(TabKeyTimer.instance);
+//			MinecraftForge.EVENT_BUS.register(ChatBubbles.instance);
+//			MinecraftForge.EVENT_BUS.register(ChatBubbleNametags.instance);
+//			MinecraftForge.EVENT_BUS.register(ChatBubbleTimer.instance);
+//
+//			MinecraftForge.EVENT_BUS.register(ChatKaomojis.instance);
+//			MinecraftForge.EVENT_BUS.register(KaomojiGuiInit.instance);
+//			MinecraftForge.EVENT_BUS.register(TabKeyTimer.instance);
 			
 			MinecraftForge.EVENT_BUS.register(SBPetName.instance);
 			
