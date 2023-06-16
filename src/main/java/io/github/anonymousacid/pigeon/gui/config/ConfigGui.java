@@ -8,7 +8,6 @@ import java.util.List;
 
 import io.github.anonymousacid.pigeon.McIf;
 import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
-import io.github.anonymousacid.pigeon.features.chat.kaomojis.ChatKaomojis;
 import io.github.anonymousacid.pigeon.features.misc.SBPetName;
 import io.github.anonymousacid.pigeon.features.misc.miniontiers.MinionTierRender;
 import io.github.anonymousacid.pigeon.features.misc.miniontiers.MinionTiers;
@@ -180,7 +179,6 @@ public class ConfigGui extends GuiScreen {
 			} else {
 				ConfigHandler.writeBoolean("chat", "chatKaomojis", false);
 				chatKaomojis.displayString = "Type Kaomojis in Chat: " + Utils.getBooleanColor(ConfigHandler.chatKaomojis);
-				ChatKaomojis.kaomojiMatches.clear();
 			}
 		}
 		if(button == this.setBubbleDuration) {
