@@ -6,6 +6,8 @@ import static io.github.anonymousacid.pigeon.McIf.world;
 
 import java.util.List;
 
+import io.github.anonymousacid.pigeon.mixins.AccessorGuiChat;
+import net.minecraft.client.gui.GuiChat;
 import org.lwjgl.input.Mouse;
 
 import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
@@ -75,8 +77,11 @@ public class TestCommand extends CommandBase {
 		if (icommandsender instanceof EntityPlayer) {
 			commandOn = !commandOn;
 			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
-			
-			Utils.spawnPigeon();
+
+			if(mc.currentScreen instanceof GuiChat) {
+				AccessorGuiChat accessor = (AccessorGuiChat) mc.currentScreen;
+				Utils.sendMessage(accessor.getInputField().toString());
+			}
 		}
 	}
 	

@@ -116,8 +116,9 @@ public class Pigeon {
 		{//Utils
 			MinecraftForge.EVENT_BUS.register(new ChatStuff());
 		}
-		
-		{//Features
+
+		//Features
+		{
 //			MinecraftForge.EVENT_BUS.register(ChatBubbles.instance);
 //			MinecraftForge.EVENT_BUS.register(ChatBubbleNametags.instance);
 //			MinecraftForge.EVENT_BUS.register(ChatBubbleTimer.instance);
@@ -157,27 +158,19 @@ public class Pigeon {
 		
 		System.out.println("Pigeon initialized!");
 	}
-	
-	@EventHandler
-	public void serverLoad(FMLServerStartingEvent e) {
-		
-	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
 		MinecraftForge.EVENT_BUS.register(this.instance);
 		System.out.println("Pigeon post-initialized");
 	}
-	
-	/**
-	 * Spawning pigeon entity when connecting to a new world
-	 */
+
 	private boolean worldJustLoaded = false;
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load event) {
 	    this.worldJustLoaded = true;
 	}
-	
+
 	/**
 	 * Spawning pigeon entity when connecting to a new world
 	 */

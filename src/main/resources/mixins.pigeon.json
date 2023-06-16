@@ -5,6 +5,7 @@
   "mixins": [
     "MixinNetworkManager",
     "MixinGuiContainer",
-    "AccessorGuiScreen"
+    "AccessorGuiScreen",
+    "AccessorGuiChat"
   ]
 }
