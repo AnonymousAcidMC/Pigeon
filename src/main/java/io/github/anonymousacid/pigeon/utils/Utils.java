@@ -264,8 +264,8 @@ public class Utils {
 			e.printStackTrace();
 		} catch (ClassCastException ignored) {
             return null;
-        } catch (Error e) {
-        	
+        } catch (NullPointerException e) {
+        	return null;
         }
         return null;
 	}

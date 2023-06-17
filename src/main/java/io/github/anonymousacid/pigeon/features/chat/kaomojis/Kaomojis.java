@@ -52,6 +52,7 @@ public class Kaomojis {
 //        AccessorGuiChat chatAccessor = (AccessorGuiChat) ((Object) event.gui);
 
         GuiTextField inputField = Utils.getChatInputField();
+        if(inputField == null) return;
 
         //putting this check here in case of another mod putting the chat input field out of focus.
         if(!inputField.isFocused()) return;
