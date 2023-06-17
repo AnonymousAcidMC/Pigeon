@@ -66,77 +66,74 @@ public class Pigeon {
 		
 		McIf.setMinecraftSingleton();
 		ConfigHandler.reloadConfig();
-		
-		{//Gui stuff
+
+		//Gui stuff
+		{
 			pigeonButton = new PigeonButton(0, ConfigHandler.pigeonButtonX, ConfigHandler.pigeonButtonY, 50);
 		}
 		
 		random = new Random();
 		
 		MinecraftForge.EVENT_BUS.register(Keybinds.class);
-		
-		{//Proxy stuff
+
+		//Proxy stuff
+		{
 			proxy.registerEntityRenders();
 			proxy.registerRenders();
 			proxy.init();
 		}
-		
-		{//adding experimental features to a TreeMap(for Experimental feature config GUI's buttons)
+
+		//adding experimental features to a TreeMap(for Experimental feature config GUI's buttons)
+		{
 			ExperimentalFeaturesGui.featureConfig.put("miscellaneous animations", "ferocityAnimations");
 			ExperimentalFeaturesGui.featureConfig.put("dungeon animations", "healerWish");
 			ExperimentalFeaturesGui.featureConfig.put("slayer animations", "voidgloomShield");
 			ExperimentalFeaturesGui.featureConfig.put("dungeons", "professorFireFreeze");
 			ExperimentalFeaturesGui.featureConfig.put("miscellaneous", "hpBars");
 		}
-		
-		{//Adding regular features to a TreeMap for regular Config GUI
-			
-		}
-		
-		{//Command registry
+
+		//Command registry
+		{
 			ClientCommandHandler.instance.registerCommand(new ConfigCommand());
 			ClientCommandHandler.instance.registerCommand(new ProfessorFireFreeze());
-			
-			{//Commands used for testing.
+
+			//Commands used for testing.
+			{
 				ClientCommandHandler.instance.registerCommand(new LogNearbyEntity());
 				ClientCommandHandler.instance.registerCommand(TestCommand.instance);
 				ClientCommandHandler.instance.registerCommand(new KillEntities());
 			}
 		}
-		
-		{//Utils
+
+		//Utils
+		{
 			MinecraftForge.EVENT_BUS.register(new ChatStuff());
 		}
 
 		//Features
 		{
 			MinecraftForge.EVENT_BUS.register(Kaomojis.instance);
-//			MinecraftForge.EVENT_BUS.register(ChatBubbles.instance);
-//			MinecraftForge.EVENT_BUS.register(ChatBubbleNametags.instance);
-//			MinecraftForge.EVENT_BUS.register(ChatBubbleTimer.instance);
-//
-//			MinecraftForge.EVENT_BUS.register(ChatKaomojis.instance);
-//			MinecraftForge.EVENT_BUS.register(KaomojiGuiInit.instance);
-//			MinecraftForge.EVENT_BUS.register(TabKeyTimer.instance);
 			
 			MinecraftForge.EVENT_BUS.register(SBPetName.instance);
+
+			MinecraftForge.EVENT_BUS.register(ProfessorFireFreeze.instance);
 			
 			MinecraftForge.EVENT_BUS.register(CooldownTimer.instance);
 			MinecraftForge.EVENT_BUS.register(CooldownHandler.instance);
-			
-			MinecraftForge.EVENT_BUS.register(ProfessorFireFreeze.instance);
 			for(int i=0; i<CooldownHandler.abilities.length; i++) {
 				CooldownHandler.abilities[i] = "";
 				CooldownHandler.itemsOnCooldown.add(null);
 			}
+
 			MinecraftForge.EVENT_BUS.register(LatencyCounter.instance);
 			
 			MinecraftForge.EVENT_BUS.register(MinionTierRender.instance);
 			
 			MinecraftForge.EVENT_BUS.register(HealthBars.instance);
 		}
-		
-		{//cosmetic features
+
+		//cosmetic features
+		{
 			ClientCommandHandler.instance.registerCommand(VoidgloomShield.instance);
 			ClientCommandHandler.instance.registerCommand(HealerWish.instance);
 			ClientCommandHandler.instance.registerCommand(PigeonEntity.instance);
@@ -156,6 +153,7 @@ public class Pigeon {
 		MinecraftForge.EVENT_BUS.register(this.instance);
 		System.out.println("Pigeon post-initialized");
 	}
+
 
 	private boolean worldJustLoaded = false;
 	@SubscribeEvent
