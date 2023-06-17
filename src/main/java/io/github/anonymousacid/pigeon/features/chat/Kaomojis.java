@@ -11,9 +11,10 @@ import static io.github.anonymousacid.pigeon.McIf.mc;
 
 public class Kaomojis {
 
+
     public static Kaomojis instance = new Kaomojis();
 
-    private boolean showSuggestions;
+    public static boolean showSuggestions = true;
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {

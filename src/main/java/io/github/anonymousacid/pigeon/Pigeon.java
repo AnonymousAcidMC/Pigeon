@@ -73,8 +73,6 @@ public class Pigeon {
 		}
 		
 		random = new Random();
-		
-		MinecraftForge.EVENT_BUS.register(Keybinds.class);
 
 		//Proxy stuff
 		{
@@ -150,7 +148,8 @@ public class Pigeon {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
-		MinecraftForge.EVENT_BUS.register(this.instance);
+		MinecraftForge.EVENT_BUS.register(instance);
+		MinecraftForge.EVENT_BUS.register(Keybinds.instance);
 		System.out.println("Pigeon post-initialized");
 	}
 
