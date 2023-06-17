@@ -1,34 +1,19 @@
 package io.github.anonymousacid.pigeon.commands.test;
 
-import static io.github.anonymousacid.pigeon.McIf.mc;
-import static io.github.anonymousacid.pigeon.McIf.player;
-import static io.github.anonymousacid.pigeon.McIf.world;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
-import io.github.anonymousacid.pigeon.features.chat.KaomojiSearchThread;
-import io.github.anonymousacid.pigeon.mixins.AccessorGuiChat;
-import net.minecraft.client.gui.GuiChat;
+import io.github.anonymousacid.pigeon.features.chat.kaomojis.KaomojiSearchThread;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.input.Mouse;
 
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
-import io.github.anonymousacid.pigeon.gui.TestGui;
-import io.github.anonymousacid.pigeon.gui.config.ConfigGui;
-import io.github.anonymousacid.pigeon.utils.RenderUtils;
 import io.github.anonymousacid.pigeon.utils.Utils;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

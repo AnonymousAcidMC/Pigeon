@@ -1,4 +1,4 @@
-package io.github.anonymousacid.pigeon.features.chat;
+package io.github.anonymousacid.pigeon.features.chat.kaomojis;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

@@ -11,7 +11,7 @@ import io.github.anonymousacid.pigeon.commands.test.KillEntities;
 import io.github.anonymousacid.pigeon.commands.test.LogNearbyEntity;
 import io.github.anonymousacid.pigeon.commands.test.TestCommand;
 import io.github.anonymousacid.pigeon.features.chat.ChatStuff;
-import io.github.anonymousacid.pigeon.features.chat.Kaomojis;
+import io.github.anonymousacid.pigeon.features.chat.kaomojis.Kaomojis;
 import io.github.anonymousacid.pigeon.features.dungeons.ProfessorFireFreeze;
 import io.github.anonymousacid.pigeon.features.misc.HealthBars;
 import io.github.anonymousacid.pigeon.features.misc.LatencyCounter;

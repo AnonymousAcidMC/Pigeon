@@ -1,6 +1,6 @@
 package io.github.anonymousacid.pigeon.init;
 
-import io.github.anonymousacid.pigeon.features.chat.Kaomojis;
+import io.github.anonymousacid.pigeon.features.chat.kaomojis.Kaomojis;
 import io.github.anonymousacid.pigeon.proxy.ClientProxy;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
