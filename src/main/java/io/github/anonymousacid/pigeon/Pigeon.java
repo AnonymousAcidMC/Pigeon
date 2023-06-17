@@ -1,11 +1,7 @@
 package io.github.anonymousacid.pigeon;
 
-import static io.github.anonymousacid.pigeon.McIf.player;
-import static io.github.anonymousacid.pigeon.McIf.world;
-
 import java.util.Random;
 
-import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
 import io.github.anonymousacid.pigeon.commands.ConfigCommand;
 import io.github.anonymousacid.pigeon.commands.animations.FerocityAnimation;
 import io.github.anonymousacid.pigeon.commands.animations.HealerWish;
@@ -15,9 +11,7 @@ import io.github.anonymousacid.pigeon.commands.test.KillEntities;
 import io.github.anonymousacid.pigeon.commands.test.LogNearbyEntity;
 import io.github.anonymousacid.pigeon.commands.test.TestCommand;
 import io.github.anonymousacid.pigeon.features.chat.ChatStuff;
-import io.github.anonymousacid.pigeon.features.chat.chatbubbles.ChatBubbleNametags;
-import io.github.anonymousacid.pigeon.features.chat.chatbubbles.ChatBubbleTimer;
-import io.github.anonymousacid.pigeon.features.chat.chatbubbles.ChatBubbles;
+import io.github.anonymousacid.pigeon.features.chat.Kaomojis;
 import io.github.anonymousacid.pigeon.features.dungeons.ProfessorFireFreeze;
 import io.github.anonymousacid.pigeon.features.misc.HealthBars;
 import io.github.anonymousacid.pigeon.features.misc.LatencyCounter;
@@ -28,6 +22,7 @@ import io.github.anonymousacid.pigeon.features.misc.miniontiers.MinionTierRender
 import io.github.anonymousacid.pigeon.gui.PigeonButton;
 import io.github.anonymousacid.pigeon.gui.config.ExperimentalFeaturesGui;
 import io.github.anonymousacid.pigeon.handlers.ConfigHandler;
+import io.github.anonymousacid.pigeon.init.Keybinds;
 import io.github.anonymousacid.pigeon.init.ModEntities;
 import io.github.anonymousacid.pigeon.proxy.CommonProxy;
 import io.github.anonymousacid.pigeon.utils.Utils;
@@ -40,7 +35,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -79,7 +73,7 @@ public class Pigeon {
 		
 		random = new Random();
 		
-//		MinecraftForge.EVENT_BUS.register(KeybindsInit.class);
+		MinecraftForge.EVENT_BUS.register(Keybinds.class);
 		
 		{//Proxy stuff
 			proxy.registerEntityRenders();
@@ -119,6 +113,7 @@ public class Pigeon {
 
 		//Features
 		{
+			MinecraftForge.EVENT_BUS.register(Kaomojis.instance);
 //			MinecraftForge.EVENT_BUS.register(ChatBubbles.instance);
 //			MinecraftForge.EVENT_BUS.register(ChatBubbleNametags.instance);
 //			MinecraftForge.EVENT_BUS.register(ChatBubbleTimer.instance);

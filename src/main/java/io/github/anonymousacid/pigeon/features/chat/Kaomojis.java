@@ -11,6 +11,10 @@ import static io.github.anonymousacid.pigeon.McIf.mc;
 
 public class Kaomojis {
 
+    public static Kaomojis instance = new Kaomojis();
+
+    private boolean showSuggestions;
+
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         if(!ConfigHandler.chatKaomojis) return;

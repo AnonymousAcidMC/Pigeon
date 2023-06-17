@@ -9,7 +9,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import org.lwjgl.input.Keyboard;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -55,13 +57,13 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void init() {
-		
-//		keyBindings = new KeyBinding[1];
-//		keyBindings[0] = new KeyBinding("io.github.anonymousacid.pigeon.init.KeyBindsInit.GuiKeybind", Keyboard.KEY_P, "Amogus");
-//		
-//		for (int i = 0; i < keyBindings.length; i++) {
-//			ClientRegistry.registerKeyBinding(keyBindings[i]);
-//		}
+
+		keyBindings = new KeyBinding[1];
+		keyBindings[0] = new KeyBinding("Kaomoji Suggestions", Keyboard.KEY_TAB, "Pigeon");
+
+		for (int i = 0; i < keyBindings.length; i++) {
+			ClientRegistry.registerKeyBinding(keyBindings[i]);
+		}
 	}
 	
 	@Override
