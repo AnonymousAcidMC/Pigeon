@@ -25,13 +25,13 @@ public class KaomojiSearchThread extends Thread {
 
     @Override
     public void run() {
-        InputStream in = this.getClass().getResourceAsStream("/assets/pigeon/data/kaomojis.json");
         try {
             //load kaomojis if haven't done so. this prevents the thread from constantly loading the file's contents
             if(kaomojiJsonArray == null) {
+                InputStream in = this.getClass().getResourceAsStream("/assets/pigeon/data/kaomojis.json");
                 byte[] fileBytes = IOUtils.toByteArray(in);
                 String fileContents = new String(fileBytes, StandardCharsets.UTF_8);
-                JsonArray kaomojiJsonArray = gson.fromJson(fileContents, JsonArray.class);
+                kaomojiJsonArray = gson.fromJson(fileContents, JsonArray.class);
             }
 
             //loop through json array of kaomojis to search for matches

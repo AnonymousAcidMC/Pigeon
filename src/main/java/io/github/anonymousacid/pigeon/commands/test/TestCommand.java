@@ -4,10 +4,14 @@ import static io.github.anonymousacid.pigeon.McIf.mc;
 import static io.github.anonymousacid.pigeon.McIf.player;
 import static io.github.anonymousacid.pigeon.McIf.world;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
+import io.github.anonymousacid.pigeon.features.chat.KaomojiSearchThread;
 import io.github.anonymousacid.pigeon.mixins.AccessorGuiChat;
 import net.minecraft.client.gui.GuiChat;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
 
 import io.github.anonymousacid.pigeon.client.fakeentities.EntityPigeon;
@@ -78,16 +82,26 @@ public class TestCommand extends CommandBase {
 			commandOn = !commandOn;
 			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
 
-			if(mc.currentScreen instanceof GuiChat) {
-				AccessorGuiChat accessor = (AccessorGuiChat) mc.currentScreen;
-				Utils.sendMessage(accessor.getInputField().toString());
+			if(commandOn && searchThread == null) {
+				Utils.sendMessage("running search thread...");
+				searchThread = new KaomojiSearchThread("h");
+				searchThread.start();
 			}
 		}
 	}
-	
+
+	private KaomojiSearchThread searchThread;
+
 	@SubscribeEvent
-	public void onTick(RenderGameOverlayEvent.Post e) {
-		if(e.type !=  RenderGameOverlayEvent.ElementType.ALL)
+	public void onTick(TickEvent.ClientTickEvent e) {
+		if(searchThread == null)
 			return;
+
+		ArrayList<String> matches = searchThread.getMatches();
+		if(matches != null && matches.size() != 0) {
+			searchThread = null;
+			Utils.sendMessage(matches.get(0));
+			Utils.sendMessage(matches.size()+"");
+		}
 	}
 }
