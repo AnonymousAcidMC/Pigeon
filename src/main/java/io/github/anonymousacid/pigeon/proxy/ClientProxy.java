@@ -58,8 +58,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init() {
 
-		keyBindings = new KeyBinding[1];
-		keyBindings[0] = new KeyBinding("Kaomoji Suggestions", Keyboard.KEY_TAB, "Pigeon");
+		keyBindings = new KeyBinding[0];
+//		keyBindings[0] = new KeyBinding("Kaomoji Suggestions", Keyboard.KEY_TAB, "Pigeon");
 
 		for (int i = 0; i < keyBindings.length; i++) {
 			ClientRegistry.registerKeyBinding(keyBindings[i]);

@@ -23,7 +23,7 @@ public class Kaomojis {
         if(!ConfigHandler.chatKaomojis) return;
         if(event.type != TickEvent.Type.CLIENT) return;
 
-
+        
     }
 
     @SubscribeEvent
