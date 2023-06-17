@@ -248,6 +248,7 @@ public class Utils {
 	
 	/**
 	 * Returns the chat GUI's Input Field object using reflect.
+	 * This is used for debug runs in Intellij. In releases, the AccessorGuiChat class will be used.
 	 */
 	public static GuiTextField getChatInputField() {
 		try {

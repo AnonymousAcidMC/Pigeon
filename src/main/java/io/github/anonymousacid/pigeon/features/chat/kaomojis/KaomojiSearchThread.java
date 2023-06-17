@@ -60,4 +60,7 @@ public class KaomojiSearchThread extends Thread {
         return doneSearching ? matches : null;
     }
 
+    public String getSearchQuery() {
+        return searchQuery;
+    }
 }
