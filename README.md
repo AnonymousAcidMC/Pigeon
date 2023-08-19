@@ -1,3 +1,9 @@
+#WARNING: This mod is kinda broken right now
+Use this mod at a risk of randomly crashing with other mods. 
+As of right now, I am trying to optimize it a bunch and make it more compatible with other Hypixel mods.
+A 1.19 version is also in the works, but I'm kinda sidetracked by doing stuff with Bevy and Vulkan.
+I might make that repo public once it starts to come together. I guess stay tuned for that if you're interested.
+
 # Pigeon
 A Minecraft mod with useful client-side features!
 These features are mainly targeting the Minecraft server "Hypixel," gamemode "Skyblock."
