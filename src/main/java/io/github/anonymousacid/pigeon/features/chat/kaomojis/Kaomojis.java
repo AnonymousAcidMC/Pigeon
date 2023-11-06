@@ -38,12 +38,12 @@ public class Kaomojis {
             if (searchThread.isAlive()) return;
 
             // check if there are any matches
-            Utils.sendMessage("attempting to get matches for query: " + searchThread.getSearchQuery() + "...");
+//            Utils.sendMessage("attempting to get matches for query: " + searchThread.getSearchQuery() + "...");
             ArrayList<String> matches = searchThread.getMatches();
 
             //if there are any matches found,
             if(matches != null && matches.size() != 0) {
-                Utils.sendMessage("found matches!");
+//                Utils.sendMessage("found matches!");
                 searchThread = null;
                 kaomojiMatches = matches; // fetch the matches
 //                for(String match : matches) {
@@ -71,7 +71,7 @@ public class Kaomojis {
 
         String searchQuery = stringToCursor.substring(lastIndexOfColon+1);
         if (searchQuery.length() == 0) return;
-        Utils.sendMessage("running search thread on search query: \"" + searchQuery + "\"");
+//        Utils.sendMessage("running search thread on search query: \"" + searchQuery + "\"");
         searchThread = new KaomojiSearchThread(searchQuery);
         searchThread.start();
     }

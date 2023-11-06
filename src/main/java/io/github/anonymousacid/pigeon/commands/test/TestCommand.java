@@ -68,7 +68,7 @@ public class TestCommand extends CommandBase {
 			if(commandOn) MinecraftForge.EVENT_BUS.register(this); else MinecraftForge.EVENT_BUS.unregister(this);
 
 			if(commandOn && searchThread == null) {
-				Utils.sendMessage("running search thread...");
+//				Utils.sendMessage("running search thread...");
 				searchThread = new KaomojiSearchThread("h");
 				searchThread.start();
 			}
@@ -85,8 +85,8 @@ public class TestCommand extends CommandBase {
 		ArrayList<String> matches = searchThread.getMatches();
 		if(matches != null && matches.size() != 0) {
 			searchThread = null;
-			Utils.sendMessage(matches.get(0));
-			Utils.sendMessage(matches.size()+"");
+//			Utils.sendMessage(matches.get(0));
+//			Utils.sendMessage(matches.size()+"");
 		}
 	}
 }
