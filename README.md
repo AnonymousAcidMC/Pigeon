@@ -1,8 +1,7 @@
 # WARNING: This mod is kinda broken right now
 Use this mod at a risk of randomly crashing with other mods. 
-As of right now, I am trying to optimize it a bunch and make it more compatible with other Hypixel mods.
-A 1.19 version is also in the works, but I'm kinda sidetracked by doing stuff with Bevy and Vulkan.
-I might make that repo public once it starts to come together. I guess stay tuned for that if you're interested.
+As of right now, I am unfortunately not working on this mod as I am currently focusing on the Bevy game engine and the Rapier physics engine.
+Maybe check out those repositories if you are interested.
 
 # Pigeon
 A Minecraft mod with useful client-side features!
@@ -30,8 +29,8 @@ These features are mainly targeting the Minecraft server "Hypixel," gamemode "Sk
 - Ferocity animations.
 - Animation that makes Voidgloom Seraph hold a shield in hits phase.
 - Health bars  
-  - Known bug where player health doesn't update until the player moves.
-  - THIS ONLY WORKS IN SKYBLOCK ONLY! Don't worry about unfair advantages in PVP gamemodes.
+  - There is a known rendering bug that makes the health bars appear "translucent"
+  - THIS ONLY WORKS IN SKYBLOCK! Don't worry about unfair advantages in PVP gamemodes.
 </details>
 
 <details>
